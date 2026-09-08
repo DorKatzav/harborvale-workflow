@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Final Project — Industry-Simulated AI Product Workflow</title>
+<style>
+  :root{
+    --ink:#1a2230; --ink-soft:#43516b; --muted:#6b7890;
+    --bg:#ffffff; --band:#f4f7fb; --line:#dde5f0;
+    --brand:#2f6bff; --brand-dark:#1e3a8a; --accent:#0ea5a4; --violet:#7c5cff;
+    --gold:#c98a00; --gold-bg:#fff6e0; --green:#0f9d58; --red:#d64545;
+    --code-bg:#f2f5fa;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; color:var(--ink); background:var(--bg);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.6; font-size:16px;
+  }
+  .wrap{max-width:900px; margin:0 auto; padding:0 28px;}
+
+  /* Header */
+  header.hero{
+    background:linear-gradient(135deg,#12224b 0%,#2f6bff 100%);
+    color:#fff; padding:52px 0 46px;
+  }
+  header.hero .wrap{display:flex; flex-direction:column; gap:14px;}
+  .eyebrow{letter-spacing:2px; text-transform:uppercase; font-size:12px; font-weight:700; color:#bcd0ff;}
+  header.hero h1{margin:0; font-size:40px; line-height:1.1; letter-spacing:-0.5px;}
+  header.hero .sub{font-size:18px; color:#e4ecff; max-width:640px;}
+  .badges{display:flex; flex-wrap:wrap; gap:8px; margin-top:8px;}
+  .badge{background:rgba(255,255,255,0.14); border:1px solid rgba(255,255,255,0.28);
+    padding:5px 12px; border-radius:20px; font-size:13px; font-weight:600;}
+  .meta-line{display:flex; flex-wrap:wrap; gap:22px; margin-top:10px; font-size:14px; color:#cddcff;}
+  .meta-line b{color:#fff;}
+
+  /* Sections */
+  main{padding:12px 0 60px;}
+  section{padding:30px 0; border-bottom:1px solid var(--line);}
+  h2{font-size:26px; margin:0 0 6px; color:var(--brand-dark); letter-spacing:-0.3px;}
+  h2 .num{color:var(--brand); font-weight:800; margin-right:10px;}
+  h3{font-size:18px; margin:22px 0 6px; color:var(--ink);}
+  h4{font-size:15px; margin:16px 0 4px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:0.5px;}
+  p{margin:8px 0;}
+  .lead{font-size:17px; color:var(--ink-soft);}
+  ul,ol{margin:8px 0 8px 4px; padding-left:22px;}
+  li{margin:5px 0;}
+  a{color:var(--brand); text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  code{background:var(--code-bg); padding:1px 6px; border-radius:5px; font-size:0.9em;
+    font-family:"SF Mono",Menlo,Consolas,monospace; color:#334;}
+
+  /* Callouts */
+  .callout{border-radius:12px; padding:16px 18px; margin:18px 0; border:1px solid var(--line);}
+  .callout .tag{font-weight:700; font-size:13px; text-transform:uppercase; letter-spacing:0.6px; display:block; margin-bottom:4px;}
+  .callout.story{background:var(--band); border-left:5px solid var(--brand);}
+  .callout.warn{background:#fff3f3; border-left:5px solid var(--red);}
+  .callout.tip{background:#effaf6; border-left:5px solid var(--green);}
+  .callout.gold{background:var(--gold-bg); border-left:5px solid var(--gold);}
+  .callout.gold .tag{color:var(--gold);}
+  .callout.warn .tag{color:var(--red);}
+  .callout.tip .tag{color:var(--green);}
+  .callout.story .tag{color:var(--brand-dark);}
+
+  /* Pillars */
+  .pillars{display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-top:16px;}
+  .pillars.three{grid-template-columns:repeat(3,1fr);}
+  .pillar{border:1px solid var(--line); border-radius:12px; padding:16px; background:#fff;}
+  .pillar .ico{font-size:22px;}
+  .pillar h3{margin:6px 0 4px; font-size:16px; color:var(--brand-dark);}
+  .pillar p{font-size:13.5px; color:var(--muted); margin:4px 0 0;}
+  .pillar .q{font-size:15px; color:var(--ink-soft); font-style:italic; margin-top:6px;}
+  .pillar ul{margin:6px 0 0 0; padding-left:18px; font-size:14px;}
+
+  /* Tables */
+  table{width:100%; border-collapse:collapse; margin:14px 0; font-size:14px;}
+  th,td{text-align:left; padding:9px 12px; border-bottom:1px solid var(--line); vertical-align:top;}
+  thead th{background:var(--brand-dark); color:#fff; font-weight:600; border-bottom:none;}
+  thead th:first-child{border-radius:8px 0 0 0;}
+  thead th:last-child{border-radius:0 8px 0 0;}
+  tbody tr:nth-child(even){background:var(--band);}
+  td code{white-space:nowrap;}
+
+  /* Task / crew cards */
+  .task{border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:16px 0; background:#fff;}
+  .task .head{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+  .task .chip{background:var(--brand); color:#fff; font-size:12px; font-weight:700; padding:3px 10px; border-radius:20px;}
+  .task .chip.a{background:var(--accent);}
+  .task .chip.b{background:var(--violet);}
+  .task .chip.flow{background:var(--green);}
+  .task .chip.ghost{background:var(--band); color:var(--ink-soft); border:1px solid var(--line);}
+  .task h3{margin:0; font-size:17px;}
+  .task .goal{color:var(--ink-soft); margin:8px 0;}
+  .task.crew-a{border-top:4px solid var(--accent);}
+  .task.crew-b{border-top:4px solid var(--violet);}
+
+  /* Flow steps */
+  .steps{display:grid; gap:10px; margin-top:14px;}
+  .step{display:grid; grid-template-columns:34px 1fr; gap:12px; align-items:start;
+    border:1px solid var(--line); border-radius:10px; padding:12px 14px; background:var(--band);}
+  .step .idx{width:28px; height:28px; border-radius:8px; background:var(--green); color:#fff;
+    font-weight:800; font-size:13px; display:grid; place-items:center;}
+  .step .ttl{font-weight:600;}
+  .step ul{margin:4px 0 0; font-size:14px; color:var(--ink-soft);}
+
+  .check{list-style:none; padding-left:0;}
+  .check li{padding-left:24px; position:relative;}
+  .check li::before{content:"✔"; position:absolute; left:0; color:var(--green); font-weight:700;}
+
+  /* TOC */
+  .toc{background:var(--band); border:1px solid var(--line); border-radius:12px; padding:16px 20px; margin:22px 0;}
+  .toc h4{margin:0 0 8px;}
+  .toc ol{columns:2; column-gap:32px; margin:0;}
+  .toc a{color:var(--ink-soft);}
+
+  footer{padding:26px 0; color:var(--muted); font-size:13px; text-align:center;}
+
+  @media print{
+    header.hero{background:var(--brand-dark) !important; -webkit-print-color-adjust:exact; print-color-adjust:exact;}
+    section{page-break-inside:avoid;}
+    .task,.callout,.pillar{page-break-inside:avoid;}
+    thead th{-webkit-print-color-adjust:exact; print-color-adjust:exact;}
+  }
+  @media (max-width:680px){
+    .pillars,.pillars.three{grid-template-columns:1fr;}
+    .toc ol{columns:1;}
+    header.hero h1{font-size:30px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow">Final Project · AI Development &amp; Collaboration</span>
+    <h1>Industry-Simulated<br>AI Product Workflow</h1>
+    <p class="sub">Harbor &amp; Vale's analysts and data scientists don't talk to each other — and last quarter it cost them a model. Build the CrewAI Flow that makes the two crews work as one team, with a contract between them that machines enforce.</p>
+    <div class="badges">
+      <span class="badge">CrewAI</span>
+      <span class="badge">Python</span>
+      <span class="badge">GitHub</span>
+      <span class="badge">Flask / Streamlit</span>
+      <span class="badge">HTML + CSS</span>
+      <span class="badge">Supabase (optional)</span>
+    </div>
+    <div class="meta-line">
+      <span><b>Type:</b> Team project</span>
+      <span><b>Dataset:</b> your choice · Kaggle recommended</span>
+      <span><b>Deliverable:</b> a running Flow in a public repo</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="toc">
+    <h4>What's in this brief</h4>
+    <ol>
+      <li><a href="#story">The scenario</a></li>
+      <li><a href="#mission">Your mission</a></li>
+      <li><a href="#crew1">Crew 1 — Data Analyst</a></li>
+      <li><a href="#crew2">Crew 2 — Data Scientist</a></li>
+      <li><a href="#flow">The Flow</a></li>
+      <li><a href="#stack">Tech stack &amp; good habits</a></li>
+    </ol>
+  </div>
+
+  <!-- 01 -->
+  <section id="story">
+    <h2><span class="num">01</span>The scenario</h2>
+    <div class="callout story">
+      <span class="tag">Background</span>
+      <p><b>Harbor &amp; Vale</b> is a retail-tech company that runs the online storefronts of about sixty mid-size retailers. Every order, every customer and every product that moves through those stores lands in Harbor &amp; Vale's data warehouse. Management is convinced there is money in that data, and for a year they've been hiring to prove it: a data-analysis team that answers <em>"what happened?"</em> and a data-science team that answers <em>"what happens next?"</em>.</p>
+      <p>The two teams sit ten metres apart and hand work to each other over Slack, in CSV files named <code>final_v3_REAL.csv</code>.</p>
+    </div>
+
+    <p>Last quarter that arrangement broke in the most ordinary way possible. The analysts re-cleaned the customer dataset — dropped a leaky column, changed <code>order_value</code> from cents to dollars, and renamed three fields to match the new naming convention. They posted the new file in the channel. The data scientists' churn model, which retrains every Monday from whatever file is in the shared folder, picked it up, trained without a single error, and started scoring customers.</p>
+    <p>For five weeks the model ranked every high-value customer as "safe" and every low-value one as "at risk", because it was reading dollars as if they were cents. The retention team spent its discount budget on exactly the wrong people. Nobody noticed until a retailer asked why their best customer had received a "we miss you" coupon.</p>
+
+    <blockquote>"Both teams did their jobs. The analysts cleaned the data properly and the scientists trained the model properly. What we don't have is anything <em>between</em> them — no agreement on what the data is supposed to look like, and nothing that stops the pipeline when it isn't. I don't want another model. I want a workflow where a handoff can't silently go wrong."</blockquote>
+    <p class="q" style="margin-top:-6px;color:var(--muted);font-size:14px">— Maya Adler, VP Data &amp; AI, in the post-mortem</p>
+
+    <p>That is the project. Not one crew of agents that analyses data, and not one that trains a model — those exist in every tutorial. The hard part, and the part Harbor &amp; Vale is actually asking for, is the <b>seam</b>: a contract that one crew writes and the other must honour, and a Flow that checks it before anything downstream is allowed to run.</p>
+
+    <div class="callout tip">
+      <span class="tag">Why this matters for your portfolio</span>
+      <p>Multi-agent demos are everywhere. What is rare — and what hiring managers look for — is someone who can make agents <em>collaborate reliably</em>: defined interfaces, validation at the boundary, reproducible artifacts, and a system that stops with a clear message instead of producing confident nonsense. Finish this and you'll have a repo that shows all of it.</p>
+    </div>
+  </section>
+
+  <!-- 02 -->
+  <section id="mission">
+    <h2><span class="num">02</span>Your mission</h2>
+    <p class="lead">Design and implement a <b>CrewAI Flow</b> that coordinates two separate multi-agent crews and enforces the contract between them.</p>
+    <ul>
+      <li><b>Crew 1 — Data Analyst Crew</b> ingests, cleans and explores a dataset of your choice, and publishes a <em>dataset contract</em>: what the clean data looks like and what the modeling crew may assume about it.</li>
+      <li><b>Crew 2 — Data Scientist Crew</b> reads that contract, validates the data against it, engineers features, trains and compares models, and writes a model card.</li>
+      <li><b>The Flow</b> automates the handoff, runs the validations, logs everything, saves every artifact into the repo, and <b>fails gracefully</b> when a check does not pass — the thing Harbor &amp; Vale never had.</li>
+    </ul>
+    <p>Everything is versioned in a shared GitHub repository and the results are surfaced in a Streamlit or Flask app your team can demo. Pick any dataset that lets both crews do real work — <b>Kaggle is the recommended source</b>. Retail data fits the story, but it is not required.</p>
+  </section>
+  <!-- 03 -->
+  <section id="crew1">
+    <h2><span class="num">03</span>Crew 1 — Data Analyst Crew</h2>
+    <div class="task crew-a">
+      <div class="head"><span class="chip a">Crew 1</span><span class="chip ghost">at least 3 agents</span><h3>From raw data to a contract</h3></div>
+      <p class="goal">"What has happened in the business?" — understand the data, clean it, and define the rules the modeling crew must follow.</p>
+
+      <h4>Responsibilities</h4>
+      <ul>
+        <li>Ingest and validate a dataset chosen freely — any source is allowed, <b>Kaggle is the recommended one</b>.</li>
+        <li>Clean, preprocess and document the dataset.</li>
+        <li>Perform descriptive analytics and exploratory data analysis.</li>
+        <li>Produce visual insights and business summaries.</li>
+        <li>Define a <b>dataset contract</b> that the Data Scientist crew must follow.</li>
+      </ul>
+
+      <h4>Required outputs</h4>
+      <table>
+        <thead><tr><th style="width:36%">File</th><th>What it contains</th></tr></thead>
+        <tbody>
+          <tr><td><code>clean_data.csv</code></td><td>The cleaned, preprocessed dataset the next crew will model on.</td></tr>
+          <tr><td><code>eda_report.html</code></td><td>Exploratory analysis with charts and descriptive statistics.</td></tr>
+          <tr><td><code>insights.md</code></td><td>Business-facing summary of what the data says.</td></tr>
+          <tr><td><code>dataset_contract.json</code></td><td>Schema, allowed values, assumptions and constraints — the interface between the two crews.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 04 -->
+  <section id="crew2">
+    <h2><span class="num">04</span>Crew 2 — Data Scientist Crew</h2>
+    <div class="task crew-b">
+      <div class="head"><span class="chip b">Crew 2</span><span class="chip ghost">at least 3 agents</span><h3>From contract to model</h3></div>
+      <p class="goal">"What is likely to happen next?" — build on Crew 1's artifacts, never on the raw data.</p>
+
+      <h4>Responsibilities</h4>
+      <ul>
+        <li>Read and validate the cleaned dataset <b>and</b> the dataset contract.</li>
+        <li>Perform feature engineering.</li>
+        <li>Train at least one predictive model.</li>
+        <li>Evaluate and compare at least <b>two model variations</b>.</li>
+        <li>Produce a <b>model card</b> describing the model's purpose, a training-data summary, metrics, limitations and ethical considerations.</li>
+      </ul>
+
+      <h4>Required outputs</h4>
+      <table>
+        <thead><tr><th style="width:36%">File</th><th>What it contains</th></tr></thead>
+        <tbody>
+          <tr><td><code>features.csv</code></td><td>The engineered feature set used for training.</td></tr>
+          <tr><td><code>model.pkl</code> / <code>model.joblib</code></td><td>The trained model artifact.</td></tr>
+          <tr><td><code>evaluation_report.md</code></td><td>Metrics and comparison across the model variations.</td></tr>
+          <tr><td><code>model_card.md</code></td><td>Purpose, training data, metrics, limitations, ethical considerations.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 05 -->
+  <section id="flow">
+    <h2><span class="num">05</span>The Flow</h2>
+    <p>The two crews are only half the project. The <b>CrewAI Flow</b> that connects them is what would have saved Harbor &amp; Vale five weeks and a discount budget. Your Flow must:</p>
+
+    <div class="steps">
+      <div class="step">
+        <span class="idx">1</span>
+        <div><div class="ttl">Automate the handoff from the Data Analyst Crew to the Data Scientist Crew.</div></div>
+      </div>
+      <div class="step">
+        <span class="idx">2</span>
+        <div>
+          <div class="ttl">Include validation steps, for example:</div>
+          <ul>
+            <li>Confirm the <code>dataset_contract</code> matches the cleaned dataset.</li>
+            <li>Confirm all required features exist before modeling.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="step">
+        <span class="idx">3</span>
+        <div>
+          <div class="ttl">Support reproducibility:</div>
+          <ul>
+            <li>Deterministic steps</li>
+            <li>Clear logging</li>
+            <li>Artifacts saved inside the repo</li>
+          </ul>
+        </div>
+      </div>
+      <div class="step">
+        <span class="idx">4</span>
+        <div><div class="ttl">Fail gracefully when validations break.</div></div>
+      </div>
+    </div>
+
+    <div class="callout warn">
+      <span class="tag">The boundary is the point</span>
+      <p>Crew 2 must never reach past the contract into raw data or into Crew 1's internals. If the contract and the data disagree — a missing column, a value outside the allowed range, a unit that changed — the Flow stops and says so. Harbor &amp; Vale's churn model would have failed on Monday morning with a readable error instead of running for five weeks. That is the behaviour you are building.</p>
+    </div>
+  </section>
+
+  <!-- 06 -->
+  <section id="stack">
+    <h2><span class="num">06</span>Tech stack &amp; good habits</h2>
+    <div class="pillars">
+      <div class="pillar">
+        <div class="ico">🧱</div>
+        <h3>Core — required</h3>
+        <ul class="check">
+          <li>CrewAI</li>
+          <li>Python</li>
+          <li>Git + GitHub (with Pull Requests)</li>
+          <li>Streamlit or Flask (or both)</li>
+          <li>Frontend may be built with HTML + CSS</li>
+          <li>Pandas, Scikit-Learn, Matplotlib / Seaborn</li>
+        </ul>
+      </div>
+      <div class="pillar">
+        <div class="ico">🚀</div>
+        <h3>Deployment — optional, recommended</h3>
+        <ul>
+          <li>Streamlit Cloud</li>
+          <li>Railway</li>
+          <li>Supabase — the data may be uploaded and stored there</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Good habits worth building in</h3>
+    <ul>
+      <li><b>The contract is a file, not a conversation.</b> <code>dataset_contract.json</code> is the only thing Crew 2 is allowed to assume. If it isn't in the contract, the modeling crew doesn't know it.</li>
+      <li><b>Break it on purpose.</b> Rename a column, change a unit, delete a row of the contract — and show that the Flow stops with a clear message. A validation you've never seen fail is untested code.</li>
+      <li><b>Small commits, real Pull Requests.</b> Every crew, every validation step and every app screen should be traceable in the history — that is what "collaboration" means in the project title.</li>
+      <li><b>Secrets stay out of the repo.</b> API keys in environment variables, a <code>.gitignore</code> that covers <code>.env</code>, data dumps and virtual environments.</li>
+    </ul>
+
+    <div class="callout gold">
+      <span class="tag">You'll know it's done when…</span>
+      <p>Someone from Harbor &amp; Vale can clone the repo, run the Flow once, and watch Crew 1 produce its four artifacts, the validation gate pass, and Crew 2 produce its four — with every file committed and the results visible in your app. Then they change one unit in the clean data, run it again, and the Flow refuses to train. That is the workflow Maya asked for.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="wrap">
+  <p>Final Project · Industry-Simulated AI Product Workflow · AI Development &amp; Collaboration Project</p>
+</footer>
+
+</body>
+</html>

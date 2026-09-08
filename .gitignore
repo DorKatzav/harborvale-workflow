@@ -1,0 +1,23 @@
+# secrets
+.env
+.env.*
+!.env.example
+
+# python
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# runs are per-execution scratch; artifacts/ (the golden run) IS committed
+runs/*
+!runs/.gitkeep
+*.log
+!artifacts/flow.log
+
+# os / editors
+.DS_Store
+.vscode/
+.idea/

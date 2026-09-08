@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HarborVale Workflow — תוכנית העבודה</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Suez+One&family=Assistant:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --paper:#eef1ef; --card:#fff; --ink:#1b2733; --ink-soft:#46545f; --wind:#0f5c6e; --wind-soft:#e3eef1; --tape:#c9560c; --tape-soft:#fbe9dc; --gate:#2f7d46; --gate-soft:#e7f2ea; --line:#c9d2cd;
+    --mono:"IBM Plex Mono",ui-monospace,monospace; --display:"Suez One","Arial Hebrew",serif; --body:"Assistant","Helvetica Neue",Arial,sans-serif; }
+  * { box-sizing:border-box; }
+  html { font-size:106%; }
+  body { margin:0; background:var(--paper); color:var(--ink); font-family:var(--body); font-size:1.08rem; line-height:1.7; text-align:start; }
+  main { max-width:62rem; margin-inline:auto; padding:2.5rem 1.25rem 5rem; }
+  code { font-family:var(--mono); font-size:.85em; direction:ltr; unicode-bidi:isolate; background:#f0ede6; border:1px solid #ddd8cc; border-radius:4px; padding:.05em .35em; white-space:nowrap; }
+  .eyebrow { font-family:var(--mono); font-size:.78rem; letter-spacing:.12em; color:var(--wind); border-block-end:2px solid var(--wind); display:inline-block; padding-block-end:.3rem; margin-block-end:1rem; }
+  h1 { font-family:var(--display); font-weight:400; font-size:clamp(2rem,5vw,3rem); line-height:1.15; margin:0 0 .75rem; }
+  .lede { color:var(--ink-soft); max-width:46rem; margin-block-end:1.5rem; }
+  h2 { font-family:var(--display); font-weight:400; font-size:1.75rem; margin:3rem 0 1rem; }
+  h2 .num { font-family:var(--mono); font-size:.9rem; color:var(--tape); letter-spacing:.1em; margin-inline-end:.75rem; }
+  h3 { font-family:var(--display); font-weight:400; font-size:1.3rem; margin:1.75rem 0 .5rem; }
+  p { margin:.5rem 0 .9rem; } ul, ol { margin:.4rem 0 1rem; padding-inline-start:1.5rem; } li { margin-block-end:.35rem; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:1.25rem 1.5rem; margin-block:1rem; }
+  .info { border-inline-start:5px solid var(--wind); background:var(--wind-soft); border-radius:8px; padding:1rem 1.25rem; margin-block:1.5rem; }
+  .notice { border-inline-start:5px solid var(--tape); background:var(--tape-soft); border-radius:8px; padding:1rem 1.25rem; margin-block:1.5rem; }
+  .tablewrap { overflow-x:auto; margin-block:.75rem 1.25rem; }
+  table { border-collapse:collapse; width:100%; background:var(--card); border:1px solid var(--line); font-size:.97rem; }
+  th, td { border:1px solid var(--line); padding:.55rem .8rem; text-align:start; vertical-align:top; }
+  th { background:var(--wind); color:#fff; font-weight:600; }
+  .rail { border-inline-start:3px solid var(--wind); padding-inline-start:1.75rem; }
+  .station { position:relative; margin-block-end:1.25rem; }
+  .station::before { content:attr(data-m); position:absolute; inset-inline-start:-3.05rem; inset-block-start:.4rem; width:2.5rem; height:2.5rem; display:flex; align-items:center; justify-content:center; background:var(--wind); color:#fff; font-family:var(--mono); font-weight:600; font-size:.85rem; border-radius:50%; border:3px solid var(--paper); }
+  .station.opt-m::before { background:var(--ink-soft); }
+  .station h3 { margin:0 0 .25rem; } .goal { color:var(--ink-soft); margin:0 0 .75rem; font-size:.98rem; }
+  .gate { border:2px solid var(--gate); background:var(--gate-soft); border-radius:10px; padding:.9rem 1.1rem; margin-block-start:1rem; position:relative; }
+  .gate::before { content:"✓ שער בדיקה"; position:absolute; inset-block-start:-.85rem; inset-inline-end:1rem; background:var(--gate); color:#fff; font-family:var(--display); font-size:.85rem; padding:.1rem .7rem; border-radius:4px; transform:rotate(2deg); }
+  .gate ul { margin:.25rem 0 0; }
+  .you { border:1.5px dashed var(--tape); background:var(--tape-soft); border-radius:8px; padding:.5rem .9rem; margin-block-start:.75rem; font-size:.95rem; }
+  .you b { color:var(--tape); }
+  footer { margin-block-start:3rem; color:var(--ink-soft); font-size:.85rem; border-block-start:1px solid var(--line); padding-block-start:1rem; }
+  a { color:var(--wind); }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <span class="eyebrow">HARBORVALE WORKFLOW · תוכנית העבודה · 2026-09-08</span>
+    <h1>תוכנית העבודה: תשע תחנות מהשלד ועד הריצה החיה</h1>
+    <p class="lede">זה התרגום לעברית של <code>PLAN.md</code>, המסמך שממנו אני עובד. הגרסה האנגלית היא המקור: היא מכילה גם את החוזים בין המודולים (חתימות פונקציות, פורמט קבצים) שלא תורגמו כאן. כל תחנה נבנית בענף משלה, עוברת שער, מקבלת דוח עברי, ואתה מאשר את המיזוג.</p>
+  </header>
+
+  <div class="info">
+    <h3>מה קבוע לאורך כל הדרך (המגבלות מהתכנון)</h3>
+    <ul>
+      <li>החוזה הוא קובץ. צוות 2 מניח רק את <code>dataset_contract.json</code> ואת <code>clean_data.csv</code>; הכלי שלו מסרב לכל נתיב אחר.</li>
+      <li>שדות נמדדים בחוזה מגיעים מהכלי; הסוכן כותב רק תיאור, נימוק והנחות. המאמת מתעלם מהטקסט האנושי.</li>
+      <li>קבצי הדאטה (<code>clean_data.csv</code>, <code>features.csv</code>, <code>metrics.json</code>) זהים בייט-בייט בין ריצות: seed 42, ליבה אחת, עיגול ל-4 ספרות.</li>
+      <li>כישלון = עצירה. <code>FAILED.md</code>, צוות 2 לא רץ, קוד יציאה 2, בלי ניסיון חוזר.</li>
+      <li>ריקים נשמרים ומוצהרים; ההשלמה בתוך ה-Pipeline של המודל. מגדר ומצב משפחתי לעולם לא פיצ'רים.</li>
+      <li>כל מספר בדוחות מגיע מ-<code>stats.json</code> / <code>metrics.json</code> דרך כלי רינדור.</li>
+      <li>סודות רק ב-<code>.env</code>; המפתח עולה ל-Railway רק ב-M7. הבדיקות וה-CI לעולם לא קוראים ל-OpenAI.</li>
+    </ul>
+  </div>
+
+  <h2><span class="num">01</span>התחנות</h2>
+  <div class="rail">
+    <article class="station" data-m="M0"><div class="card">
+      <h3>שלד פרוס ביום הראשון</h3>
+      <p class="goal">ריפו git עצמאי + GitHub ציבורי <code>harborvale-workflow</code>; סביבת conda <code>harborvale</code> עם CrewAI מוצמד; Flask עם <code>/health</code>; CI; שער M0; README ראשוני.</p>
+      <div class="gate"><ul><li>pytest + ruff ירוקים</li><li><code>import crewai</code> עובד</li><li>סריקת סודות ריקה</li><li><code>/health</code> חי מחזיר את ה-commit של main</li></ul></div>
+      <div class="you"><b>אתה:</b> יוצר שירות Railway מהריפו ב-GitHub ומדביק את הדומיין ב-<code>.env</code> כ-<code>LIVE_URL</code>.</div>
+    </div></article>
+
+    <article class="station" data-m="M1"><div class="card">
+      <h3>הכלים של צוות 1: טעינה, ניקוי, EDA</h3>
+      <p class="goal">בלי סוכנים עדיין. <code>hv/ingest.py</code>, <code>hv/cleaning.py</code> (מפת ישויות, כפילויות, טיפוסים, ריקים נשמרים), <code>hv/eda.py</code> (סטטיסטיקה + דוח HTML עם גרפים). המספרים האמיתיים של הדאטה נרשמים ביומן.</p>
+      <div class="gate"><ul><li>מספר השורות אחרי ניקוי תואם לדוח הניקוי</li><li>אפס "Phone" / "CC" / "COD" / "Mobile" בקובץ הנקי</li><li>הריקים נשמרו בדיוק</li><li>שתי ריצות = אותו hash</li><li>שיעור הנטישה בין 5% ל-50%</li></ul></div>
+      <div class="you"><b>אתה:</b> מוריד את הקובץ מ-Kaggle ושומר כ-<code>data/raw/ecommerce_churn.xlsx</code>.</div>
+    </div></article>
+
+    <article class="station" data-m="M2"><div class="card">
+      <h3>החוזה והמאמת</h3>
+      <p class="goal"><code>hv/contract.py</code>: מודל pydantic, בנייה נמדדת, שדות אנושיים מוגנים, מאמת שמריץ את כל תשע הבדיקות ומחזיר את כל הכשלים יחד, שש התקלות המוכנות, ו-<code>scripts/break_it.py</code>. החוזה האמיתי הראשון נבנה ומקומט.</p>
+      <div class="gate"><ul><li>הקובץ הנקי עובר את החוזה שלו</li><li>כל תקלה נכשלת עם הבדיקה הצפויה; שינוי יחידה מציג את רמז היחס 100</li><li>שינוי תיאור בחוזה לא משנה את התוצאה</li><li>החוזה עובר טעינה ושמירה ללא שינוי</li></ul></div>
+    </div></article>
+
+    <article class="station" data-m="M3"><div class="card">
+      <h3>צוות 1 ב-CrewAI</h3>
+      <p class="goal">שלושה סוכנים (Data Quality Engineer, Business Analyst, Data Steward), הגדרות YAML, כלים שעוטפים את M1–M2, צוות stub לבדיקות, וריצה אמיתית עם gpt-5-mini שתוצריה מקומטים ב-<code>artifacts/crew1/</code>.</p>
+      <div class="gate"><ul><li>הבדיקות ירוקות בלי מפתח</li><li>חמישה קבצים; החוזה מאמת את הקובץ הנקי</li><li>הסוכן לא נגע בשדה נמדד</li><li><code>insights.md</code> עם חמשת הסעיפים ומספרים רק מ-<code>stats.json</code></li><li>זמן, קריאות ועלות נרשמו</li></ul></div>
+      <div class="you"><b>אתה:</b> מדביק <code>OPENAI_API_KEY</code> ב-<code>.env</code>.</div>
+    </div></article>
+
+    <article class="station" data-m="M4"><div class="card">
+      <h3>הכלים של צוות 2: פיצ'רים, אימון, הערכה, כרטיס מודל</h3>
+      <p class="goal"><code>hv/features.py</code> (מהחוזה בלבד, מגן דליפה), <code>hv/train.py</code> (רגרסיה לוגיסטית, Random Forest, HistGradientBoosting; 5-fold), <code>hv/evaluate.py</code> (ROC-AUC, PR-AUC, F1, precision@top-10%, הוגנות לפי קבוצה), <code>hv/model_card.py</code>.</p>
+      <div class="gate"><ul><li>מזהה, מטרה ומאפיינים מוגנים אינם פיצ'רים</li><li>המודל נטען ומנבא על שורה בצורת החוזה</li><li>בסיס + שלוש וריאציות ב-<code>metrics.json</code></li><li>שתי ריצות = קבצים זהים</li><li>המודל המוגש טוב מהבסיס</li></ul></div>
+    </div></article>
+
+    <article class="station" data-m="M5"><div class="card">
+      <h3>צוות 2 + ה-Flow מקצה לקצה</h3>
+      <p class="goal">שלושת הסוכנים של צוות 2 עם כלי הגבול; <code>flow/main.py</code> עם router ומסלול כישלון; <code>events.jsonl</code> + <code>manifest.json</code>; <code>scripts/run_flow.py</code> עם הדגלים. ריצה מלאה אמיתית מקומטת; ריצה מחובלת נשמרת כדוגמה.</p>
+      <div class="gate"><ul><li>ריצה מלאה: שמונה תוצרים + manifest עם hash-ים תואמים</li><li>ריצת stub עוברת בלי מפתח</li><li>ריצה עם <code>--tamper unit_change</code>: צוות 2 לא רץ, FAILED.md, exit 2</li><li>כלי הגבול מסרב ל-<code>data/raw/</code></li><li>קבצי הדאטה של הריצה המקומטת זהים לריצת stub טרייה</li></ul></div>
+    </div></article>
+
+    <article class="station" data-m="M6"><div class="card">
+      <h3>האתר: חמישה דפים + לוח "שבור את זה", פרוס</h3>
+      <p class="goal">Flask + Jinja + CSS משלנו (שפה עיצובית נבחרת כאן). דפים: בית, אנליסטים, החוזה (עם לוח השבירה), מדעני נתונים, ריצות. <code>POST /api/validate</code> מריץ את המאמת על עותק מחובל תוך שנייה.</p>
+      <div class="gate"><ul><li>כל הדפים 200 ב-URL החי</li><li>לוח השבירה החי מחזיר סירוב עם רמז היחידה</li><li>קובץ תקין מקבל אישור חי</li><li>צילומי מסך בדוח</li></ul></div>
+    </div></article>
+
+    <article class="station" data-m="M7"><div class="card">
+      <h3>ריצה חיה מאחורי סיסמה</h3>
+      <p class="goal">עבודת רקע בתוך Flask, לוג זורם לדף (SSE), ריצה אחת בכל רגע, דף <code>/runs</code> מציג ריצות שרת. רק עכשיו המפתח עולה ל-Railway.</p>
+      <div class="gate"><ul><li>בלי סיסמה: 401</li><li>ריצה מלאה בשרת מסתיימת והלוג הופיע בדף</li><li>ריצה שנייה בזמן ריצה: 409</li><li>המפתח לא בהיסטוריית git</li></ul></div>
+      <div class="you"><b>אתה:</b> מגדיר <code>APP_PASSWORD</code> ו-<code>OPENAI_API_KEY</code> כמשתני Railway.</div>
+    </div></article>
+
+    <article class="station" data-m="M8"><div class="card">
+      <h3>סגירה</h3>
+      <p class="goal">README עם מבחן הזר (שכפול, ריצה, שבירה, ריצה שנייה), ביקורת אדברסרית עם סוכני Opus על המאמת וה-Flow, דוח סיום עברי, יומן ואובסידיאן סגורים.</p>
+      <div class="gate"><ul><li>כל השערים M0–M7 ירוקים בריצה טרייה</li><li>מבחן הזר עובר משכפול נקי</li></ul></div>
+    </div></article>
+
+    <article class="station opt-m" data-m="M9"><div class="card">
+      <h3>אופציונלי: Supabase</h3>
+      <p class="goal">העלאת הקובץ הנקי וטבלת ריצות; דף הריצות קורא משם. רק אם נשאר זמן אחרי M8.</p>
+    </div></article>
+  </div>
+
+  <h2><span class="num">02</span>הפרוטוקול לכל תחנה</h2>
+  <ol>
+    <li>ענף <code>feat/m&lt;N&gt;-&lt;slug&gt;</code> מ-main מעודכן.</li>
+    <li>פסקת פתיחה בשפה פשוטה: מה התחנה עושה ולמה.</li>
+    <li>בדיקות ליד הקוד; קומיטים קטנים.</li>
+    <li><code>python scripts/gate.py --m N</code> חייב להדפיס PASS. מתקנים, לא מדלגים.</li>
+    <li>דוח עברי <code>docs/reports/M&lt;N&gt;_HE.html</code>, מאומת RTL בדפדפן.</li>
+    <li>סיכום אנגלי קצר בטרמינל.</li>
+    <li>אובסידיאן: דף הבית, פתק התחנה, יומן, החלטות.</li>
+    <li><code>PROJECT_LOG.md</code>; push; PR; CI ירוק; <b>אתה קורא את הדוח ומאשר את המיזוג</b>; אימות שהאתר נפרס מחדש.</li>
+  </ol>
+
+  <h2><span class="num">03</span>הצעדים שלך, מרוכזים</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>תחנה</th><th>מה אתה עושה</th></tr></thead>
+    <tbody>
+      <tr><td>M0</td><td>שירות Railway מהריפו; הדומיין ל-<code>.env</code> כ-<code>LIVE_URL</code>.</td></tr>
+      <tr><td>M1</td><td>הורדת הדאטה מ-Kaggle ל-<code>data/raw/ecommerce_churn.xlsx</code>.</td></tr>
+      <tr><td>M3</td><td><code>OPENAI_API_KEY</code> ב-<code>.env</code>.</td></tr>
+      <tr><td>M7</td><td><code>APP_PASSWORD</code> + <code>OPENAI_API_KEY</code> ב-Railway.</td></tr>
+      <tr><td>כל תחנה</td><td>קריאת הדוח העברי ואישור המיזוג.</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="notice">
+    <h3>מה נחשב "גמור"</h3>
+    <p>ריפו ציבורי עם PRים קטנים ו-CI ירוק · שני צוותים של שלושה סוכנים עם חמישה קבצים כל אחד · שלוש וריאציות מודל וכרטיס מודל עם חמישה סעיפים וטבלת הוגנות · Flow אחד עם router ומסלול כישלון קריא · שש תקלות שנכשלות בבדיקות, ב-CLI ובאתר · קבצי דאטה זהים בין ריצות · אתר פרוס עם לוח השבירה וריצה חיה מאחורי סיסמה · README עם מבחן הזר · אפס סודות בהיסטוריה.</p>
+  </div>
+
+  <footer>HarborVale Workflow · תוכנית העבודה · 2026-09-08 · המקור: <code>PLAN.md</code></footer>
+</main>
+</body>
+</html>
