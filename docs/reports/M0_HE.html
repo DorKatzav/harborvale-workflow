@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HarborVale — דוח M0: שלד פרוס</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Suez+One&family=Assistant:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --paper:#eef1ef; --card:#fff; --ink:#1b2733; --ink-soft:#46545f; --wind:#0f5c6e; --wind-soft:#e3eef1; --tape:#c9560c; --tape-soft:#fbe9dc; --gate:#2f7d46; --gate-soft:#e7f2ea; --line:#c9d2cd;
+    --mono:"IBM Plex Mono",ui-monospace,monospace; --display:"Suez One","Arial Hebrew",serif; --body:"Assistant","Helvetica Neue",Arial,sans-serif; }
+  * { box-sizing:border-box; }
+  html { font-size:106%; }
+  body { margin:0; background:var(--paper); color:var(--ink); font-family:var(--body); font-size:1.08rem; line-height:1.7; text-align:start; }
+  main { max-width:58rem; margin-inline:auto; padding:2.5rem 1.25rem 5rem; }
+  code { font-family:var(--mono); font-size:.85em; direction:ltr; unicode-bidi:isolate; background:#f0ede6; border:1px solid #ddd8cc; border-radius:4px; padding:.05em .35em; white-space:nowrap; }
+  pre { font-family:var(--mono); font-size:.82rem; line-height:1.5; direction:ltr; text-align:left; unicode-bidi:isolate; background:#1b2733; color:#e8eef2; border-radius:10px; padding:1rem 1.25rem; overflow-x:auto; margin:.75rem 0 1.25rem; }
+  .eyebrow { font-family:var(--mono); font-size:.78rem; letter-spacing:.12em; color:var(--wind); border-block-end:2px solid var(--wind); display:inline-block; padding-block-end:.3rem; margin-block-end:1rem; }
+  h1 { font-family:var(--display); font-weight:400; font-size:clamp(2rem,5vw,2.8rem); line-height:1.15; margin:0 0 .75rem; }
+  .lede { color:var(--ink-soft); max-width:46rem; margin-block-end:1.5rem; }
+  h2 { font-family:var(--display); font-weight:400; font-size:1.6rem; margin:2.5rem 0 .8rem; }
+  h2 .num { font-family:var(--mono); font-size:.9rem; color:var(--tape); letter-spacing:.1em; margin-inline-end:.75rem; }
+  p { margin:.5rem 0 .9rem; } ul, ol { margin:.4rem 0 1rem; padding-inline-start:1.5rem; } li { margin-block-end:.35rem; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:1.25rem 1.5rem; margin-block:1rem; }
+  .gate { border:2px solid var(--gate); background:var(--gate-soft); border-radius:10px; padding:.9rem 1.1rem; margin-block:1.25rem; position:relative; }
+  .gate::before { content:"✓ שער בדיקה"; position:absolute; inset-block-start:-.85rem; inset-inline-end:1rem; background:var(--gate); color:#fff; font-family:var(--display); font-size:.85rem; padding:.1rem .7rem; border-radius:4px; transform:rotate(2deg); }
+  .notice { border-inline-start:5px solid var(--tape); background:var(--tape-soft); border-radius:8px; padding:1rem 1.25rem; margin-block:1.5rem; }
+  .notice h3 { margin:0 0 .4rem; font-size:1.1rem; font-family:var(--display); font-weight:400; }
+  .tablewrap { overflow-x:auto; margin-block:.75rem 1.25rem; }
+  table { border-collapse:collapse; width:100%; background:var(--card); border:1px solid var(--line); font-size:.97rem; }
+  th, td { border:1px solid var(--line); padding:.55rem .8rem; text-align:start; vertical-align:top; }
+  th { background:var(--wind); color:#fff; font-weight:600; }
+  td.ok { color:var(--gate); font-weight:700; white-space:nowrap; }
+  td.wait { color:var(--tape); font-weight:700; white-space:nowrap; }
+  .steps { counter-reset:step; list-style:none; padding:0; }
+  .steps li { counter-increment:step; position:relative; padding-inline-start:2.6rem; margin-block-end:.6rem; }
+  .steps li::before { content:counter(step); position:absolute; inset-inline-start:0; inset-block-start:.1rem; width:1.9rem; height:1.9rem; border-radius:50%; background:var(--tape); color:#fff; font-family:var(--mono); font-weight:600; font-size:.85rem; display:flex; align-items:center; justify-content:center; }
+  footer { margin-block-start:3rem; color:var(--ink-soft); font-size:.85rem; border-block-start:1px solid var(--line); padding-block-start:1rem; }
+  a { color:var(--wind); }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <span class="eyebrow">HARBORVALE · דוח תחנה · M0 · 2026-09-08</span>
+    <h1>M0: שלד פרוס ביום הראשון</h1>
+    <p class="lede">התחנה הראשונה לא בונה שום דבר מהפרויקט עצמו. היא מוודאת שהצנרת עובדת: ריפו, סביבה, בדיקות, CI, ואפליקציה קטנה שעולה ב-Railway ומדווחת איזה commit היא מריצה. כשזה עובד, כל תחנה הבאה היא "עוד קוד באותה צנרת".</p>
+  </header>
+
+  <h2><span class="num">01</span>מה נבנה</h2>
+  <div class="card">
+    <ul>
+      <li><b>ריפו עצמאי + GitHub ציבורי:</b> <a href="https://github.com/DorKatzav/harborvale-workflow">DorKatzav/harborvale-workflow</a>. תיקיית הקורס מתעלמת ממנו ב-<code>.gitignore</code> (כמו FunnelIQ). קומיט ראשון: מסמכי התכנון. PR ראשון: <a href="https://github.com/DorKatzav/harborvale-workflow/pull/1">#1</a>.</li>
+      <li><b>סביבת conda <code>harborvale</code></b> (Python 3.11.16). CrewAI הותקן בגרסה <b>1.15.20</b> (חדשה יותר מ-1.15.16 שיש ב-base). כל הגרסאות מוצמדות ב-<code>requirements.txt</code>: pandas 3.0.5, scikit-learn 1.9.0, Flask 3.1.3, pydantic 2.12.5, openai 2.54.0, gunicorn, pytest 9.1.1, ruff 0.16.6.</li>
+      <li><b>חבילת <code>hv/</code></b> עם <code>config.py</code>: נתיבים, seed 42, תפקידי עמודות (מזהה, מטרה, מוגנות), מפת הישויות, היחידות, ומפעל ה-LLM (<code>gpt-5-mini</code>, בלי temperature).</li>
+      <li><b>Flask</b> <code>app/main.py</code> עם <code>/health</code> שמחזיר גרסה, commit (מ-Railway או מ-git), האם יש מודל טעון, וזמן ריצה. דף בית זמני.</li>
+      <li><b>8 בדיקות</b> (health, config), <code>ruff</code>, <b>GitHub Actions</b> (ruff + pytest על כל push ו-PR; המפתח של OpenAI ריק ב-CI בכוונה).</li>
+      <li><b>Railway:</b> <code>railway.json</code> + <code>railpack.json</code> + <code>Procfile</code> עם start command מפורש (הלקח מ-FunnelIQ), healthcheck על <code>/health</code>, <code>libgomp1</code> ל-scikit-learn.</li>
+      <li><b>שער M0:</b> <code>scripts/gate.py --m 0</code>, כולל סריקת סודות (מפתחות OpenAI ו-JWT) ובדיקה חיה מול <code>LIVE_URL</code>.</li>
+    </ul>
+  </div>
+
+  <h2><span class="num">02</span>תוצאת השער</h2>
+  <div class="gate">
+    <div class="tablewrap"><table>
+      <thead><tr><th>בדיקה</th><th>תוצאה</th></tr></thead>
+      <tbody>
+        <tr><td>pytest ירוק (8 בדיקות)</td><td class="ok">PASS</td></tr>
+        <tr><td>ruff נקי</td><td class="ok">PASS</td></tr>
+        <tr><td><code>import crewai</code> עובד בסביבה</td><td class="ok">PASS</td></tr>
+        <tr><td>אין חומר מפתחות בריפו</td><td class="ok">PASS</td></tr>
+        <tr><td><code>/health</code> חי מגיש את ה-commit של main</td><td class="ok">PASS</td></tr>
+      </tbody>
+    </table></div>
+    <p><code>GATE M0: PASS 5/5</code>. השירות חי ב-<code>https://web-production-82f247.up.railway.app</code> ומחזיר את ה-commit של main (<code>8951b3f2b774</code>, המיזוג של PR #1).</p>
+  </div>
+
+  <p>בדיקת עשן מקומית עם gunicorn (אותה פקודה שתרוץ ב-Railway):</p>
+<pre>$ curl http://127.0.0.1:8791/health
+{"commit":"2671cb5ad31f","model_loaded":false,"status":"ok","uptime_s":1.4,"version":"0.1.0"}</pre>
+  <p>ואותה בדיקה מול Railway אחרי המיזוג:</p>
+<pre>$ curl https://web-production-82f247.up.railway.app/health
+{"commit":"8951b3f2b774","model_loaded":false,"status":"ok","uptime_s":503.5,"version":"0.1.0"}</pre>
+
+  <h2><span class="num">03</span>מה למדנו</h2>
+  <ul>
+    <li>pip בסביבה החדשה הביא CrewAI 1.15.20 עם pandas 3.0.5. הכל מוצמד, אז Railway יתקין בדיוק את אותן גרסאות.</li>
+    <li><code>ruff format</code> מנסה לפרמט גם קוד בתוך קבצי Markdown (הוא סימן את הדוגמאות ב-<code>PLAN.md</code>). ב-CI רץ רק <code>ruff check</code>, וזה בכוונה.</li>
+    <li>ה-CI הראשון נכשל: ב-GitHub Actions <code>pytest</code> רץ בלי שורש הריפו ב-<code>sys.path</code>, ומקומית <code>python -m pytest</code> מוסיף אותו. תוקן עם <code>pyproject.toml</code> (<code>pythonpath = ["."]</code>). לקח: לבדוק גם עם <code>pytest</code> ישירות, לא רק דרך <code>python -m</code>.</li>
+  </ul>
+
+  <h2><span class="num">04</span>תקרית קטנה שהשער תפס</h2>
+  <div class="notice">
+    <h3>המפתח נכתב לקובץ הלא נכון</h3>
+    <p>מפתח ה-OpenAI ו-<code>LIVE_URL</code> הודבקו ב-<code>.env.example</code> (קובץ שנמצא ב-git) במקום ב-<code>.env</code> (שלא נמצא). סריקת הסודות של השער נכשלה מיד, לפני כל קומיט או push: המפתח <b>לא הגיע לריפו</b>. התיקון: התוכן הועבר ל-<code>.env</code> (מתעלמים ממנו ב-git, אומת), ו-<code>.env.example</code> שוחזר לגרסה הנקייה.</p>
+    <p>שתי הערות: (1) ה-URL הודבק בלי <code>https://</code>; השער מוסיף אותו עכשיו לבד, כי כך Railway מציג את הדומיין. (2) המפתח הופיע בפלט של השער במסך שלי. הוא לא נשמר בשום קובץ מלבד <code>.env</code>, אבל אם אתה רוצה להיות בטוח לגמרי, אפשר לסובב אותו ב-OpenAI (מוחקים ויוצרים חדש, עלות: דקה). זו החלטה שלך.</p>
+  </div>
+
+  <h2><span class="num">05</span>הבא: M1</h2>
+  <p>M0 סגורה: PR #1 מוזג, האתר חי, CI ירוק, השער 5/5. הכלים של צוות 1 בלי סוכנים: טעינת הקובץ, ניקוי (מפת ישויות, כפילויות, טיפוסים; ריקים נשמרים), ו-EDA עם דוח HTML. הצעד שלך ל-M1: להוריד את <b>E Commerce Dataset.xlsx</b> מ-<a href="https://www.kaggle.com/datasets/ankitverma2010/ecommerce-customer-churn-analysis-and-prediction">Kaggle</a> ולשמור כ-<code>data/raw/ecommerce_churn.xlsx</code>.</p>
+
+  <footer>HarborVale Workflow · דוח M0 · 2026-09-08 · ריפו: github.com/DorKatzav/harborvale-workflow</footer>
+</main>
+</body>
+</html>
