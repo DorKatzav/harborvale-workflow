@@ -235,13 +235,13 @@ def main() -> int:
         try:
             fn()
         except Skip as e:
-            print(f"[SKIP] {name} — {e}")
+            print(f"[SKIP] {name} - {e}")
         except AssertionError as e:
             failed += 1
-            print(f"[FAIL] {name} — {e}")
+            print(f"[FAIL] {name} - {e}")
         except Exception as e:  # noqa: BLE001 - report, don't crash
             failed += 1
-            print(f"[FAIL] {name} — {type(e).__name__}: {e}")
+            print(f"[FAIL] {name} - {type(e).__name__}: {e}")
         else:
             passed += 1
             print(f"[PASS] {name}")

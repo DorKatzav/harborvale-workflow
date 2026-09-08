@@ -94,7 +94,7 @@ def test_range_fails_and_names_the_unit_change_on_a_hundredfold(built):
     assert "range" in report.failed_names
     failure = next(c for c in report.failures if c.name == "range")
     assert failure.column == "CashbackAmount"
-    assert failure.hint == "ratio ≈ 100 — looks like a unit change"
+    assert failure.hint == "ratio ~= 100 - looks like a unit change"
 
 
 def test_range_fails_without_a_unit_hint_when_the_ratio_is_ordinary(built):

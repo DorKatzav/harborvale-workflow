@@ -67,7 +67,7 @@ def test_unit_change_multiplies_by_a_hundred_and_says_so(built):
     broken, _ = tamper(df, contract, "unit_change")
     assert broken["CashbackAmount"].max() == pytest.approx(df["CashbackAmount"].max() * 100)
     failure = next(c for c in validate(broken, contract).failures if c.name == "range")
-    assert failure.hint == "ratio ≈ 100 — looks like a unit change"
+    assert failure.hint == "ratio ~= 100 - looks like a unit change"
 
 
 def test_rename_column_is_reported_with_the_new_name_as_a_hint(built):

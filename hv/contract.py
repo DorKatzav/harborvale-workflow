@@ -251,7 +251,7 @@ class ValidationReport:
         """The text of FAILED.md and of the app's break-it panel."""
         head = "PASSED" if self.passed else "FAILED"
         lines = [
-            f"# Contract validation — {head}",
+            f"# Contract validation - {head}",
             "",
             f"**Source:** `{self.source}`  ",
             f"**Checks:** {len(self.checks) - len(self.failures)} passed, {len(self.failures)} failed",
@@ -274,7 +274,7 @@ def _unit_hint(observed_max: float, declared_max: float | None) -> str | None:
     ratio = observed_max / declared_max
     for factor in (100, 1000):
         if 0.9 * factor <= ratio <= 1.1 * factor:
-            return f"ratio ≈ {factor} — looks like a unit change"
+            return f"ratio ~= {factor} - looks like a unit change"
     return None
 
 
