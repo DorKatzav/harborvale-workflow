@@ -1,0 +1,200 @@
+{
+  "churn_by_category": {
+    "CityTier": {
+      "1": {
+        "churn_rate": 0.1398,
+        "n": 3305
+      },
+      "2": {
+        "churn_rate": 0.1744,
+        "n": 195
+      },
+      "3": {
+        "churn_rate": 0.2193,
+        "n": 1573
+      }
+    },
+    "Gender": {
+      "Female": {
+        "churn_rate": 0.1525,
+        "n": 2026
+      },
+      "Male": {
+        "churn_rate": 0.1746,
+        "n": 3047
+      }
+    },
+    "MaritalStatus": {
+      "Divorced": {
+        "churn_rate": 0.1462,
+        "n": 848
+      },
+      "Married": {
+        "churn_rate": 0.113,
+        "n": 2672
+      },
+      "Single": {
+        "churn_rate": 0.2672,
+        "n": 1553
+      }
+    },
+    "PreferedOrderCat": {
+      "Fashion": {
+        "churn_rate": 0.1625,
+        "n": 763
+      },
+      "Grocery": {
+        "churn_rate": 0.0437,
+        "n": 366
+      },
+      "Laptop & Accessory": {
+        "churn_rate": 0.105,
+        "n": 1847
+      },
+      "Mobile Phone": {
+        "churn_rate": 0.2631,
+        "n": 1855
+      },
+      "Others": {
+        "churn_rate": 0.0785,
+        "n": 242
+      }
+    },
+    "PreferredLoginDevice": {
+      "Computer": {
+        "churn_rate": 0.1956,
+        "n": 1457
+      },
+      "Mobile Phone": {
+        "churn_rate": 0.1538,
+        "n": 3616
+      }
+    },
+    "PreferredPaymentMode": {
+      "Cash on Delivery": {
+        "churn_rate": 0.2538,
+        "n": 457
+      },
+      "Credit Card": {
+        "churn_rate": 0.1416,
+        "n": 1596
+      },
+      "Debit Card": {
+        "churn_rate": 0.1501,
+        "n": 2098
+      },
+      "E wallet": {
+        "churn_rate": 0.2278,
+        "n": 562
+      },
+      "UPI": {
+        "churn_rate": 0.1556,
+        "n": 360
+      }
+    }
+  },
+  "churn_count": 841,
+  "churn_rate": 0.1658,
+  "complain_churn_rate": 0.3131,
+  "correlation_with_churn": {
+    "CashbackAmount": -0.1432,
+    "Complain": 0.2487,
+    "CouponUsed": -0.0027,
+    "DaySinceLastOrder": -0.1518,
+    "HourSpendOnApp": 0.0131,
+    "NumberOfAddress": 0.0522,
+    "NumberOfDeviceRegistered": 0.1168,
+    "OrderAmountHikeFromlastYear": -0.0229,
+    "OrderCount": -0.0221,
+    "SatisfactionScore": 0.1009,
+    "Tenure": -0.3424,
+    "WarehouseToHome": 0.073
+  },
+  "n_cols": 20,
+  "n_rows": 5073,
+  "no_complain_churn_rate": 0.1077,
+  "nulls": {
+    "CouponUsed": 210,
+    "DaySinceLastOrder": 288,
+    "HourSpendOnApp": 230,
+    "OrderAmountHikeFromlastYear": 252,
+    "OrderCount": 243,
+    "Tenure": 231,
+    "WarehouseToHome": 221
+  },
+  "numeric_by_churn": {
+    "CashbackAmount": {
+      "mean_churn": 161.7769,
+      "mean_stay": 180.7984
+    },
+    "Complain": {
+      "mean_churn": 0.5339,
+      "mean_stay": 0.2328
+    },
+    "CouponUsed": {
+      "mean_churn": 1.7943,
+      "mean_stay": 1.8083
+    },
+    "DaySinceLastOrder": {
+      "mean_churn": 3.3287,
+      "mean_stay": 4.8279
+    },
+    "HourSpendOnApp": {
+      "mean_churn": 2.9507,
+      "mean_stay": 2.925
+    },
+    "NumberOfAddress": {
+      "mean_churn": 4.4958,
+      "mean_stay": 4.1342
+    },
+    "NumberOfDeviceRegistered": {
+      "mean_churn": 3.956,
+      "mean_stay": 3.6326
+    },
+    "OrderAmountHikeFromlastYear": {
+      "mean_churn": 15.5296,
+      "mean_stay": 15.7529
+    },
+    "OrderCount": {
+      "mean_churn": 2.9479,
+      "mean_stay": 3.1238
+    },
+    "SatisfactionScore": {
+      "mean_churn": 3.3413,
+      "mean_stay": 2.9657
+    },
+    "Tenure": {
+      "mean_churn": 3.4657,
+      "mean_stay": 11.4947
+    },
+    "WarehouseToHome": {
+      "mean_churn": 16.9909,
+      "mean_stay": 15.2724
+    }
+  },
+  "tenure_buckets": {
+    "0-1": {
+      "churn_rate": 0.513,
+      "n": 1076
+    },
+    "13+": {
+      "churn_rate": 0.0525,
+      "n": 1714
+    },
+    "2-6": {
+      "churn_rate": 0.0737,
+      "n": 868
+    },
+    "7-12": {
+      "churn_rate": 0.0566,
+      "n": 1184
+    }
+  },
+  "top_drivers": [
+    "Tenure",
+    "Complain",
+    "DaySinceLastOrder",
+    "CashbackAmount",
+    "NumberOfDeviceRegistered"
+  ]
+}
