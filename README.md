@@ -12,7 +12,7 @@ The scenario (Harbor & Vale's churn model read dollars as cents for five weeks) 
 
 | Milestone | What | Status |
 |---|---|---|
-| M0 | Skeleton deployed: repo, env, `/health`, CI, gate | in progress |
+| M0 | Skeleton deployed: repo, env, `/health`, CI, gate | done — gate 5/5, live on Railway |
 | M1 | Crew-1 tools: ingest, cleaning, EDA | |
 | M2 | The contract and the validator (+ six "break it" presets) | |
 | M3 | Crew 1 in CrewAI | |
@@ -33,6 +33,8 @@ cp .env.example .env          # OPENAI_API_KEY needed only to run the real crews
 
 Run the app locally: `flask --app app.main run` then open `http://127.0.0.1:5000/health`.
 Tests: `pytest -q && ruff check .`. Milestone gate: `python scripts/gate.py --m 0`.
+
+Live: https://web-production-82f247.up.railway.app/health
 
 ## Dataset
 

@@ -43,9 +43,11 @@ def _run(cmd: list[str], **kw) -> subprocess.CompletedProcess:
 
 
 def _live_url() -> str:
-    url = os.getenv("LIVE_URL", "").rstrip("/")
+    url = os.getenv("LIVE_URL", "").strip().rstrip("/")
     if not url:
         raise Skip("LIVE_URL not set in .env")
+    if not url.startswith(("http://", "https://")):
+        url = "https://" + url  # Railway's panel shows the bare host
     return url
 
 
