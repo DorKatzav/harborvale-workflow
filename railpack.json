@@ -1,0 +1,8 @@
+{
+  "$schema": "https://schema.railpack.com",
+  "provider": "python",
+  "deploy": {
+    "aptPackages": ["libgomp1"],
+    "startCommand": "gunicorn app.main:app --bind 0.0.0.0:$PORT --workers 1 --threads 4 --timeout 120"
+  }
+}
