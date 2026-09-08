@@ -15,12 +15,14 @@ import json
 import os
 import subprocess
 import sys
+import tempfile
 import urllib.request
 from collections.abc import Callable
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 PY = sys.executable
+sys.path.insert(0, str(ROOT))
 
 Check = tuple[str, Callable[[], None]]
 
@@ -218,7 +220,89 @@ M3: list[Check] = [
     ("real crew run recorded (run_meta.json + PROJECT_LOG)", check_real_run_recorded),
 ]
 
-GATES: dict[int, list[Check]] = {0: M0, 1: M1, 3: M3}
+# ---------------------------------------------------------------- M2 checks
+CLEAN_CSV = CREW1 / "clean_data.csv"
+CONTRACT_JSON = CREW1 / "dataset_contract.json"
+
+# the check each preset exists to trip, on the real files (integrity fails too whenever bytes change)
+PRESET_SIGNATURE = {
+    "unit_change": "range",
+    "rename_column": "columns",
+    "drop_contract_field": "columns",
+    "bad_category": "values",
+    "dtype_change": "dtype",
+    "row_loss": "rows",
+}
+
+
+def _real_artifacts() -> tuple[Path, Path]:
+    """The two files Crew 1 publishes, or a Skip that names what is missing."""
+    for path in (CLEAN_CSV, CONTRACT_JSON):
+        if not path.exists():
+            raise Skip(f"{path.relative_to(ROOT).as_posix()} not built yet (M1 + M2 task 5)")
+    return CLEAN_CSV, CONTRACT_JSON
+
+
+def check_real_file_matches_its_contract() -> None:
+    csv, contract = _real_artifacts()
+    from hv.contract import validate
+
+    report = validate(csv, contract)
+    assert report.passed, "the clean file fails its own contract:\n" + report.to_markdown()
+
+
+def check_presets_are_all_caught() -> None:
+    csv, contract = _real_artifacts()
+    with tempfile.TemporaryDirectory() as tmp:
+        for preset, signature in PRESET_SIGNATURE.items():
+            res = _run([PY, "scripts/break_it.py", "--preset", preset, "--clean", str(csv),
+                        "--contract", str(contract), "--out", str(Path(tmp) / preset)])
+            tail = res.stdout[-600:]
+            assert res.returncode == 2, f"{preset} was not caught (exit {res.returncode}):\n{tail}"
+            caught = next((ln for ln in res.stdout.splitlines() if ln.startswith("caught by:")), "")
+            assert signature in caught, f"{preset}: expected the {signature} check to fail, got {caught!r}"
+            if preset == "unit_change":
+                assert "looks like a unit change" in res.stdout, "the x100 ratio hint is missing"
+
+
+def check_prose_cannot_change_the_verdict() -> None:
+    csv, contract = _real_artifacts()
+    from hv.contract import apply_human_fields, load_contract, save_contract, validate
+
+    original = load_contract(contract)
+    edited = apply_human_fields(
+        original,
+        descriptions={original.columns[0].name: "a description written by an agent, not a measurement"},
+        assumptions=["prose is not evidence"],
+    )
+    with tempfile.TemporaryDirectory() as tmp:
+        path = Path(tmp) / "dataset_contract.json"
+        save_contract(edited, path)
+        assert validate(csv, path).to_dict() == validate(csv, original).to_dict(), (
+            "editing a description changed the validation result"
+        )
+
+
+def check_contract_round_trips() -> None:
+    _, contract = _real_artifacts()
+    from hv.contract import load_contract, save_contract
+
+    loaded = load_contract(contract)
+    with tempfile.TemporaryDirectory() as tmp:
+        path = Path(tmp) / "dataset_contract.json"
+        save_contract(loaded, path)
+        assert load_contract(path) == loaded, "the contract does not survive save/load unchanged"
+
+
+M2: list[Check] = [
+    ("pytest green", check_pytest),
+    ("the real clean file passes its real contract", check_real_file_matches_its_contract),
+    ("all six break-it presets are caught", check_presets_are_all_caught),
+    ("a description cannot change the verdict", check_prose_cannot_change_the_verdict),
+    ("dataset_contract.json round-trips unchanged", check_contract_round_trips),
+]
+
+GATES: dict[int, list[Check]] = {0: M0, 1: M1, 2: M2, 3: M3}
 
 
 def main() -> int:
@@ -235,13 +319,13 @@ def main() -> int:
         try:
             fn()
         except Skip as e:
-            print(f"[SKIP] {name} — {e}")
+            print(f"[SKIP] {name} - {e}")
         except AssertionError as e:
             failed += 1
-            print(f"[FAIL] {name} — {e}")
+            print(f"[FAIL] {name} - {e}")
         except Exception as e:  # noqa: BLE001 - report, don't crash
             failed += 1
-            print(f"[FAIL] {name} — {type(e).__name__}: {e}")
+            print(f"[FAIL] {name} - {type(e).__name__}: {e}")
         else:
             passed += 1
             print(f"[PASS] {name}")
