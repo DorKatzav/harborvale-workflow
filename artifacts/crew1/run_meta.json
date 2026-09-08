@@ -1,0 +1,13 @@
+{
+  "clean_csv": "runs/20260908-191703/crew1/clean_data.csv",
+  "eda_html": "runs/20260908-191703/crew1/eda_report.html",
+  "stats_json": "runs/20260908-191703/crew1/stats.json",
+  "insights_md": "runs/20260908-191703/crew1/insights.md",
+  "contract_json": null,
+  "llm_calls": 7,
+  "prompt_tokens": 12385,
+  "cached_prompt_tokens": 3456,
+  "completion_tokens": 7139,
+  "cost_usd": 0.0166,
+  "duration_s": 96.4
+}
