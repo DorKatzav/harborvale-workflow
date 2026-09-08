@@ -232,7 +232,8 @@ PRESETS = ["unit_change", "rename_column", "drop_contract_field", "bad_category"
 def tamper(df: pd.DataFrame, c: Contract, preset: str, seed: int = SEED) -> tuple[pd.DataFrame, Contract]
     # unit_change: CashbackAmount *= 100 · rename_column: OrderCount → order_count ·
     # drop_contract_field: remove Tenure from contract.columns · bad_category: 5% of PreferredPaymentMode → "CC" ·
-    # dtype_change: CityTier.astype(str) · row_loss: drop 10% rows (seeded)
+    # dtype_change: CityTier → "Tier 1"/"Tier 2"/"Tier 3" (D-M2-2: astype(str) alone is invisible after a
+    #   CSV round-trip, so the label form is what survives to Crew 2) · row_loss: drop 10% rows (seeded)
 ```
 
 ### 3.6 `hv/features.py`

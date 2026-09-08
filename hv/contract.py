@@ -525,7 +525,8 @@ def tamper(
         out.loc[picked, "PreferredPaymentMode"] = "CC"  # the raw spelling, un-cleaned
     elif preset == "dtype_change":
         _require(out, "CityTier", preset)
-        out["CityTier"] = out["CityTier"].astype(str)
+        # labels, not digits: "1" would be read straight back as an int and the break would vanish
+        out["CityTier"] = "Tier " + out["CityTier"].astype(str)  # D-M2-2
     elif preset == "row_loss":
         dropped = out.sample(frac=0.10, random_state=seed).index
         out = out.drop(index=dropped)

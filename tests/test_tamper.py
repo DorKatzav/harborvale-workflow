@@ -126,16 +126,21 @@ def test_a_preset_says_which_column_it_needs(built):
         tamper(df.drop(columns=["CashbackAmount"]), contract, "unit_change")
 
 
-def test_dtype_change_does_not_survive_a_csv_round_trip(built, tmp_path):
-    """Known limit, pending D-M2-2.
+def test_dtype_change_writes_labels_not_digits(built):
+    """D-M2-2: `astype(str)` turns 1 into "1", which a CSV reads straight back as an int.
 
-    `CityTier.astype(str)` turns 1 into "1", and a CSV cannot tell those apart: written out and read
-    back, the column is an int again and the validator has nothing left to see. In memory the preset
-    fails as intended (the test above), so this is only about the file-based path used by
-    scripts/break_it.py. Locked in a test so the day the preset is redefined, this fails loudly.
+    The break has to be a value that cannot be mistaken for a number, or it disappears on the way to
+    Crew 2 - which is the one journey this whole project is about.
     """
+    df, _, contract = built
+    broken, _ = tamper(df, contract, "dtype_change")
+    assert set(broken["CityTier"]) == {"Tier 1", "Tier 2", "Tier 3"}
+
+
+def test_dtype_change_survives_a_csv_round_trip(built, tmp_path):
     df, _, contract = built
     broken, broken_contract = tamper(df, contract, "dtype_change")
     csv = write_frame(broken, tmp_path / "tampered.csv")
-    assert validate(csv, broken_contract, check_hash=False).passed
-    assert not validate(broken, broken_contract).passed
+    report = validate(csv, broken_contract, check_hash=False)  # isolate it from the hash change
+    assert report.failed_names == {"dtype"}
+    assert next(c for c in report.failures if c.name == "dtype").column == "CityTier"
