@@ -28,3 +28,8 @@ Decision ids: `D-M<milestone>-<n>`. Design-level decisions D1–D12 live in `DES
 - Second small fix: LIVE_URL pasted without a scheme (Railway shows the bare host) → gate prepends `https://` when missing.
 - **GATE M0: PASS 5/5.** Live `/health` returns commit 8951b3f2b774 == origin/main, version 0.1.0, model_loaded false.
 - Next: M1 — Crew-1 tools (ingest, cleaning, EDA). Dor: download the Kaggle file to `data/raw/ecommerce_churn.xlsx`.
+
+## 2026-09-08 — M1 prerequisite: raw dataset committed
+- Dor downloaded the Kaggle file; it landed as a single file named `data:raw:ecommerce_churn.xlsx` in the project root (macOS turns `/` into `:` in save dialogs). Moved to `data/raw/ecommerce_churn.xlsx` (555,610 bytes, sha256 db70f1e3…1bd44d). Never modified from here on.
+- Sheets verified against `hv/config.py`: `E Comm` (5,630 data rows × 20 columns, header starts CustomerID, Churn, Tenure, PreferredLoginDevice, CityTier, WarehouseToHome) and `Data Dict` (22 × 4). `RAW_SHEET` / `DICT_SHEET` need no change.
+- Onboarding page for a second contributor merged (PR #3): `docs/notes/ONBOARDING_HE.html`.
