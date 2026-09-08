@@ -1,0 +1,10 @@
+# Line endings are part of the contract here: dataset_contract.json stores the sha256 of
+# clean_data.csv, and hv.config.CSV_KW writes it with "\n". A Windows checkout used to turn those
+# into CRLF, which changed the hash on one machine and not on the other (D-M2-1 in PROJECT_LOG.md).
+# Store and check out every text file with LF, on every platform.
+* text=auto eol=lf
+
+# Binary inputs are never touched
+*.xlsx binary
+*.png binary
+*.jpg binary
