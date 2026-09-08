@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HarborVale — דוח M2: החוזה והמאמת</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Suez+One&family=Assistant:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --paper:#eef1ef; --card:#fff; --ink:#1b2733; --ink-soft:#46545f; --wind:#0f5c6e; --wind-soft:#e3eef1; --tape:#c9560c; --tape-soft:#fbe9dc; --gate:#2f7d46; --gate-soft:#e7f2ea; --line:#c9d2cd;
+    --mono:"IBM Plex Mono",ui-monospace,monospace; --display:"Suez One","Arial Hebrew",serif; --body:"Assistant","Helvetica Neue",Arial,sans-serif; }
+  * { box-sizing:border-box; }
+  html { font-size:106%; }
+  body { margin:0; background:var(--paper); color:var(--ink); font-family:var(--body); font-size:1.08rem; line-height:1.7; text-align:start; }
+  main { max-width:58rem; margin-inline:auto; padding:2.5rem 1.25rem 5rem; }
+  code { font-family:var(--mono); font-size:.85em; direction:ltr; unicode-bidi:isolate; background:#f0ede6; border:1px solid #ddd8cc; border-radius:4px; padding:.05em .35em; white-space:nowrap; }
+  pre { font-family:var(--mono); font-size:.82rem; line-height:1.5; direction:ltr; text-align:left; unicode-bidi:isolate; background:#1b2733; color:#e8eef2; border-radius:10px; padding:1rem 1.25rem; overflow-x:auto; margin:.75rem 0 1.25rem; }
+  .eyebrow { font-family:var(--mono); font-size:.78rem; letter-spacing:.12em; color:var(--wind); border-block-end:2px solid var(--wind); display:inline-block; padding-block-end:.3rem; margin-block-end:1rem; }
+  h1 { font-family:var(--display); font-weight:400; font-size:clamp(2rem,5vw,2.8rem); line-height:1.15; margin:0 0 .75rem; }
+  .lede { color:var(--ink-soft); max-width:46rem; margin-block-end:1.5rem; }
+  h2 { font-family:var(--display); font-weight:400; font-size:1.6rem; margin:2.5rem 0 .8rem; }
+  h2 .num { font-family:var(--mono); font-size:.9rem; color:var(--tape); letter-spacing:.1em; margin-inline-end:.75rem; }
+  h3 { font-family:var(--display); font-weight:400; font-size:1.2rem; margin:1.5rem 0 .5rem; }
+  p { margin:.5rem 0 .9rem; } ul, ol { margin:.4rem 0 1rem; padding-inline-start:1.5rem; } li { margin-block-end:.35rem; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:1.25rem 1.5rem; margin-block:1rem; }
+  .gate { border:2px solid var(--gate); background:var(--gate-soft); border-radius:10px; padding:.9rem 1.1rem; margin-block:1.25rem; position:relative; }
+  .gate::before { content:"✓ שער בדיקה"; position:absolute; inset-block-start:-.85rem; inset-inline-end:1rem; background:var(--gate); color:#fff; font-family:var(--display); font-size:.85rem; padding:.1rem .7rem; border-radius:4px; transform:rotate(2deg); }
+  .notice { border-inline-start:5px solid var(--tape); background:var(--tape-soft); border-radius:8px; padding:1rem 1.25rem; margin-block:1.5rem; }
+  .info { border-inline-start:5px solid var(--wind); background:var(--wind-soft); border-radius:8px; padding:1rem 1.25rem; margin-block:1.5rem; }
+  .notice h3, .info h3 { margin:0 0 .4rem; font-size:1.1rem; }
+  .tablewrap { overflow-x:auto; margin-block:.75rem 1.25rem; }
+  table { border-collapse:collapse; width:100%; background:var(--card); border:1px solid var(--line); font-size:.97rem; }
+  th, td { border:1px solid var(--line); padding:.55rem .8rem; text-align:start; vertical-align:top; }
+  th { background:var(--wind); color:#fff; font-weight:600; }
+  td.num, th.num { font-family:var(--mono); direction:ltr; text-align:end; white-space:nowrap; }
+  td.ok { color:var(--gate); font-weight:700; white-space:nowrap; }
+  .options { display:grid; grid-template-columns:repeat(auto-fit,minmax(16rem,1fr)); gap:.9rem; margin-block:.75rem 1.25rem; }
+  .opt { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:1rem 1.2rem; position:relative; }
+  .opt.rec { border:2px solid var(--gate); background:var(--gate-soft); }
+  .opt.rec::before { content:"✓ נבחר"; position:absolute; inset-block-start:-.8rem; inset-inline-end:1rem; background:var(--gate); color:#fff; font-family:var(--display); font-size:.8rem; padding:.05rem .65rem; border-radius:4px; transform:rotate(2deg); }
+  .opt h4 { margin:.25rem 0 .4rem; }
+  .opt .pro { color:var(--gate); } .opt .con { color:var(--tape); }
+  footer { margin-block-start:3rem; color:var(--ink-soft); font-size:.85rem; border-block-start:1px solid var(--line); padding-block-start:1rem; }
+  a { color:var(--wind); }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <span class="eyebrow">HARBORVALE · דוח תחנה · M2 · 2026-09-08</span>
+    <h1>M2: החוזה והמאמת</h1>
+    <p class="lede">התחנה הזאת בונה את התפר בין שני הצוותים: קובץ אחד שמתאר איך הדאטה הנקי אמור להיראות, ופונקציה שמשווה בין הקובץ הזה לבין הדאטה בפועל ומסרבת להמשיך כשהם לא מסכימים. זה החלק שכל הסיפור של הפרויקט נשען עליו. כל מספר בדף הזה נמדד מהקבצים שנוצרו, לא הוקלד.</p>
+  </header>
+
+  <h2><span class="num">01</span>למה בכלל צריך חוזה</h2>
+  <p>בסיפור של Harbor &amp; Vale אף אחד לא טעה. צוות האנליסטים ניקה דאטה והחליט להמיר עמודה מסנטים לדולרים — החלטה סבירה. צוות מדעני הנתונים אימן מודל על הקובץ החדש — גם זה סביר. הקוד רץ בלי שגיאה אחת. במשך חמישה שבועות המודל סימן את הלקוחות הטובים כ"בטוחים", ותקציב השימור הלך לאנשים הלא נכונים.</p>
+  <p>הבעיה לא הייתה באף אחד מהצוותים. הבעיה הייתה ש<strong>לא היה שום דבר ביניהם</strong>. צוות 2 הניח דברים על הדאטה — שהעמודה בדולרים, שיש 5,073 שורות, שהעמודה הזאת מספר ולא טקסט — אבל ההנחות האלה חיו בראש של אנשים, לא בקובץ. הנחה שחיה בראש לא יכולה להיכשל בקול.</p>
+  <div class="info">
+    <h3>מה זה חוזה כאן, בפשטות</h3>
+    <p>קובץ JSON אחד, <code>dataset_contract.json</code>, שאומר לכל עמודה: מה הטיפוס שלה, מה התפקיד שלה (מזהה / תווית / פיצ'ר / מוגנת), באילו יחידות היא, מה הטווח שלה, אילו ערכים מותרים בה, וכמה ריקים יש בה. ובנוסף: כמה שורות יש, ומה ה-sha256 של הקובץ הנקי. צוות 2 לא מסתכל על הדאטה הגולמי ולא על מה שצוות 1 עשה — הוא מניח את הקובץ הזה ותו לא.</p>
+  </div>
+
+  <h2><span class="num">02</span>מה נבנה</h2>
+  <div class="card">
+    <ul>
+      <li><code>hv/contract.py</code> — המודלים (<code>ColumnSpec</code>, <code>DatasetSpec</code>, <code>Contract</code>), <code>build_contract</code> שמודד את המסגרת הנקייה, שמירה וטעינה מ-JSON, המאמת <code>validate</code>, ושש התקלות <code>tamper</code>.</li>
+      <li><code>scripts/break_it.py</code> — כלי שורת פקודה שמפעיל תקלה על עותק בתיקייה זמנית, מאמת אותו כקובץ, ומדפיס את הדוח. קוד יציאה 2 כשהתקלה נתפסה.</li>
+      <li><code>scripts/build_contract.py</code> — מייצר את החוזה האמיתי. זמני, כמו <code>run_crew1_tools.py</code>: ב-M3 סוכן ה-Data Steward לוקח את התפקיד.</li>
+      <li><code>scripts/gate.py --m 2</code> — חמש בדיקות שער.</li>
+      <li>74 בדיקות חדשות (103 בסך הכל בפרויקט), על מסגרת סינתטית בת 20 שורות ב-<code>tests/synthetic.py</code> — כך ש-M2 לא היה תלוי ב-M1 כדי להיבנות.</li>
+    </ul>
+  </div>
+
+  <h3>תשע הבדיקות של המאמת</h3>
+  <p>המאמת מריץ את <strong>כולן</strong> ומחזיר את כל הכשלים יחד, לא עוצר בראשון. הסיבה: בן אדם קורא את הדוח הזה ומתקן לפיו — תשובה חלקית גרועה יותר מכלום. על הקובץ האמיתי זה 65 בדיקות פרטניות.</p>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>בדיקה</th><th>מה היא שואלת</th><th class="num">כמה על הקובץ האמיתי</th></tr></thead>
+      <tbody>
+        <tr><td><code>integrity</code></td><td>ה-sha256 של הקובץ זהה לזה שרשום בחוזה — זה בכלל אותו קובץ?</td><td class="num">1</td></tr>
+        <tr><td><code>columns</code></td><td>כל עמודה שהוצהרה קיימת, ואין עמודות שלא הוצהרו. על עמודה חסרה מוצע השם הכי קרוב שנמצא בדאטה.</td><td class="num">1</td></tr>
+        <tr><td><code>dtype</code></td><td>הטיפוס בפועל תואם למוצהר (int / float / category / bool).</td><td class="num">20</td></tr>
+        <tr><td><code>values</code></td><td>בעמודות קטגוריות: אין ערך מחוץ ל-<code>allowed_values</code>. מדווח כמה שורות ועד 5 דוגמאות.</td><td class="num">5</td></tr>
+        <tr><td><code>range</code></td><td>המינימום והמקסימום בפועל בתוך הטווח המוצהר.</td><td class="num">15</td></tr>
+        <tr><td><code>nulls</code></td><td>עמודה לא-nullable ריקה מריקים; עמודה nullable לא צברה יותר ריקים ממה שהוצהר.</td><td class="num">20</td></tr>
+        <tr><td><code>rows</code></td><td>מספר השורות תואם.</td><td class="num">1</td></tr>
+        <tr><td><code>key</code></td><td>המזהה ייחודי ולא ריק; התווית קיימת ובינארית 0/1.</td><td class="num">2</td></tr>
+        <tr><td><code>features</code></td><td>כל פיצ'ר שצוות 2 ביקש מוצהר בתפקיד <code>feature</code> — כך <code>Gender</code> לא יכול להיכנס למודל בטעות.</td><td class="num">לפי בקשה</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>לכל כישלון יש גם רמז. הרמז הכי חשוב הוא זה של <code>range</code>: כשהמקסימום בפועל גדול פי 90 עד 110 מהמוצהר, הדוח אומר "ratio ~= 100 - looks like a unit change". זה בדיוק התרחיש שפתח את הסיפור.</p>
+
+  <h2><span class="num">03</span>הכלל שהופך את זה למשהו אמיתי: מדידה מול פרוזה</h2>
+  <p>לחוזה יש שני סוגי שדות. <strong>שדות נמדדים</strong> — טיפוס, טווח, ערכים מותרים, מספר ריקים, sha256 — מגיעים מהקוד שמדד את הדאטה. <strong>שדות אנושיים</strong> — <code>description</code>, <code>rationale</code>, <code>assumptions</code> — הם טקסט שסוכן LLM כותב.</p>
+  <p>הפונקציה שמאפשרת לסוכן לכתוב, <code>apply_human_fields</code>, פשוט <em>לא מקבלת</em> פרמטרים כמו <code>min</code> או <code>allowed_values</code>. ניסיון להעביר אותם נכשל מיד. והמאמת מתעלם לגמרי מהטקסט. יש על זה בדיקה מפורשת: כותבים לחוזה תיאור "תמיד בדולרים שלמים, נבדק פעמיים", מריצים שוב — ותוצאת האימות זהה בייט-בייט. סוכן יכול להיות משוכנע כמה שהוא רוצה; זה לא משנה עובדה אחת.</p>
+
+  <h2><span class="num">04</span>שש התקלות</h2>
+  <p>בדיקה שמעולם לא ראו אותה נכשלת היא קוד לא בדוק. לכן לכל אחת מתשע הבדיקות יש בדיקת יחידה שמפילה אותה בכוונה, ובנוסף יש שש "תקלות מוכנות" שאפשר להפעיל על הקבצים האמיתיים משורת הפקודה.</p>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>התקלה</th><th>מה היא עושה</th><th>מי תופס אותה</th></tr></thead>
+      <tbody>
+        <tr><td><code>unit_change</code></td><td>מכפיל <code>CashbackAmount</code> ב-100 — הסיפור המקורי</td><td><code>range</code> + הרמז על היחידות</td></tr>
+        <tr><td><code>rename_column</code></td><td>משנה <code>OrderCount</code> ל-<code>order_count</code></td><td><code>columns</code>, עם הצעת השם הקרוב</td></tr>
+        <tr><td><code>drop_contract_field</code></td><td>מוחק את <code>Tenure</code> מהחוזה — הדאטה לא נגעו בו</td><td><code>columns</code> (עמודה שלא הוצהרה)</td></tr>
+        <tr><td><code>bad_category</code></td><td>מחזיר את האיות הגולמי "CC" ל-5% מהשורות</td><td><code>values</code></td></tr>
+        <tr><td><code>dtype_change</code></td><td>הופך את <code>CityTier</code> לטקסט</td><td><code>dtype</code></td></tr>
+        <tr><td><code>row_loss</code></td><td>מוחק 10% מהשורות (עם seed)</td><td><code>rows</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>כל תקלה מפילה בדיוק את הבדיקה שהיא אמורה להפיל, ולא אחרת — וגם על זה יש בדיקה. כשהתקלה משנה את הקובץ, נכשלת גם <code>integrity</code>, כי ה-sha256 השתנה.</p>
+
+  <h2><span class="num">05</span>החוזה האמיתי</h2>
+  <p>נבנה מהקובץ הנקי של M1, אחרי שהוא מוזג ל-main:</p>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>מה</th><th class="num">כמה</th></tr></thead>
+      <tbody>
+        <tr><td>שורות</td><td class="num">5,073</td></tr>
+        <tr><td>עמודות</td><td class="num">20</td></tr>
+        <tr><td>שיעור נטישה (התווית)</td><td class="num">0.1658</td></tr>
+        <tr><td>תפקידים: מזהה / תווית / פיצ'ר / מוגנת</td><td class="num">1 / 1 / 16 / 2</td></tr>
+        <tr><td>טיפוסים: int / float / category</td><td class="num">7 / 8 / 5</td></tr>
+        <tr><td>עמודות עם ריקים מוצהרים</td><td class="num">7 (סה"כ 1,675 ריקים)</td></tr>
+        <tr><td>תיאורים שנלקחו ממילון הנתונים של הקובץ הגולמי</td><td class="num">20 / 20</td></tr>
+        <tr><td>sha256 של הקובץ הנקי</td><td class="num">ef1e1f758009fa57…</td></tr>
+        <tr><td>גודל החוזה</td><td class="num">7,179 בתים</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>בדיקה שהייתה חשובה במיוחד: החוזה שנבנה מהמסגרת <em>בזיכרון</em> (כמו שהסוכן יעשה ב-M3) יצא זהה לחוזה שנבנה מהקובץ שנקרא <em>מהדיסק</em>. אם הם היו נבדלים, כל התפר היה נשבר ב-M3 בלי שאף אחד יבין למה.</p>
+
+  <h2><span class="num">06</span>שתי החלטות</h2>
+  <h3>D-M2-1 — סופי שורה אחידים (LF) בכל הריפו</h3>
+  <p>git על Windows המיר את <code>clean_data.csv</code> בצ'קאאוט מ-LF ל-CRLF. התוצאה: אותו קובץ בדיוק, שני hash שונים — <code>96f2d52f…</code> אצלי מול <code>ef1e1f75…</code> אצל דור וביומן M1. מכיוון שה-hash הזה שמור <em>בתוך החוזה</em>, בדיקת ה-integrity הייתה נכשלת אצל מי שלא בנה את החוזה, וגם ב-CI על לינוקס. זה נתפס לפני שנבנה החוזה, לא אחרי.</p>
+  <div class="options">
+    <div class="opt rec"><h4>א. <code>.gitattributes</code> עם <code>* text=auto eol=lf</code></h4><p class="pro">נאכף על ידי הריפו, לא על ידי ההגדרות של כל אחד. אימתתי: לא משנה אף blob קיים — אצל דור אין שום diff.</p><p class="con">מחיר: קובץ חדש אחד.</p></div>
+    <div class="opt"><h4>ב. רק <code>*.csv -text</code></h4><p class="pro">טווח פגיעה קטן יותר.</p><p class="con">התוצר הטקסטואלי הבא שהבייטים שלו חשובים לא מוגן.</p></div>
+    <div class="opt"><h4>ג. כל אחד מגדיר <code>core.autocrlf=input</code> אצלו</h4><p class="con">לא בריפו, לא נאכף, נשבר אצל האדם הבא. מנוגד לעיקרון שהחוזה הוא קובץ ולא שיחה.</p></div>
+  </div>
+
+  <h3>D-M2-2 — התקלה <code>dtype_change</code> כותבת תוויות, לא ספרות</h3>
+  <p>ההגדרה המקורית ב-<code>PLAN.md §3.5</code> הייתה <code>CityTier.astype(str)</code>. הבעיה: זה הופך את 1 ל-"1", ו-CSV לא יודע להבחין ביניהם. הקובץ נכתב, נקרא חזרה כמספר, והמאמת לא רואה כלום — התקלה נעלמת בדיוק במסלול היחיד שחשוב, הקובץ שצוות 2 קורא. השער תפס את זה ונכשל 4/5.</p>
+  <div class="options">
+    <div class="opt rec"><h4>א. <code>CityTier</code> הופך ל-"Tier 1"/"Tier 2"/"Tier 3"</h4><p class="pro">שורד מעבר דרך CSV, נכשל ב-<code>dtype</code> כמו שהובטח, ובלוח "שבור את זה" באתר (M6) המבקר יראה כישלון אמיתי.</p><p class="con">מחיר: שינוי שורה אחת ב-<code>PLAN.md §3.5</code>, שדור בנה עליו — עודכן ב-PR.</p></div>
+    <div class="opt"><h4>ב. לאמת את התקלה הזאת בזיכרון</h4><p class="con">אחת משש לא עוברת דרך קובץ, ה-integrity מדולג עבורה, והאתר ב-M6 צריך מקרה מיוחד.</p></div>
+    <div class="opt"><h4>ג. לקבל כמגבלה מתועדת</h4><p class="con">השער ירוק, אבל אחת משש התקלות לא מדגימה את מה שהיא מבטיחה — היא נתפסת רק כי ה-hash השתנה. מנוגד ל"מתקנים, לא מדלגים".</p></div>
+  </div>
+
+  <h2><span class="num">07</span>ממצא בשטח של M1 — לא נגעתי</h2>
+  <div class="notice">
+    <h3>שער M1 נכשל על Windows</h3>
+    <p><code>python scripts/gate.py --m 1</code> נכשל אצלי בבדיקה "שתי ריצות מייצרות קבצים זהים": <code>stats.json</code> יוצא עם hash אחר. התוכן זהה לחלוטין — רק סופי השורה שונים. הסיבה: <code>hv/eda.py::write_stats</code> קורא ל-<code>Path.write_text(...)</code> בלי <code>newline=""</code>, ולכן פייתון על Windows מתרגם כל <code>\n</code> ל-<code>\r\n</code> (200 מהם). <code>clean_data.csv</code> תקין, כי pandas כותב אותו עם lineterminator מפורש.</p>
+    <p>זה קובץ של דור ובתחום M1, אז השארתי אותו. התיקון הוא מילה אחת: <code>write_text(..., encoding="utf-8", newline="")</code>. אותה מלכודת בדיוק נמנעה ב-<code>save_contract</code> שלי, שמעביר <code>newline="\n"</code> במפורש.</p>
+  </div>
+  <p>ממצא קטן נוסף: הטרמינל של Windows כאן הוא cp1255, והדפסת התווים המיוחדים (מקף ארוך, סימן ≈) העיפה <code>UnicodeEncodeError</code> — כולל בשורות ה-SKIP וה-FAIL הקיימות ב-<code>gate.py</code>, ששער M2 מגיע אליהן. כל מה שמודפס עבר ל-ASCII; מסמכים ודוחות לא נגעו.</p>
+
+  <h2><span class="num">08</span>השער</h2>
+  <div class="gate">
+    <p><strong>GATE M2: PASS 5/5</strong></p>
+    <ul>
+      <li>הבדיקות ירוקות (103)</li>
+      <li>הקובץ הנקי האמיתי עובר את החוזה האמיתי שלו</li>
+      <li>כל שש התקלות נתפסות דרך <code>scripts/break_it.py</code>, ו-<code>unit_change</code> כולל את הרמז על היחידות</li>
+      <li>עריכת תיאור בחוזה לא משנה את תוצאת האימות</li>
+      <li><code>dataset_contract.json</code> שורד מסע שמירה-טעינה בלי שינוי</li>
+    </ul>
+  </div>
+
+  <h2><span class="num">09</span>מה הלאה</h2>
+  <ul>
+    <li><strong>דור — M3:</strong> צוות 1 ב-CrewAI. סוכן ה-Data Steward יקרא ל-<code>build_contract</code> ויכתוב רק את שדות הטקסט.</li>
+    <li><strong>יורן — M4:</strong> הכלים של צוות 2 — פיצ'רים, שלוש וריאציות מודל, הערכה, כרטיס מודל. תלוי רק בפורמט החוזה שנסגר כאן.</li>
+    <li>שני תיקונים קטנים לדור: <code>write_stats</code> עם <code>newline=""</code>, ואישור לשינוי ב-<code>PLAN.md §3.5</code>.</li>
+  </ul>
+
+  <footer>HarborVale Workflow · דוח תחנה M2 · 2026-09-08 · <code>docs/reports/M2_HE.html</code> · ענף <code>feat/m2-contract</code>, PR #7</footer>
+</main>
+</body>
+</html>
