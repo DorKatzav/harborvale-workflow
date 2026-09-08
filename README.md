@@ -13,7 +13,7 @@ The scenario (Harbor & Vale's churn model read dollars as cents for five weeks) 
 | Milestone | What | Status |
 |---|---|---|
 | M0 | Skeleton deployed: repo, env, `/health`, CI, gate | done — gate 5/5, live on Railway |
-| M1 | Crew-1 tools: ingest, cleaning, EDA | |
+| M1 | Crew-1 tools: ingest, cleaning, EDA | done — gate 7/7, 5,073 clean rows (D-M1-1) |
 | M2 | The contract and the validator (+ six "break it" presets) | |
 | M3 | Crew 1 in CrewAI | |
 | M4 | Crew-2 tools: features, training, evaluation, model card | |
