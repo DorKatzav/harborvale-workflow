@@ -15,7 +15,7 @@ The scenario (Harbor & Vale's churn model read dollars as cents for five weeks) 
 | M0 | Skeleton deployed: repo, env, `/health`, CI, gate | done — gate 5/5, live on Railway |
 | M1 | Crew-1 tools: ingest, cleaning, EDA | done — gate 7/7, 5,073 clean rows (D-M1-1) |
 | M2 | The contract and the validator (+ six "break it" presets) | done - gate 5/5, 5,073 rows under contract |
-| M3 | Crew 1 in CrewAI | |
+| M3 | Crew 1 in CrewAI | code done — gate 6/6, real run $0.017 / 96 s; steward task waits for M2 (M3b) |
 | M4 | Crew-2 tools: features, training, evaluation, model card | |
 | M5 | Crew 2 + the Flow end to end | |
 | M6 | Flask app with the break-it panel, deployed | |
