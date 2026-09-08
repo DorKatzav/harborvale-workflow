@@ -89,6 +89,71 @@ def check_live_health() -> None:
     assert head.startswith(live), f"live commit {live} != origin/main {head[:12]}"
 
 
+# ---------------------------------------------------------------- M1 checks
+CREW1 = ROOT / "artifacts" / "crew1"
+
+
+def _crew1_clean():
+    import pandas as pd
+
+    path = CREW1 / "clean_data.csv"
+    assert path.exists(), "artifacts/crew1/clean_data.csv missing"
+    return pd.read_csv(path)
+
+
+def _cleaning_report() -> dict:
+    path = CREW1 / "cleaning_report.json"
+    assert path.exists(), "artifacts/crew1/cleaning_report.json missing"
+    return json.loads(path.read_text())
+
+
+def check_clean_rows_match_report() -> None:
+    df = _crew1_clean()
+    rep = _cleaning_report()
+    assert len(df) == rep["rows_out"], f"clean rows {len(df)} != report rows_out {rep['rows_out']}"
+    dropped = rep["duplicate_rows_dropped"] + rep["duplicate_ids_dropped"] + rep["duplicate_records_dropped"]
+    assert rep["rows_in"] - dropped == rep["rows_out"], "report arithmetic does not add up"
+
+
+def check_no_unmapped_spellings() -> None:
+    sys.path.insert(0, str(ROOT))
+    from hv.config import ENTITY_MAP
+
+    df = _crew1_clean()
+    bad = {col: int(df[col].isin(list(m)).sum()) for col, m in ENTITY_MAP.items()}
+    assert not any(bad.values()), f"unmapped spellings remain: {bad}"
+
+
+def check_nulls_kept_not_imputed() -> None:
+    df = _crew1_clean()
+    rep = _cleaning_report()
+    observed = {c: int(n) for c, n in df.isna().sum().items() if n}
+    assert observed == rep["nulls_kept"], f"nulls in file {observed} != report {rep['nulls_kept']}"
+
+
+def check_two_runs_identical() -> None:
+    import hashlib
+    import tempfile
+
+    with tempfile.TemporaryDirectory() as tmp:
+        res = _run([PY, "scripts/run_crew1_tools.py", "--out", tmp])
+        assert res.returncode == 0, res.stderr.strip().splitlines()[-1] if res.stderr else "runner failed"
+        for name in ("clean_data.csv", "stats.json"):
+            a = hashlib.sha256((CREW1 / name).read_bytes()).hexdigest()
+            b = hashlib.sha256((Path(tmp) / name).read_bytes()).hexdigest()
+            assert a == b, f"{name} differs between runs"
+
+
+def check_eda_outputs() -> None:
+    html = CREW1 / "eda_report.html"
+    stats = CREW1 / "stats.json"
+    assert html.exists() and stats.exists(), "eda_report.html / stats.json missing"
+    text = html.read_text(encoding="utf-8")
+    assert 'src="http' not in text and 'href="http' not in text, "eda_report.html references external assets"
+    rate = json.loads(stats.read_text())["churn_rate"]
+    assert 0.05 <= rate <= 0.5, f"churn_rate {rate} outside the plausible range"
+
+
 M0: list[Check] = [
     ("pytest green", check_pytest),
     ("ruff clean", check_ruff),
@@ -97,7 +162,17 @@ M0: list[Check] = [
     ("live /health serves origin/main", check_live_health),
 ]
 
-GATES: dict[int, list[Check]] = {0: M0}
+M1: list[Check] = [
+    ("pytest green", check_pytest),
+    ("ruff clean", check_ruff),
+    ("clean_data.csv row count matches the cleaning report", check_clean_rows_match_report),
+    ("no Phone / CC / COD / Mobile spellings remain", check_no_unmapped_spellings),
+    ("nulls kept exactly as reported (nothing imputed)", check_nulls_kept_not_imputed),
+    ("two runs produce identical clean_data.csv and stats.json", check_two_runs_identical),
+    ("eda_report.html self-contained, churn_rate plausible", check_eda_outputs),
+]
+
+GATES: dict[int, list[Check]] = {0: M0, 1: M1}
 
 
 def main() -> int:
