@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HarborVale — דוח M3: צוות 1 ב-CrewAI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Suez+One&family=Assistant:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --paper:#eef1ef; --card:#fff; --ink:#1b2733; --ink-soft:#46545f; --wind:#0f5c6e; --wind-soft:#e3eef1; --tape:#c9560c; --tape-soft:#fbe9dc; --gate:#2f7d46; --gate-soft:#e7f2ea; --line:#c9d2cd;
+    --mono:"IBM Plex Mono",ui-monospace,monospace; --display:"Suez One","Arial Hebrew",serif; --body:"Assistant","Helvetica Neue",Arial,sans-serif; }
+  * { box-sizing:border-box; }
+  html { font-size:106%; }
+  body { margin:0; background:var(--paper); color:var(--ink); font-family:var(--body); font-size:1.08rem; line-height:1.7; text-align:start; }
+  main { max-width:58rem; margin-inline:auto; padding:2.5rem 1.25rem 5rem; }
+  code { font-family:var(--mono); font-size:.85em; direction:ltr; unicode-bidi:isolate; background:#f0ede6; border:1px solid #ddd8cc; border-radius:4px; padding:.05em .35em; white-space:nowrap; }
+  pre { font-family:var(--mono); font-size:.82rem; line-height:1.5; direction:ltr; text-align:left; unicode-bidi:isolate; background:#1b2733; color:#e8eef2; border-radius:10px; padding:1rem 1.25rem; overflow-x:auto; margin:.75rem 0 1.25rem; white-space:pre-wrap; }
+  .eyebrow { font-family:var(--mono); font-size:.78rem; letter-spacing:.12em; color:var(--wind); border-block-end:2px solid var(--wind); display:inline-block; padding-block-end:.3rem; margin-block-end:1rem; }
+  h1 { font-family:var(--display); font-weight:400; font-size:clamp(2rem,5vw,2.8rem); line-height:1.15; margin:0 0 .75rem; }
+  .lede { color:var(--ink-soft); max-width:46rem; margin-block-end:1.5rem; }
+  h2 { font-family:var(--display); font-weight:400; font-size:1.6rem; margin:2.5rem 0 .8rem; }
+  h2 .num { font-family:var(--mono); font-size:.9rem; color:var(--tape); letter-spacing:.1em; margin-inline-end:.75rem; }
+  h3 { font-family:var(--display); font-weight:400; font-size:1.2rem; margin:1.5rem 0 .5rem; }
+  p { margin:.5rem 0 .9rem; } ul, ol { margin:.4rem 0 1rem; padding-inline-start:1.5rem; } li { margin-block-end:.35rem; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:1.25rem 1.5rem; margin-block:1rem; }
+  .gate { border:2px solid var(--gate); background:var(--gate-soft); border-radius:10px; padding:.9rem 1.1rem; margin-block:1.25rem; position:relative; }
+  .gate::before { content:"✓ שער בדיקה"; position:absolute; inset-block-start:-.85rem; inset-inline-end:1rem; background:var(--gate); color:#fff; font-family:var(--display); font-size:.85rem; padding:.1rem .7rem; border-radius:4px; transform:rotate(2deg); }
+  .notice { border-inline-start:5px solid var(--tape); background:var(--tape-soft); border-radius:8px; padding:1rem 1.25rem; margin-block:1.5rem; }
+  .info { border-inline-start:5px solid var(--wind); background:var(--wind-soft); border-radius:8px; padding:1rem 1.25rem; margin-block:1.5rem; }
+  .notice h3, .info h3 { margin:0 0 .4rem; font-size:1.1rem; }
+  .tablewrap { overflow-x:auto; margin-block:.75rem 1.25rem; }
+  table { border-collapse:collapse; width:100%; background:var(--card); border:1px solid var(--line); font-size:.97rem; }
+  th, td { border:1px solid var(--line); padding:.55rem .8rem; text-align:start; vertical-align:top; }
+  th { background:var(--wind); color:#fff; font-weight:600; }
+  td.num { font-family:var(--mono); direction:ltr; text-align:end; white-space:nowrap; }
+  td.ok { color:var(--gate); font-weight:700; white-space:nowrap; }
+  .flow { display:flex; flex-wrap:wrap; align-items:center; gap:.6rem; background:var(--card); border:1px solid var(--line); border-radius:12px; padding:1rem 1.25rem; margin-block:1.25rem 1.5rem; }
+  .flow .node { font-family:var(--mono); font-size:.8rem; font-weight:600; direction:ltr; unicode-bidi:isolate; border:1.5px dashed var(--wind); color:var(--wind); border-radius:6px; padding:.3rem .6rem; background:var(--wind-soft); }
+  .flow .node.app { border-style:solid; background:var(--card); color:var(--ink); }
+  .flow .arrow { color:var(--tape); font-weight:700; }
+  blockquote { border-inline-start:4px solid var(--line); margin:1rem 0; padding:.25rem 1rem; color:var(--ink-soft); direction:ltr; text-align:left; unicode-bidi:isolate; font-size:.98rem; }
+  footer { margin-block-start:3rem; color:var(--ink-soft); font-size:.85rem; border-block-start:1px solid var(--line); padding-block-start:1rem; }
+  a { color:var(--wind); }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <span class="eyebrow">HARBORVALE · דוח תחנה · M3 · 2026-09-08</span>
+    <h1>M3: צוות האנליסטים רץ ב-CrewAI</h1>
+    <p class="lede">בתחנה הזאת הכלים מ-M1 הפכו לכלים של סוכנים. שני סוכנים (מהנדס איכות דאטה ואנליסט עסקי) הריצו שלוש משימות ב-gpt-5-mini, ייצרו את הקובץ הנקי, דוח ה-EDA ו-<code>insights.md</code>, וכל מספר בתוצרים הגיע מכלי ולא מהמודל. הסוכן השלישי (אחראי הדאטה, שכותב את החוזה) מוגדר כבר, אבל המשימה שלו מחכה ל-M2.</p>
+  </header>
+
+  <h2><span class="num">01</span>מה נבנה</h2>
+  <div class="card">
+    <ul>
+      <li><b>ארבעה כלים</b> ב-<code>crews/analyst/tools.py</code>: <code>profile_raw_data</code>, <code>clean_dataset</code>, <code>run_eda</code>, <code>write_insights</code>. כל כלי מקבל נתיבים, מחזיר JSON, וכותב קבצים. שגיאה חוזרת כמחרוזת "ERROR: …" כדי שהסוכן יקרא ויתקן, במקום להתרסק.</li>
+      <li><b>הסוכנים והמשימות ב-YAML</b> (<code>config/agents.yaml</code>, <code>config/tasks.yaml</code>): תפקיד, מטרה ורקע לכל סוכן (הרקע מזכיר את התקרית של Harbor &amp; Vale), והמשימות אומרות במפורש: "אל תחשב כלום בעצמך, כל מספר מגיע מ-JSON של כלי".</li>
+      <li><b><code>AnalystCrew</code></b> (<code>crews/analyst/crew.py</code>): תהליך סדרתי, <code>max_iter=8</code>, בלי האצלה, בלי temperature (מודלי gpt-5 דוחים אותו). <code>run_analyst_crew</code> מחזיר את הנתיבים, מספר הקריאות, הטוקנים, העלות והמשך, וכותב <code>run_meta.json</code>.</li>
+      <li><b><code>hv/insights.py</code></b>: טבלת "המספרים המרכזיים" ב-<code>insights.md</code> מיוצרת מ-<code>stats.json</code> ו-<code>cleaning_report.json</code>; הסוכן כותב רק חמישה סעיפים (Overview, Cleaning, Who churns, Drivers, Recommendations). <code>key_numbers_match</code> מאפשר לשער להוכיח שהטבלה בקובץ המקומט עדיין שווה לקבצים הנמדדים.</li>
+      <li><b>צוות stub</b> (<code>crews/stubs.py</code>): אותם כלים, טקסט קבוע, בלי מודל שפה. הבדיקות, ה-CI והשער משתמשים בו. הסקריפט הזמני מ-M1 נמחק.</li>
+      <li><b>14 בדיקות חדשות</b> (43 בסך הכל), כולן ירוקות בלי מפתח OpenAI.</li>
+    </ul>
+  </div>
+
+  <div class="flow">
+    <span class="node app">raw .xlsx</span>
+    <span class="arrow">←</span>
+    <span class="node">Data Quality Engineer</span>
+    <span class="arrow">←</span>
+    <span class="node app">clean_data.csv + cleaning_report.json</span>
+    <span class="arrow">←</span>
+    <span class="node">Business Analyst · explore</span>
+    <span class="arrow">←</span>
+    <span class="node app">stats.json + eda_report.html</span>
+    <span class="arrow">←</span>
+    <span class="node">Business Analyst · write_insights</span>
+    <span class="arrow">←</span>
+    <span class="node app">insights.md</span>
+  </div>
+
+  <h2><span class="num">02</span>הריצה האמיתית</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>מדד</th><th>ערך</th></tr></thead>
+    <tbody>
+      <tr><td>מודל</td><td class="num">gpt-5-mini</td></tr>
+      <tr><td>קריאות למודל</td><td class="num">7</td></tr>
+      <tr><td>טוקנים בקלט (מהם ב-cache)</td><td class="num">12,385 (3,456)</td></tr>
+      <tr><td>טוקנים בפלט</td><td class="num">7,139</td></tr>
+      <tr><td><b>עלות</b></td><td class="num">$0.0166</td></tr>
+      <tr><td><b>משך</b></td><td class="num">96.4 s</td></tr>
+      <tr><td>סבבי "ERROR" מהכלי</td><td class="num">0</td></tr>
+    </tbody>
+  </table></div>
+  <p>ההערכה מהתכנון הייתה $0.10–0.30 לריצה מלאה של שני הצוותים; חצי צוות עלה פחות משני סנט. הזמן: דקה וחצי, רובו זמן החשיבה של המודל; הכלים עצמם רצים בשניות.</p>
+
+  <h3>מה הסוכן כתב (קטע מ-<code>insights.md</code>)</h3>
+  <blockquote>Highest churn: New customers (Tenure 0-1) churn at 51.3% (n=1,076). Lowest churn: customers preferring 'Grocery' churn at 4.4% (n=366). For context: single customers churn at 26.7% (n=1,553) while married customers churn at 11.3% (n=2,672).</blockquote>
+  <blockquote>3) Target payment-mode segments: COD users churn at 25.4% (n=457) and E-wallet users at 22.8% (n=562) versus Credit Card users at 14.2% (n=1,596) — run payment-specific incentives or friction-reduction experiments for COD and E-wallet cohorts.</blockquote>
+  <p>כל המספרים האלה נבדקו מול <code>stats.json</code>: כולם שם, בדיוק. הסוכן גם הבחין נכון ש-DaySinceLastOrder הוא מתאם חלש שצריך לחקור ולא להניח סיבתיות.</p>
+
+  <div class="info">
+    <h3>מה מוכיח שהסוכנים לא חישבו כלום</h3>
+    <p><code>clean_data.csv</code>, <code>cleaning_report.json</code> ו-<code>stats.json</code> שיצאו מריצת הסוכנים זהים <b>בייט-בייט</b> לקבצים שקומטו ב-M1 בלי סוכנים. הסוכנים הריצו את הכלים ופירשו; הכלים עשו את העבודה. רק <code>insights.md</code> הוא טקסט של המודל, וגם בו הטבלה מיוצרת מהקבצים.</p>
+  </div>
+
+  <h2><span class="num">03</span>תוצאת השער</h2>
+  <div class="gate">
+    <div class="tablewrap"><table>
+      <thead><tr><th>בדיקה</th><th>תוצאה</th></tr></thead>
+      <tbody>
+        <tr><td>pytest ירוק כשאין מפתח OpenAI בסביבה (43 בדיקות)</td><td class="ok">PASS</td></tr>
+        <tr><td>ruff נקי</td><td class="ok">PASS</td></tr>
+        <tr><td>חמשת הקבצים של צוות 1 ב-<code>artifacts/crew1/</code></td><td class="ok">PASS</td></tr>
+        <tr><td><code>insights.md</code>: חמשת הסעיפים קיימים, טבלת המספרים שווה ל-<code>stats.json</code></td><td class="ok">PASS</td></tr>
+        <tr><td>קבצי הדאטה זהים לריצת stub טרייה</td><td class="ok">PASS</td></tr>
+        <tr><td>הריצה האמיתית מתועדת (<code>run_meta.json</code> + יומן: קריאות, עלות, משך)</td><td class="ok">PASS</td></tr>
+      </tbody>
+    </table></div>
+    <p><code>GATE M3: PASS 6/6</code>. שתי הבדיקות שהתוכנית ייעדה לחוזה (החוזה מאמת את הקובץ, הסוכן לא דרס שדה נמדד) עוברות ל-M3b.</p>
+  </div>
+
+  <h2><span class="num">04</span>סטייה מהתוכנית, במפורש</h2>
+  <div class="notice">
+    <h3>M3 בלי משימת החוזה, M3b אחרי M2</h3>
+    <p>התוכנית תיארה את M3 עם שלושה סוכנים וארבע משימות, כולל <code>author_contract</code> של אחראי הדאטה. המשימה הזאת קוראת ל-<code>hv.contract.build_contract</code> ו-<code>apply_human_fields</code>, שנבנים ב-M2 (מסלול B). בחרת להתקדם ל-M3 לפני M2, אז M3 מכיל את שני הסוכנים והמשימות שלא תלויות בחוזה; הסוכן השלישי כבר מוגדר ב-YAML, והמשימה, הכלים ושתי בדיקות השער שלו יתווספו כ-M3b מיד אחרי ש-M2 ממוזג. דרישת הברייף "לפחות שלושה סוכנים" מתקיימת ב-M3b. נרשם ביומן.</p>
+  </div>
+
+  <h2><span class="num">05</span>מה למדנו</h2>
+  <ul>
+    <li>כלים שמחזירים "ERROR: …" במקום לזרוק חריגה נותנים לסוכן הזדמנות לתקן. בריצה הזאת לא היה צורך: הסעיפים התקבלו בקריאה הראשונה.</li>
+    <li>עלות הקלט נשלטת על ידי ה-JSON של הכלים שמהדהד בהקשר (הסטטיסטיקה היא כ-4 KB). בגודל הזה זה זניח; אם צוות 2 יחזיר JSON גדול יותר, כדאי לקצץ מה שהסוכן לא צריך.</li>
+    <li>CrewAI 1.15 מדפיס אזהרות deprecation פנימיות בבנייה של Agent; לא שלנו, לא נוגעים.</li>
+  </ul>
+
+  <h2><span class="num">06</span>מה אני צריך ממך</h2>
+  <div class="info">
+    <ol>
+      <li><b>אישור מיזוג של PR #8</b> (<a href="https://github.com/DorKatzav/harborvale-workflow/pull/8">harborvale-workflow/pull/8</a>) אחרי ש-CI ירוק.</li>
+    </ol>
+    <p>הבא: M2 (החוזה והמאמת) על ידי מי שלוקח אותה, ואז M3b (משימת החוזה של אחראי הדאטה) ו-M4.</p>
+  </div>
+
+  <footer>HarborVale Workflow · דוח M3 · 2026-09-08 · לוג הריצה המלא: <code>docs/notes/m3_crew1_run.txt</code></footer>
+</main>
+</body>
+</html>
