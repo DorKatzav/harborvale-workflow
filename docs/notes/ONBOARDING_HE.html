@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HarborVale — חבילת כניסה לפרטנר</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Suez+One&family=Assistant:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --paper:#eef1ef; --card:#fff; --ink:#1b2733; --ink-soft:#46545f; --wind:#0f5c6e; --wind-soft:#e3eef1; --tape:#c9560c; --tape-soft:#fbe9dc; --gate:#2f7d46; --gate-soft:#e7f2ea; --line:#c9d2cd;
+    --mono:"IBM Plex Mono",ui-monospace,monospace; --display:"Suez One","Arial Hebrew",serif; --body:"Assistant","Helvetica Neue",Arial,sans-serif; }
+  * { box-sizing:border-box; }
+  html { font-size:106%; }
+  body { margin:0; background:var(--paper); color:var(--ink); font-family:var(--body); font-size:1.08rem; line-height:1.7; text-align:start; }
+  main { max-width:58rem; margin-inline:auto; padding:2.5rem 1.25rem 5rem; }
+  code { font-family:var(--mono); font-size:.85em; direction:ltr; unicode-bidi:isolate; background:#f0ede6; border:1px solid #ddd8cc; border-radius:4px; padding:.05em .35em; white-space:nowrap; }
+  pre { font-family:var(--mono); font-size:.82rem; line-height:1.5; direction:ltr; text-align:left; unicode-bidi:isolate; background:#1b2733; color:#e8eef2; border-radius:10px; padding:1rem 1.25rem; overflow-x:auto; margin:.75rem 0 1.25rem; }
+  pre .c { color:#9fb3c0; direction:rtl; unicode-bidi:isolate; }
+  .eyebrow { font-family:var(--mono); font-size:.78rem; letter-spacing:.12em; color:var(--wind); border-block-end:2px solid var(--wind); display:inline-block; padding-block-end:.3rem; margin-block-end:1rem; }
+  h1 { font-family:var(--display); font-weight:400; font-size:clamp(2rem,5vw,2.8rem); line-height:1.15; margin:0 0 .75rem; }
+  .lede { color:var(--ink-soft); max-width:46rem; margin-block-end:1.5rem; }
+  h2 { font-family:var(--display); font-weight:400; font-size:1.6rem; margin:2.5rem 0 .8rem; }
+  h2 .num { font-family:var(--mono); font-size:.9rem; color:var(--tape); letter-spacing:.1em; margin-inline-end:.75rem; }
+  h3 { font-family:var(--display); font-weight:400; font-size:1.25rem; margin:1.5rem 0 .5rem; }
+  p { margin:.5rem 0 .9rem; } ul, ol { margin:.4rem 0 1rem; padding-inline-start:1.5rem; } li { margin-block-end:.35rem; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:1.25rem 1.5rem; margin-block:1rem; }
+  .info { border-inline-start:5px solid var(--wind); background:var(--wind-soft); border-radius:8px; padding:1rem 1.25rem; margin-block:1.5rem; }
+  .notice { border-inline-start:5px solid var(--tape); background:var(--tape-soft); border-radius:8px; padding:1rem 1.25rem; margin-block:1.5rem; }
+  .info h3, .notice h3 { margin:0 0 .4rem; font-size:1.1rem; }
+  .tablewrap { overflow-x:auto; margin-block:.75rem 1.25rem; }
+  table { border-collapse:collapse; width:100%; background:var(--card); border:1px solid var(--line); font-size:.97rem; }
+  th, td { border:1px solid var(--line); padding:.55rem .8rem; text-align:start; vertical-align:top; }
+  th { background:var(--wind); color:#fff; font-weight:600; }
+  .steps { counter-reset:step; list-style:none; padding:0; }
+  .steps li { counter-increment:step; position:relative; padding-inline-start:2.6rem; margin-block-end:.6rem; }
+  .steps li::before { content:counter(step); position:absolute; inset-inline-start:0; inset-block-start:.1rem; width:1.9rem; height:1.9rem; border-radius:50%; background:var(--tape); color:#fff; font-family:var(--mono); font-weight:600; font-size:.85rem; display:flex; align-items:center; justify-content:center; }
+  .two { display:grid; grid-template-columns:repeat(auto-fit,minmax(16rem,1fr)); gap:.9rem; margin-block:.75rem 1.25rem; }
+  .who { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:1rem 1.2rem; }
+  .who h4 { margin:.25rem 0 .4rem; font-family:var(--display); font-weight:400; font-size:1.15rem; color:var(--wind); }
+  footer { margin-block-start:3rem; color:var(--ink-soft); font-size:.85rem; border-block-start:1px solid var(--line); padding-block-start:1rem; }
+  a { color:var(--wind); }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <span class="eyebrow">HARBORVALE WORKFLOW · חבילת כניסה לפרטנר · 2026-09-08</span>
+    <h1>ברוך הבא ל-HarborVale: כל מה שצריך כדי להתחיל לעבוד</h1>
+    <p class="lede">הדף הזה כתוב בשבילך, השותף החדש בפרויקט. הוא אומר מה הפרויקט, איפה הכל נמצא, איך מקימים את הסביבה בעשר דקות, איך אנחנו עובדים (יש לנו פרוטוקול קבוע, והוא לא אופציונלי), ואיזה חלק מהעבודה מוצע לך. בסוף יש רשימת הצעדים שדור עושה כדי לצרף אותך.</p>
+  </header>
+
+  <h2><span class="num">01</span>מה הפרויקט</h2>
+  <div class="card">
+    <p><b>הסיפור:</b> Harbor &amp; Vale היא חברת ריטייל-טק. צוות האנליסטים ניקה דאטה ושינה עמודה מסנטים לדולרים; מודל הנטישה של מדעני הנתונים התאמן על הקובץ החדש בלי שגיאה וסימן במשך חמישה שבועות את הלקוחות הטובים כ"בטוחים" ואת הגרועים כ"בסיכון". תקציב השימור הלך לאנשים הלא נכונים. הבעיה לא הייתה באף צוות: לא היה שום דבר <b>ביניהם</b>.</p>
+    <p><b>מה בונים:</b> CrewAI Flow שמתאם שני צוותי סוכנים. צוות 1 (אנליסטים, 3 סוכנים) מנקה דאטה, עושה EDA, וכותב <code>dataset_contract.json</code>: חוזה שמתאר איך הדאטה הנקי אמור להיראות. צוות 2 (מדעני נתונים, 3 סוכנים) קורא רק את החוזה ואת הקובץ הנקי, בונה פיצ'רים, מאמן ומשווה מודלים, וכותב כרטיס מודל. ה-Flow מאמת את החוזה מול הדאטה <b>לפני</b> שצוות 2 רץ, רושם הכל, שומר כל תוצר בריפו, ועוצר עם הודעה קריאה כשמשהו לא מסתדר. ואז יש אתר Flask ב-Railway עם לוח "שבור את זה": משנים יחידה, וה-Flow מסרב לאמן.</p>
+    <p><b>הדאטה:</b> E-commerce Customer Churn מ-Kaggle, כ-5,630 לקוחות, 20 עמודות, תווית נטישה, ריקים אמיתיים, ואיותים לא עקביים לניקוי.</p>
+  </div>
+
+  <h2><span class="num">02</span>איפה הכל נמצא</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>מה</th><th>איפה</th><th>למה זה חשוב</th></tr></thead>
+    <tbody>
+      <tr><td>הריפו</td><td><a href="https://github.com/DorKatzav/harborvale-workflow">github.com/DorKatzav/harborvale-workflow</a></td><td>הכל עובר דרכו: קוד, דוחות, PRs, CI.</td></tr>
+      <tr><td>האתר החי</td><td><a href="https://web-production-82f247.up.railway.app/health">web-production-82f247.up.railway.app</a></td><td>Railway פורס אוטומטית כל push ל-main. <code>/health</code> אומר איזה commit רץ.</td></tr>
+      <tr><td>הברייף המקורי</td><td><code>final_projec.html</code></td><td>הדרישות. לא משנים אותו.</td></tr>
+      <tr><td>מסמך התכנון</td><td><code>DESIGN_HE.html</code></td><td>12 החלטות ארכיטקטוניות עם חלופות ונימוקים. אושרו; לא פותחים מחדש בלי שיחה.</td></tr>
+      <tr><td>תוכנית העבודה</td><td><code>PLAN.md</code> (אנגלית, המקור) · <code>PLAN_HE.html</code> (עברית)</td><td>§3 = החוזים בין המודולים (כל חתימת פונקציה וכל פורמט קובץ). §4 = תשע תחנות עם שערי בדיקה. <b>זה המסמך שמאפשר לשניים לעבוד במקביל.</b></td></tr>
+      <tr><td>הסכם העבודה</td><td><code>CLAUDE.md</code></td><td>איך עובדים כאן, כולל עם Claude Code. נקרא בתחילת כל סשן.</td></tr>
+      <tr><td>יומן הפרויקט</td><td><code>PROJECT_LOG.md</code></td><td>החלטות, ניסויים, מספרים, תקריות, לקחים. מוסיפים בסוף, לא משכתבים.</td></tr>
+      <tr><td>דוחות תחנה</td><td><code>docs/reports/M&lt;N&gt;_HE.html</code></td><td>דוח עברי לכל תחנה שנסגרה. M0 כבר שם.</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2><span class="num">03</span>הקמת סביבה (כעשר דקות)</h2>
+<pre>git clone https://github.com/DorKatzav/harborvale-workflow.git
+cd harborvale-workflow
+conda create -n harborvale python=3.11
+conda activate harborvale
+pip install -r requirements.txt          <span class="c">#</span> <span class="c">הכל מוצמד; CrewAI 1.15.20, pandas 3.0.5, scikit-learn 1.9.0</span>
+cp .env.example .env                     <span class="c">#</span> <span class="c">ואז לערוך: OPENAI_API_KEY שלך, LIVE_URL כמו למעלה</span>
+pytest && ruff check .                   <span class="c">#</span> <span class="c">חייב להיות ירוק לפני שנוגעים בכלום</span>
+python scripts/gate.py --m 0             <span class="c">#</span> <span class="c">שער התחנה האחרונה שנסגרה: PASS 5/5</span>
+flask --app app.main run                 <span class="c">#</span> <span class="c">http://127.0.0.1:5000/health</span></pre>
+  <div class="notice">
+    <h3>שלושה דברים שלא עושים</h3>
+    <ul>
+      <li>לא מדביקים מפתחות ב-<code>.env.example</code> (הוא ב-git). רק ב-<code>.env</code>. השער סורק סודות לפני כל push, ואם הוא נכשל, לא דוחפים.</li>
+      <li>לא עובדים בסביבת פייתון אחרת. <code>harborvale</code> בלבד, ו-<code>python</code> ולא <code>python3</code> (במק <code>python3</code> עלול להצביע לפייתון של המערכת).</li>
+      <li>לא נוגעים ב-<code>final_projec.html</code> וב-<code>data/raw/</code>.</li>
+    </ul>
+  </div>
+
+  <h2><span class="num">04</span>איך אנחנו עובדים</h2>
+  <p>הפרוטוקול קבוע ואותו דבר לכל תחנה. הוא נראה ביורוקרטי ביום הראשון, ומשלם את עצמו בשני: כל תחנה שנסגרה היא נקודה שאפשר לחזור אליה, לקרוא מה קרה, ולהמשיך.</p>
+  <ol class="steps">
+    <li><b>ענף לכל תחנה:</b> <code>git checkout -b feat/m&lt;N&gt;-&lt;slug&gt;</code> מ-main מעודכן. אף פעם לא push ישיר ל-main.</li>
+    <li><b>בדיקות ליד הקוד.</b> כל מודול ב-<code>hv/</code> נכתב עם בדיקות pytest. קומיטים קטנים עם <code>feat:</code> / <code>test:</code> / <code>docs:</code> / <code>fix:</code>.</li>
+    <li><b>שער:</b> <code>python scripts/gate.py --m N</code> חייב להדפיס <code>GATE M&lt;N&gt;: PASS k/k</code>. הבדיקות של כל שער כתובות ב-<code>PLAN.md</code> §4. מתקנים, לא מדלגים.</li>
+    <li><b>דוח תחנה</b> ב-<code>docs/reports/M&lt;N&gt;_HE.html</code>: מה נבנה, תוצאת השער, מה למדנו, מה הבא. עם צילומי מסך כשיש UI.</li>
+    <li><b>יומן:</b> רשומה ב-<code>PROJECT_LOG.md</code>. כל הפתעה בדאטה או שינוי מהתוכנית = החלטה מסומנת <code>D-M&lt;N&gt;-&lt;n&gt;</code> עם חלופות ומחיר. אף פעם לא "תיקון שקט".</li>
+    <li><b>PR:</b> <code>gh pr create</code>, CI ירוק (ruff + pytest; ה-CI לא קורא ל-OpenAI אף פעם), <b>השותף השני קורא את הדוח ומאשר את המיזוג.</b> אחרי המיזוג בודקים ש-Railway פרס ו-<code>/health</code> מחזיר את ה-commit החדש.</li>
+    <li><b>דוחות ויומן</b> נכנסים ב-PR נפרד (<code>docs/m&lt;N&gt;-report</code>) אחרי ה-PR של הקוד.</li>
+  </ol>
+
+  <h3>עם Claude Code</h3>
+  <div class="info">
+    <p>שנינו עובדים עם Claude Code. <code>CLAUDE.md</code> בשורש הריפו הוא ההסכם שהוא קורא בתחילת כל סשן: הפרוטוקול, כללי הברזל, מקורות האמת, הסביבה, ולקחים שכבר שולמו. אם אתה מתחיל סשן חדש, מספיק להגיד לו "קרא את CLAUDE.md ואת סוף PROJECT_LOG.md ותגיד לי איפה אנחנו". הוא בונה רק את התחנה הנוכחית, לא רץ קדימה, ולא מוסיף פיצ'רים שלא ביקשו. אם משהו ב-CLAUDE.md לא מתאים לך (למשל שפת הדוחות), זה שינוי של שורה ומדברים עליו.</p>
+  </div>
+
+  <h3>כללי ברזל של הפרויקט (מ-CLAUDE.md, בקצרה)</h3>
+  <ul>
+    <li><b>החוזה הוא קובץ.</b> צוות 2 מניח רק את <code>dataset_contract.json</code> ואת <code>clean_data.csv</code>. הכלי שלו מסרב לכל נתיב אחר, וזה נבדק.</li>
+    <li><b>שדות נמדדים מהכלי, טקסט מהסוכן.</b> הסוכן רשאי לכתוב רק <code>description</code>, <code>rationale</code>, <code>assumptions</code>. המאמת מתעלם מהטקסט.</li>
+    <li><b>סוכנים לא מחשבים.</b> כל ניקוי, סטטיסטיקה ואימון הם פונקציות ב-<code>hv/</code> עם seed 42. הסוכנים מנצחים על התהליך וכותבים פרוזה.</li>
+    <li><b>קבצי הדאטה זהים בייט-בייט בין ריצות.</b> זו בדיקת שער.</li>
+    <li><b>כל מספר בדוח מגיע מקובץ שנמדד</b> (<code>stats.json</code>, <code>metrics.json</code>). אף אחד לא מקליד מספרים, גם לא סוכן.</li>
+    <li><b>כישלון = עצירה.</b> <code>FAILED.md</code>, קוד יציאה 2, בלי ניסיון חוזר אוטומטי.</li>
+    <li><b>ריקים נשמרים ומוצהרים בחוזה;</b> ההשלמה בתוך ה-Pipeline של המודל. <code>Gender</code> ו-<code>MaritalStatus</code> לעולם לא פיצ'רים.</li>
+    <li><b>מדווחים תוצאות כמו שהן,</b> גם כשהן לא מחמיאות.</li>
+  </ul>
+
+  <h2><span class="num">05</span>איפה אנחנו ומה מוצע לך</h2>
+  <p>M0 סגורה (ריפו, סביבה, Flask, CI, Railway, שער 5/5). כל השאר פתוח. ההצעה לחלוקה מתבססת על זה ש-<code>PLAN.md</code> §3 קובע את הממשקים מראש, אז שני אנשים יכולים לבנות במקביל בלי לדרוך אחד על השני:</p>
+  <div class="two">
+    <div class="who">
+      <h4>מסלול A: צוות 1</h4>
+      <ul>
+        <li><b>M1</b> — כלי צוות 1: טעינה, ניקוי (מפת ישויות, כפילויות, טיפוסים), EDA עם דוח HTML.</li>
+        <li><b>M3</b> — צוות 1 ב-CrewAI: שלושה סוכנים, YAML, כלים, ריצה אמיתית.</li>
+      </ul>
+    </div>
+    <div class="who">
+      <h4>מסלול B: החוזה וצוות 2</h4>
+      <ul>
+        <li><b>M2</b> — החוזה והמאמת: תשע בדיקות, שש תקלות מוכנות, <code>break_it.py</code>.</li>
+        <li><b>M4</b> — כלי צוות 2: פיצ'רים, שלוש וריאציות מודל, הערכה, כרטיס מודל. תלוי רק בפורמט החוזה מ-M2, לא בסוכנים.</li>
+      </ul>
+    </div>
+  </div>
+  <p><b>M5</b> (ה-Flow) מחבר את שני החצאים, ונעשה יחד. אחר כך אחד לוקח את האתר (M6, M7) והשני את הביקורת האדברסרית ואת הסגירה (M8). מי לוקח איזה מסלול: לפי מה שמעניין אותך יותר, סוכנים ופרוזה (A) או אימות ומודלים (B). דור מתחיל את M1, אז אם לא סוכם אחרת, מסלול B פתוח.</p>
+  <div class="info">
+    <h3>לפני שנוגעים בקוד של תחנה</h3>
+    <p>קוראים את התחנה ב-<code>PLAN.md</code> §4 (משימות, שער, סימני כשל) ואת החוזים הרלוונטיים ב-§3. אם משהו בחוזה לא מסתדר עם מה שאתה מגלה בדאטה, זה לא "משנים ומתקדמים" אלא החלטה <code>D-M&lt;N&gt;-&lt;n&gt;</code> ביומן, כי הצד השני בונה על אותו חוזה.</p>
+  </div>
+
+  <h2><span class="num">06</span>מה דור עושה כדי לצרף אותך</h2>
+  <ol class="steps">
+    <li>מוסיף אותך כ-collaborator בריפו (Settings → Collaborators, או <code>gh repo add-collaborator</code>).</li>
+    <li>מפעיל הגנה על main (Settings → Branches → Branch protection: require a pull request, require status checks "test"). מהרגע הזה אף אחד לא דוחף ישירות ל-main, כולל דור.</li>
+    <li>מעדכן ב-<code>CLAUDE.md</code>: שני אנשים, מי מאשר מיזוגים (הצד השני), ואת חלוקת המסלולים. שורה או שתיים.</li>
+    <li>אופציונלי: מעביר את פתקי האובסידיאן של הפרויקט לתוך הריפו (<code>notes/</code>), כדי שיהיה מחברת משותפת שנוסעת עם הקוד. עד אז, היומן המשותף הוא <code>PROJECT_LOG.md</code> והדוחות ב-<code>docs/reports/</code>.</li>
+    <li>שולח לך את הדף הזה, את הקישור לריפו, ואת ההודעה: "תריץ את סעיף 03, תגיד לי שהשער עבר, ותבחר מסלול".</li>
+  </ol>
+
+  <h2><span class="num">07</span>הודעה קצרה לשלוח לך (להעתקה)</h2>
+<pre>Hi! Welcome to HarborVale. Repo: https://github.com/DorKatzav/harborvale-workflow
+Start with docs/notes/ONBOARDING_HE.html (or the README), set up the env (section 03),
+run `python scripts/gate.py --m 0` and tell me when it prints PASS 5/5.
+Then read PLAN.md §3 and §4 and pick a track: A (Crew 1: M1+M3) or B (contract + Crew 2: M2+M4).
+Every milestone: branch → tests → gate → Hebrew report → PR → the other one approves. Never push to main.
+Keys only in .env, never in .env.example.</pre>
+
+  <footer>HarborVale Workflow · חבילת כניסה לפרטנר · 2026-09-08 · <code>docs/notes/ONBOARDING_HE.html</code></footer>
+</main>
+</body>
+</html>
