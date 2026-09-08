@@ -21,7 +21,7 @@ import pandas as pd
 import pandas.api.types as ptypes
 from pydantic import BaseModel
 
-from hv.config import PRIMARY_KEY, PROTECTED, TARGET, UNITS
+from hv.config import PRIMARY_KEY, PROTECTED, SEED, TARGET, UNITS
 
 HUMAN_FIELDS = {"description", "rationale"}  # + the top-level "assumptions"
 CONTRACT_VERSION = "1.0"
@@ -484,3 +484,50 @@ def validate(
         )
 
     return ValidationReport(passed=all(ch.passed for ch in checks), checks=checks, source=source)
+
+
+# ---------------------------------------------------------------- tampering
+PRESETS = ["unit_change", "rename_column", "drop_contract_field", "bad_category", "dtype_change", "row_loss"]
+
+
+def _require(df: pd.DataFrame, column: str, preset: str) -> None:
+    if column not in df.columns:
+        raise KeyError(f"preset {preset!r} needs the column {column!r}; got {list(df.columns)}")
+
+
+def tamper(
+    df: pd.DataFrame, c: Contract, preset: str, seed: int = SEED
+) -> tuple[pd.DataFrame, Contract]:
+    """Break the handoff on purpose, one realistic way at a time (PLAN.md §3.5).
+
+    Returns a tampered copy of the frame and of the contract; the inputs are never modified. Each
+    preset is something that has actually happened to somebody: a unit swapped, a column renamed in
+    an upstream job, a contract row deleted, a raw spelling that came back, a number read as text,
+    rows lost in a filter.
+    """
+    if preset not in PRESETS:
+        raise ValueError(f"unknown preset {preset!r}; known presets: {PRESETS}")
+    out, contract = df.copy(deep=True), c.model_copy(deep=True)
+
+    if preset == "unit_change":
+        _require(out, "CashbackAmount", preset)
+        out["CashbackAmount"] = out["CashbackAmount"] * 100  # dollars read as cents
+    elif preset == "rename_column":
+        _require(out, "OrderCount", preset)
+        out = out.rename(columns={"OrderCount": "order_count"})
+    elif preset == "drop_contract_field":
+        if contract.column("Tenure") is None:
+            raise KeyError(f"preset {preset!r} needs Tenure to be declared in the contract")
+        contract.columns = [col for col in contract.columns if col.name != "Tenure"]
+    elif preset == "bad_category":
+        _require(out, "PreferredPaymentMode", preset)
+        picked = out.sample(frac=0.05, random_state=seed).index
+        out.loc[picked, "PreferredPaymentMode"] = "CC"  # the raw spelling, un-cleaned
+    elif preset == "dtype_change":
+        _require(out, "CityTier", preset)
+        out["CityTier"] = out["CityTier"].astype(str)
+    elif preset == "row_loss":
+        dropped = out.sample(frac=0.10, random_state=seed).index
+        out = out.drop(index=dropped)
+
+    return out, contract
