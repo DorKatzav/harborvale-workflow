@@ -37,6 +37,19 @@ UNITS: dict[str, str] = {
 CSV_KW: dict = {"index": False, "lineterminator": "\n"}
 
 MODEL_NAME = "openai/gpt-5-mini"
+# published list prices, USD per 1M tokens (developers.openai.com/api/docs/pricing, 2026-09-08)
+PRICE_USD_PER_M = {"input": 0.25, "cached_input": 0.025, "output": 2.00}
+
+
+def estimate_cost_usd(prompt_tokens: int, cached_prompt_tokens: int, completion_tokens: int) -> float:
+    """Cost of one run at list prices; cached prompt tokens are billed at the cached rate."""
+    uncached = max(int(prompt_tokens) - int(cached_prompt_tokens), 0)
+    usd = (
+        uncached * PRICE_USD_PER_M["input"]
+        + int(cached_prompt_tokens) * PRICE_USD_PER_M["cached_input"]
+        + int(completion_tokens) * PRICE_USD_PER_M["output"]
+    ) / 1_000_000
+    return round(usd, 4)
 
 
 def get_llm():

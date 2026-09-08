@@ -136,7 +136,7 @@ def check_two_runs_identical() -> None:
     import tempfile
 
     with tempfile.TemporaryDirectory() as tmp:
-        res = _run([PY, "scripts/run_crew1_tools.py", "--out", tmp])
+        res = _run([PY, "-m", "crews.stubs", "analyst", "--out", tmp])
         assert res.returncode == 0, res.stderr.strip().splitlines()[-1] if res.stderr else "runner failed"
         for name in ("clean_data.csv", "stats.json"):
             a = hashlib.sha256((CREW1 / name).read_bytes()).hexdigest()
@@ -152,6 +152,43 @@ def check_eda_outputs() -> None:
     assert 'src="http' not in text and 'href="http' not in text, "eda_report.html references external assets"
     rate = json.loads(stats.read_text())["churn_rate"]
     assert 0.05 <= rate <= 0.5, f"churn_rate {rate} outside the plausible range"
+
+
+# ---------------------------------------------------------------- M3 checks
+def check_pytest_without_key() -> None:
+    env = dict(os.environ)
+    env.pop("OPENAI_API_KEY", None)
+    res = subprocess.run([PY, "-m", "pytest", "-q"], cwd=ROOT, capture_output=True, text=True, env=env)
+    tail = (res.stdout.strip().splitlines() or [res.stderr.strip()])[-1]
+    assert res.returncode == 0, tail
+
+
+def check_crew1_files_present() -> None:
+    expected = ["clean_data.csv", "cleaning_report.json", "stats.json", "eda_report.html", "insights.md"]
+    missing = [f for f in expected if not (CREW1 / f).exists()]
+    assert not missing, f"missing in artifacts/crew1: {missing}"
+
+
+def check_insights_sections_and_numbers() -> None:
+    sys.path.insert(0, str(ROOT))
+    from hv import insights
+
+    text = (CREW1 / "insights.md").read_text(encoding="utf-8")
+    missing = [n for n in insights.REQUIRED_SECTIONS if f"## {n}" not in text]
+    assert not missing, f"insights.md lacks sections: {missing}"
+    stats = json.loads((CREW1 / "stats.json").read_text())
+    rep = json.loads((CREW1 / "cleaning_report.json").read_text())
+    assert insights.key_numbers_match(text, stats, rep), "key-numbers table in insights.md != stats.json"
+
+
+def check_real_run_recorded() -> None:
+    meta_path = CREW1 / "run_meta.json"
+    assert meta_path.exists(), "artifacts/crew1/run_meta.json missing (real crew run not recorded)"
+    meta = json.loads(meta_path.read_text())
+    assert meta["llm_calls"] > 0, "run_meta.json shows zero LLM calls (stub output committed?)"
+    assert meta["cost_usd"] > 0 and meta["duration_s"] > 0, meta
+    log = (ROOT / "PROJECT_LOG.md").read_text(encoding="utf-8")
+    assert "M3" in log and "cost" in log.lower(), "PROJECT_LOG.md has no M3 run record"
 
 
 M0: list[Check] = [
@@ -172,7 +209,16 @@ M1: list[Check] = [
     ("eda_report.html self-contained, churn_rate plausible", check_eda_outputs),
 ]
 
-GATES: dict[int, list[Check]] = {0: M0, 1: M1}
+M3: list[Check] = [
+    ("pytest green with OPENAI_API_KEY unset", check_pytest_without_key),
+    ("ruff clean", check_ruff),
+    ("five crew-1 files in artifacts/crew1", check_crew1_files_present),
+    ("insights.md: five sections, key numbers equal stats.json", check_insights_sections_and_numbers),
+    ("clean_data.csv / stats.json identical to a fresh stub run", check_two_runs_identical),
+    ("real crew run recorded (run_meta.json + PROJECT_LOG)", check_real_run_recorded),
+]
+
+GATES: dict[int, list[Check]] = {0: M0, 1: M1, 3: M3}
 
 
 def main() -> int:
