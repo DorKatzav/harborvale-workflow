@@ -12,8 +12,14 @@ import time
 from pathlib import Path
 
 from crews.analyst.crew import AnalystResult
-from crews.analyst.tools import clean_dataset, run_eda, write_insights
-from hv.config import RAW_PATH
+from crews.analyst.tools import (
+    build_contract_measured,
+    clean_dataset,
+    run_eda,
+    write_contract_human_fields,
+    write_insights,
+)
+from hv.config import PRIMARY_KEY, PROTECTED, RAW_PATH, TARGET
 
 
 def _analyst_sections(stats: dict, report: dict) -> dict[str, str]:
@@ -51,6 +57,42 @@ def _analyst_sections(stats: dict, report: dict) -> dict[str, str]:
     }
 
 
+def _rationale(col: dict) -> str:
+    if col["role"] == "id":
+        return "Identifies one customer; never a feature."
+    if col["role"] == "target":
+        return "The label the modelling crew predicts; binary 0/1, no nulls."
+    if col["role"] == "protected":
+        return "Protected attribute: kept for fairness reporting, never a feature."
+    parts = []
+    if col.get("unit"):
+        parts.append(f"Unit: {col['unit']}.")
+    if col.get("allowed_values") is not None:
+        parts.append(f"Only the {len(col['allowed_values'])} listed spellings are valid.")
+    elif col.get("min") is not None:
+        parts.append(f"Observed range {col['min']:g} to {col['max']:g}; outside it is an upstream change.")
+    parts.append("Nulls are declared, left for the modelling pipeline." if col["nullable"] else "Never null.")
+    return " ".join(parts)
+
+
+def _steward_step(clean_csv: str, out_dir: Path, raw_path: Path) -> Path:
+    built = json.loads(build_contract_measured.func(clean_csv, str(out_dir), str(raw_path)))
+    rationales = {c["name"]: _rationale(c) for c in built["columns"]}
+    assumptions = [
+        "CashbackAmount is in USD, not cents.",
+        f"The row count and sha256 identify exactly this clean_data.csv ({built['row_count']} rows).",
+        "Missing values are kept; imputation is the modelling crew's job, inside its pipeline.",
+        "Rows identical in every column except the id were removed, keeping the lowest id (D-M1-1).",
+        f"{PRIMARY_KEY} is not a feature; {TARGET} is the label; {', '.join(PROTECTED)} are not features.",
+    ]
+    result = write_contract_human_fields.func(
+        built["contract_path"], "{}", json.dumps(rationales), json.dumps(assumptions)
+    )
+    if result.startswith("ERROR"):
+        raise RuntimeError(result)
+    return Path(result)
+
+
 def run_analyst_stub(raw_path: Path = RAW_PATH, out_dir: Path | None = None) -> AnalystResult:
     out_dir = Path(out_dir or Path("runs") / time.strftime("%Y%m%d-%H%M%S") / "crew1")
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -61,12 +103,13 @@ def run_analyst_stub(raw_path: Path = RAW_PATH, out_dir: Path | None = None) -> 
     result = write_insights.func(str(out_dir), json.dumps(sections))
     if result.startswith("ERROR"):
         raise RuntimeError(result)
+    contract_path = _steward_step(cleaned["clean_csv"], out_dir, Path(raw_path))
     res = AnalystResult(
         clean_csv=Path(cleaned["clean_csv"]),
         eda_html=Path(explored["eda_html"]),
         stats_json=Path(explored["stats_json"]),
         insights_md=Path(result),
-        contract_json=None,
+        contract_json=contract_path,
         llm_calls=0,
         prompt_tokens=0,
         cached_prompt_tokens=0,
@@ -74,7 +117,9 @@ def run_analyst_stub(raw_path: Path = RAW_PATH, out_dir: Path | None = None) -> 
         cost_usd=0.0,
         duration_s=round(time.perf_counter() - t0, 1),
     )
-    (out_dir / "run_meta.json").write_text(json.dumps(res.to_dict(), indent=2) + "\n", encoding="utf-8")
+    (out_dir / "run_meta.json").write_text(
+        json.dumps(res.to_dict(), indent=2) + "\n", encoding="utf-8", newline="\n"
+    )
     return res
 
 

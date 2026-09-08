@@ -403,6 +403,12 @@ Every milestone follows §5. Gate = `python scripts/gate.py --m N` → `GATE M<N
 - **Gate (--m 3):** (1) tests green with `OPENAI_API_KEY` unset (2) five files in `artifacts/crew1/` (3) contract validates the clean file (4) diff between `build_contract` on the clean file and the committed contract is empty outside HUMAN_FIELDS (5) `insights.md` has the five required sections and its key-numbers table equals stats.json values (6) PROJECT_LOG records duration, calls, cost of the real run.
 - **Failure signals:** agent loops / exceeds max_iter → simplify task descriptions, give the tool's JSON explicitly in the next task's context; gpt-5-mini rejects `temperature` → never set it.
 
+#### M3b — the Data Steward's contract task (executed after M2 merged)
+- Dor chose to run M3 before M2, so M3 shipped two agents / three tasks; the steward task depends on `hv/contract.py`.
+- M3b adds: `build_contract_measured` + `write_contract_human_fields` tools, the `data_steward` agent and the
+  `author_contract` task, the stub's contract step, gate M3 checks 3 and 4, and the Windows newline fix in
+  `hv/eda.py::write_stats` (found by Yoran in M2). After M3b the crew is 3 agents / 4 tasks as specified above.
+
 ### M4 — Crew-2 tools: features, training, evaluation, model card
 - **Branch:** `feat/m4-scientist-tools` · **Report:** `docs/reports/M4_HE.html`
 - **Tasks:**

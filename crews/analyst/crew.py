@@ -17,7 +17,14 @@ from pathlib import Path
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 
-from crews.analyst.tools import clean_dataset, profile_raw_data, run_eda, write_insights
+from crews.analyst.tools import (
+    build_contract_measured,
+    clean_dataset,
+    profile_raw_data,
+    run_eda,
+    write_contract_human_fields,
+    write_insights,
+)
 from hv.config import RAW_PATH, estimate_cost_usd, get_llm
 
 VERBOSE = os.getenv("HV_VERBOSE", "0") == "1"
@@ -26,7 +33,7 @@ MAX_ITER = 8
 
 @CrewBase
 class AnalystCrew:
-    """Two agents active now (Data Quality Engineer, Business Analyst); the Data Steward joins in M3b."""
+    """Three agents: Data Quality Engineer, Business Analyst, Data Steward (four sequential tasks)."""
 
     agents_config = "config/agents.yaml"
     tasks_config = "config/tasks.yaml"
@@ -53,6 +60,17 @@ class AnalystCrew:
             verbose=VERBOSE,
         )
 
+    @agent
+    def data_steward(self) -> Agent:
+        return Agent(
+            config=self.agents_config["data_steward"],
+            tools=[build_contract_measured, write_contract_human_fields],
+            llm=get_llm(),
+            max_iter=MAX_ITER,
+            allow_delegation=False,
+            verbose=VERBOSE,
+        )
+
     @task
     def profile_and_clean(self) -> Task:
         return Task(config=self.tasks_config["profile_and_clean"], tools=[profile_raw_data, clean_dataset])
@@ -64,6 +82,13 @@ class AnalystCrew:
     @task
     def write_insights(self) -> Task:
         return Task(config=self.tasks_config["write_insights"], tools=[write_insights])
+
+    @task
+    def author_contract(self) -> Task:
+        return Task(
+            config=self.tasks_config["author_contract"],
+            tools=[build_contract_measured, write_contract_human_fields],
+        )
 
     @crew
     def crew(self) -> Crew:
@@ -89,7 +114,14 @@ class AnalystResult:
         return {k: (str(v) if isinstance(v, Path) else v) for k, v in d.items()}
 
 
-EXPECTED_FILES = ["clean_data.csv", "cleaning_report.json", "stats.json", "eda_report.html", "insights.md"]
+EXPECTED_FILES = [
+    "clean_data.csv",
+    "cleaning_report.json",
+    "stats.json",
+    "eda_report.html",
+    "insights.md",
+    "dataset_contract.json",
+]
 
 
 def run_analyst_crew(raw_path: Path = RAW_PATH, out_dir: Path | None = None) -> AnalystResult:
@@ -111,7 +143,7 @@ def run_analyst_crew(raw_path: Path = RAW_PATH, out_dir: Path | None = None) -> 
         eda_html=out_dir / "eda_report.html",
         stats_json=out_dir / "stats.json",
         insights_md=out_dir / "insights.md",
-        contract_json=None,
+        contract_json=out_dir / "dataset_contract.json",
         llm_calls=int(u.successful_requests),
         prompt_tokens=int(u.prompt_tokens),
         cached_prompt_tokens=int(u.cached_prompt_tokens),
@@ -119,7 +151,9 @@ def run_analyst_crew(raw_path: Path = RAW_PATH, out_dir: Path | None = None) -> 
         cost_usd=estimate_cost_usd(u.prompt_tokens, u.cached_prompt_tokens, u.completion_tokens),
         duration_s=duration,
     )
-    (out_dir / "run_meta.json").write_text(json.dumps(result.to_dict(), indent=2) + "\n", encoding="utf-8")
+    (out_dir / "run_meta.json").write_text(
+        json.dumps(result.to_dict(), indent=2) + "\n", encoding="utf-8", newline="\n"
+    )
     return result
 
 

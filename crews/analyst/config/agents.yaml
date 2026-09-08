@@ -31,4 +31,4 @@ data_steward:
     (types, ranges, allowed values, null counts, row count, hash) are produced by a tool and are facts;
     your job is the human part: descriptions a newcomer understands, assumptions that are written down
     instead of assumed, and a rationale for each constraint. If the modelling crew is surprised by the data,
-    you did not do your job. (This agent's task is enabled once the contract module lands in M2.)
+    you did not do your job.

@@ -1,8 +1,8 @@
 {
   "contract_version": "1.0",
-  "produced_by": "scripts/build_contract.py (M2; the analyst crew takes over in M3)",
-  "created_at": "2026-09-08T16:15:52+00:00",
-  "source": "ecommerce_churn.xlsx [E Comm] -> hv.cleaning.clean -> artifacts/crew1/clean_data.csv",
+  "produced_by": "analyst_crew",
+  "created_at": "2026-09-08T17:53:50+00:00",
+  "source": "ecommerce_churn.xlsx [E Comm] -> hv.cleaning.clean -> clean_data.csv",
   "dataset": {
     "row_count": 5073,
     "primary_key": "CustomerID",
@@ -21,8 +21,8 @@
       "allowed_values": null,
       "min": 50001.0,
       "max": 55630.0,
-      "description": "Unique customer ID",
-      "rationale": ""
+      "description": "Unique integer identifier for each customer (not a modeling feature).",
+      "rationale": "This is the primary identifier for joining back to upstream systems and must not be used as a feature; it is unique per row."
     },
     {
       "name": "Churn",
@@ -34,8 +34,8 @@
       "allowed_values": null,
       "min": 0.0,
       "max": 1.0,
-      "description": "Churn Flag",
-      "rationale": ""
+      "description": "Binary target: 1 if the customer churned, 0 if retained.",
+      "rationale": "The binary label the model must predict: 1 = churned, 0 = retained. Treat this column as the target; do not convert to categorical if your training function expects integers."
     },
     {
       "name": "Tenure",
@@ -47,8 +47,8 @@
       "allowed_values": null,
       "min": 0.0,
       "max": 61.0,
-      "description": "Tenure of customer in organization",
-      "rationale": ""
+      "description": "Customer tenure in months (can be fractional); 0 means joined within the last month.",
+      "rationale": "Unit: months. Nulls (231) indicate missing tenure information from source and were intentionally kept; Tenure is highly predictive (new customers churn more), so impute or model missingness rather than arbitrarily setting zeros."
     },
     {
       "name": "PreferredLoginDevice",
@@ -63,8 +63,8 @@
       ],
       "min": null,
       "max": null,
-      "description": "Preferred login device of customer",
-      "rationale": ""
+      "description": "Customer's most-used login device during the observation window ('Computer' or 'Mobile Phone').",
+      "rationale": "Categorical with two allowed values; standardized during cleaning. No nulls remain; use as a predictor."
     },
     {
       "name": "CityTier",
@@ -76,8 +76,8 @@
       "allowed_values": null,
       "min": 1.0,
       "max": 3.0,
-      "description": "City tier",
-      "rationale": ""
+      "description": "City tier coded as an integer (1 = Tier 1, 2 = Tier 2, 3 = Tier 3).",
+      "rationale": "Integer ordinal (1–3). No nulls; can be used as numeric ordinal or one-hot encoded depending on modeling choice."
     },
     {
       "name": "WarehouseToHome",
@@ -89,8 +89,8 @@
       "allowed_values": null,
       "min": 5.0,
       "max": 127.0,
-      "description": "Distance in between warehouse to home of customer",
-      "rationale": ""
+      "description": "Distance in kilometers from the customer's primary warehouse to their home address.",
+      "rationale": "Unit: km. Nulls (221) indicate missing distance data; values range 5–127 km. Impute sensibly or include a missing indicator; distance may correlate with delivery friction."
     },
     {
       "name": "PreferredPaymentMode",
@@ -108,8 +108,8 @@
       ],
       "min": null,
       "max": null,
-      "description": "Preferred payment method of customer",
-      "rationale": ""
+      "description": "Customer's preferred payment method (Cash on Delivery, Credit Card, Debit Card, E wallet, UPI).",
+      "rationale": "Categorical with five allowed values (Cash on Delivery, Credit Card, Debit Card, E wallet, UPI); normalized during cleaning. Encode appropriately for models."
     },
     {
       "name": "Gender",
@@ -124,8 +124,8 @@
       ],
       "min": null,
       "max": null,
-      "description": "Gender of customer",
-      "rationale": ""
+      "description": "Customer gender (protected attribute).",
+      "rationale": "Protected attribute: included for fairness and auditing. Do not use as a predictive feature without explicit business and legal justification."
     },
     {
       "name": "HourSpendOnApp",
@@ -137,8 +137,8 @@
       "allowed_values": null,
       "min": 0.0,
       "max": 5.0,
-      "description": "Number of hours spend on mobile application or website",
-      "rationale": ""
+      "description": "Hours per day the customer spends on the app or website (can be fractional).",
+      "rationale": "Unit: hours per day. Nulls (230) were kept; range 0–5. Treat as numeric and decide an imputation or a missingness feature."
     },
     {
       "name": "NumberOfDeviceRegistered",
@@ -150,8 +150,8 @@
       "allowed_values": null,
       "min": 1.0,
       "max": 6.0,
-      "description": "Total number of deceives is registered on particular customer",
-      "rationale": ""
+      "description": "Count of devices the customer has registered with the service.",
+      "rationale": "Small integer (1–6). No nulls; use directly as numeric or categorical."
     },
     {
       "name": "PreferedOrderCat",
@@ -169,8 +169,8 @@
       ],
       "min": null,
       "max": null,
-      "description": "Preferred order category of customer in last month",
-      "rationale": ""
+      "description": "Most frequent order category in the last month (e.g., 'Mobile Phone', 'Grocery').",
+      "rationale": "Categorical with five allowed categories capturing purchase preferences; use suitable encoding."
     },
     {
       "name": "SatisfactionScore",
@@ -182,8 +182,8 @@
       "allowed_values": null,
       "min": 1.0,
       "max": 5.0,
-      "description": "Satisfactory score of customer on service",
-      "rationale": ""
+      "description": "Customer satisfaction score on a 1–5 integer scale measured by recent surveys.",
+      "rationale": "Integer 1–5; no nulls. Consider as ordinal or numeric depending on algorithm."
     },
     {
       "name": "MaritalStatus",
@@ -199,8 +199,8 @@
       ],
       "min": null,
       "max": null,
-      "description": "Marital status of customer",
-      "rationale": ""
+      "description": "Customer marital status (protected attribute).",
+      "rationale": "Protected attribute: included for fairness checks and not to be used as a feature without approval."
     },
     {
       "name": "NumberOfAddress",
@@ -212,8 +212,8 @@
       "allowed_values": null,
       "min": 1.0,
       "max": 22.0,
-      "description": "Total number of added added on particular customer",
-      "rationale": ""
+      "description": "Number of delivery addresses the customer has saved.",
+      "rationale": "Integer (1–22). No nulls; may reflect engagement and should be used as a numeric predictor."
     },
     {
       "name": "Complain",
@@ -225,8 +225,8 @@
       "allowed_values": null,
       "min": 0.0,
       "max": 1.0,
-      "description": "Any complaint has been raised in last month",
-      "rationale": ""
+      "description": "Indicator (0/1) whether the customer raised any complaint in the last month.",
+      "rationale": "Binary indicator (0/1) of recent complaints; no nulls. Strong predictor for churn; include as a feature."
     },
     {
       "name": "OrderAmountHikeFromlastYear",
@@ -238,8 +238,8 @@
       "allowed_values": null,
       "min": 11.0,
       "max": 26.0,
-      "description": "Percentage increases in order from last year",
-      "rationale": ""
+      "description": "Percent change in order amount versus the same period last year (percentage points).",
+      "rationale": "Unit: percent (percentage points). Nulls (252) kept; observed range 11–26. Interpret as percentage points (not fraction); missing values should be handled by modeling team."
     },
     {
       "name": "CouponUsed",
@@ -251,8 +251,8 @@
       "allowed_values": null,
       "min": 0.0,
       "max": 16.0,
-      "description": "Total number of coupon has been used in last month",
-      "rationale": ""
+      "description": "Number of coupons the customer used in the last month.",
+      "rationale": "Count of coupons used in the last month; nulls (210) indicate missing data. Treat as count and consider missingness informative."
     },
     {
       "name": "OrderCount",
@@ -264,8 +264,8 @@
       "allowed_values": null,
       "min": 1.0,
       "max": 16.0,
-      "description": "Total number of orders has been places in last month",
-      "rationale": ""
+      "description": "Number of orders placed by the customer in the last month.",
+      "rationale": "Number of orders in the last month; nulls (243) were kept. Range 1–16. Impute or model missingness as appropriate."
     },
     {
       "name": "DaySinceLastOrder",
@@ -277,8 +277,8 @@
       "allowed_values": null,
       "min": 0.0,
       "max": 46.0,
-      "description": "Day Since last order by customer",
-      "rationale": ""
+      "description": "Days since the customer's most recent order.",
+      "rationale": "Unit: days. Nulls (288) indicate missing last-order date; range 0–46. Missingness may be predictive of churn."
     },
     {
       "name": "CashbackAmount",
@@ -290,9 +290,17 @@
       "allowed_values": null,
       "min": 0.0,
       "max": 324.99,
-      "description": "Average cashback in last month",
-      "rationale": ""
+      "description": "Average cashback earned by the customer in the last month (USD).",
+      "rationale": "Unit: USD. No nulls. This is the average cashback in the last month (monetary feature). Values are not in cents; treat as continuous."
     }
   ],
-  "assumptions": []
+  "assumptions": [
+    "CashbackAmount is expressed in USD and is the average cashback received in the last calendar month, not cumulative and not cents-based.",
+    "OrderAmountHikeFromlastYear is measured in percentage points (e.g., 15 means a 15% increase), not a 0–1 fraction.",
+    "The row_count (5073) and sha256 (ef1e1f758009fa575837a3b4b62384c1f3516297d775aa2c10ef796a449073a2) identify this cleaned CSV exactly; use them to verify file identity when reproducing experiments.",
+    "Nulls in Tenure, WarehouseToHome, HourSpendOnApp, OrderAmountHikeFromlastYear, CouponUsed, OrderCount, and DaySinceLastOrder were intentionally preserved during cleaning; imputation or null-aware modeling is the modeling team's responsibility.",
+    "557 duplicate records were removed during cleaning; duplicates were identical except for CustomerID and were dropped to avoid double-counting customer behavior.",
+    "Protected attributes (Gender, MaritalStatus) are included for auditing and fairness checks but should not be used as predictive features without documented justification and approvals.",
+    "CustomerID is unique per row and must not be used as a predictive feature. Churn is the label and must be used as the target variable in model training."
+  ]
 }

@@ -17,8 +17,7 @@ def test_agents_yaml_defines_the_analyst_crew():
 
 def test_tasks_yaml_wires_tasks_to_agents_and_tools():
     tasks = yaml.safe_load((CONFIG / "tasks.yaml").read_text())
-    # author_contract arrives with M2
-    assert list(tasks) == ["profile_and_clean", "explore", "write_insights"]
+    assert list(tasks) == ["profile_and_clean", "explore", "write_insights", "author_contract"]
     agents = yaml.safe_load((CONFIG / "agents.yaml").read_text())
     for name, spec in tasks.items():
         assert spec["agent"] in agents, name
@@ -31,7 +30,8 @@ def test_crew_builds_without_calling_the_llm(monkeypatch):
     from crews.analyst.crew import AnalystCrew
 
     crew = AnalystCrew().crew()
-    assert len(crew.agents) == 2 and len(crew.tasks) == 3
+    assert len(crew.agents) == 3 and len(crew.tasks) == 4
     assert all(a.max_iter == 8 for a in crew.agents)
     assert all(not a.allow_delegation for a in crew.agents)
-    assert crew.tasks[0].tools and crew.tasks[2].tools
+    assert crew.tasks[0].tools and crew.tasks[2].tools and crew.tasks[3].tools
+    assert {t.name for t in crew.tasks[3].tools} == {"build_contract_measured", "write_contract_human_fields"}
