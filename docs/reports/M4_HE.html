@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HarborVale — דוח M4: הכלים של צוות 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Suez+One&family=Assistant:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --paper:#eef1ef; --card:#fff; --ink:#1b2733; --ink-soft:#46545f; --wind:#0f5c6e; --wind-soft:#e3eef1; --tape:#c9560c; --tape-soft:#fbe9dc; --gate:#2f7d46; --gate-soft:#e7f2ea; --line:#c9d2cd;
+    --mono:"IBM Plex Mono",ui-monospace,monospace; --display:"Suez One","Arial Hebrew",serif; --body:"Assistant","Helvetica Neue",Arial,sans-serif; }
+  * { box-sizing:border-box; }
+  html { font-size:106%; }
+  body { margin:0; background:var(--paper); color:var(--ink); font-family:var(--body); font-size:1.08rem; line-height:1.7; text-align:start; }
+  main { max-width:58rem; margin-inline:auto; padding:2.5rem 1.25rem 5rem; }
+  code { font-family:var(--mono); font-size:.85em; direction:ltr; unicode-bidi:isolate; background:#f0ede6; border:1px solid #ddd8cc; border-radius:4px; padding:.05em .35em; white-space:nowrap; }
+  pre { font-family:var(--mono); font-size:.82rem; line-height:1.5; direction:ltr; text-align:left; unicode-bidi:isolate; background:#1b2733; color:#e8eef2; border-radius:10px; padding:1rem 1.25rem; overflow-x:auto; margin:.75rem 0 1.25rem; }
+  .eyebrow { font-family:var(--mono); font-size:.78rem; letter-spacing:.12em; color:var(--wind); border-block-end:2px solid var(--wind); display:inline-block; padding-block-end:.3rem; margin-block-end:1rem; }
+  h1 { font-family:var(--display); font-weight:400; font-size:clamp(2rem,5vw,2.8rem); line-height:1.15; margin:0 0 .75rem; }
+  .lede { color:var(--ink-soft); max-width:46rem; margin-block-end:1.5rem; }
+  h2 { font-family:var(--display); font-weight:400; font-size:1.6rem; margin:2.5rem 0 .8rem; }
+  h2 .num { font-family:var(--mono); font-size:.9rem; color:var(--tape); letter-spacing:.1em; margin-inline-end:.75rem; }
+  h3 { font-family:var(--display); font-weight:400; font-size:1.2rem; margin:1.5rem 0 .5rem; }
+  p { margin:.5rem 0 .9rem; } ul, ol { margin:.4rem 0 1rem; padding-inline-start:1.5rem; } li { margin-block-end:.35rem; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:1.25rem 1.5rem; margin-block:1rem; }
+  .gate { border:2px solid var(--gate); background:var(--gate-soft); border-radius:10px; padding:.9rem 1.1rem; margin-block:1.25rem; position:relative; }
+  .gate::before { content:"✓ שער בדיקה"; position:absolute; inset-block-start:-.85rem; inset-inline-end:1rem; background:var(--gate); color:#fff; font-family:var(--display); font-size:.85rem; padding:.1rem .7rem; border-radius:4px; transform:rotate(2deg); }
+  .notice { border-inline-start:5px solid var(--tape); background:var(--tape-soft); border-radius:8px; padding:1rem 1.25rem; margin-block:1.5rem; }
+  .info { border-inline-start:5px solid var(--wind); background:var(--wind-soft); border-radius:8px; padding:1rem 1.25rem; margin-block:1.5rem; }
+  .notice h3, .info h3 { margin:0 0 .4rem; font-size:1.1rem; }
+  .tablewrap { overflow-x:auto; margin-block:.75rem 1.25rem; }
+  table { border-collapse:collapse; width:100%; background:var(--card); border:1px solid var(--line); font-size:.97rem; }
+  th, td { border:1px solid var(--line); padding:.55rem .8rem; text-align:start; vertical-align:top; }
+  th { background:var(--wind); color:#fff; font-weight:600; }
+  td.num, th.num { font-family:var(--mono); direction:ltr; text-align:end; white-space:nowrap; }
+  tr.served td { background:var(--gate-soft); font-weight:600; }
+  tr.base td { color:var(--ink-soft); }
+  .options { display:grid; grid-template-columns:repeat(auto-fit,minmax(16rem,1fr)); gap:.9rem; margin-block:.75rem 1.25rem; }
+  .opt { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:1rem 1.2rem; position:relative; }
+  .opt.rec { border:2px solid var(--gate); background:var(--gate-soft); }
+  .opt.rec::before { content:"✓ נבחר"; position:absolute; inset-block-start:-.8rem; inset-inline-end:1rem; background:var(--gate); color:#fff; font-family:var(--display); font-size:.8rem; padding:.05rem .65rem; border-radius:4px; transform:rotate(2deg); }
+  .opt h4 { margin:.25rem 0 .4rem; }
+  .opt .pro { color:var(--gate); } .opt .con { color:var(--tape); }
+  footer { margin-block-start:3rem; color:var(--ink-soft); font-size:.85rem; border-block-start:1px solid var(--line); padding-block-start:1rem; }
+  a { color:var(--wind); }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <span class="eyebrow">HARBORVALE · דוח תחנה · M4 · 2026-09-08</span>
+    <h1>M4: הכלים של צוות 2</h1>
+    <p class="lede">התחנה הזאת בונה את הצד השני של התפר: הפיצ'רים, שלוש וריאציות מודל, ההערכה וכרטיס המודל. צוות 2 לא ראה את הדאטה הגולמי ולא את מה שצוות 1 עשה — הוא קרא את החוזה, אימת אותו מול הקובץ, ורק אז התחיל לעבוד. כל מספר בדף הזה נקרא מ-<code>metrics.json</code>.</p>
+  </header>
+
+  <h2><span class="num">01</span>מה נבנה</h2>
+  <div class="card">
+    <ul>
+      <li><code>hv/features.py</code> — מי בכלל פיצ'ר (לפי התפקידים בחוזה), ארבעה פיצ'רים מחושבים, שומר הדליפה, וה-<code>ColumnTransformer</code> שמשלים ריקים ומקודד קטגוריות.</li>
+      <li><code>hv/evaluate.py</code> — ולידציה צולבת עם ממוצע וסטיית תקן לכל מדד, קו בסיס, דיוק בעשירון העליון, הוגנות לפי קבוצה, וחשיבות פיצ'רים.</li>
+      <li><code>hv/train.py</code> — שלוש וריאציות, בחירת המודל המשרת, שמירת <code>model.joblib</code> ו-<code>metrics.json</code>, וחיזוי לשורה בודדת.</li>
+      <li><code>hv/model_card.py</code> — דוח ההערכה וכרטיס המודל עם חמשת החלקים החובה.</li>
+      <li><code>scripts/run_crew2_tools.py</code> (זמני, נעלם ב-M5) ו-<code>scripts/gate.py --m 4</code>.</li>
+      <li>55 בדיקות חדשות, 176 בפרויקט.</li>
+    </ul>
+  </div>
+
+  <h2><span class="num">02</span>הדבר שהכי קל לטעות בו: דליפה</h2>
+  <p>דליפה היא כשמידע שהמודל לא אמור לדעת מתגנב לאימון. התוצאה תמיד מרשימה ותמיד חסרת ערך. שלוש דלתות סגורות כאן:</p>
+  <ul>
+    <li><strong>התווית.</strong> <code>Churn</code> היא התשובה. אם היא פיצ'ר, ה-ROC-AUC יוצא 1.0 והמודל לא יודע כלום.</li>
+    <li><strong>המזהה.</strong> <code>CustomerID</code> הוא מספר סידורי. בדאטה ממוין הוא "מנבא" נטישה בלי שום קשר סיבתי.</li>
+    <li><strong>העמודות המוגנות.</strong> <code>Gender</code> ו-<code>MaritalStatus</code> — החלטה אתית שהתקבלה עוד בשלב התכנון. הן נשארות בחוזה בתפקיד <code>protected</code> כדי שנוכל למדוד הוגנות, אבל לא נכנסות למודל.</li>
+  </ul>
+  <p><code>assert_no_leakage</code> בודקת את כל השלוש ומדווחת על כל העבריינים יחד. היא נקראת גם מתוך <code>build_features</code> וגם מתוך <code>train_all</code> — ובנוסף השער בודק את זה שוב על הקובץ שנכתב.</p>
+  <div class="info">
+    <h3>הריקים מושלמים בתוך ה-Pipeline, לא לפניו</h3>
+    <p>1,675 ריקים נשמרו על ידי צוות 1 והוצהרו בחוזה. אם נשלים אותם בחציון של כל הטבלה לפני האימון, החציון הזה כולל את שורות המבחן — והמודל "הציץ" בהן. בתוך ה-Pipeline, sklearn מחשב את החציון מחדש מחלק האימון של כל קיפול בנפרד. זו דליפה שקטה שקשה לראות בקוד ומנפחת תוצאות.</p>
+  </div>
+
+  <h2><span class="num">03</span>התוצאות</h2>
+  <p>חמישה קיפולים מרובדים, seed 42. הערכים הם ממוצע וסטיית תקן בין הקיפולים; <code>precision@top10</code> נמדד על הדירוג מחוץ לקיפול.</p>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>מודל</th><th class="num">ROC-AUC</th><th class="num">precision@top10</th><th class="num">recall</th><th class="num">accuracy</th></tr></thead>
+      <tbody>
+        <tr class="base"><td>קו בסיס (רוב)</td><td class="num">0.5000</td><td class="num">0.1658</td><td class="num">0.0000</td><td class="num">0.8342</td></tr>
+        <tr><td>logreg</td><td class="num">0.8913 ± 0.0169</td><td class="num">0.7712</td><td class="num">0.8157</td><td class="num">0.8186</td></tr>
+        <tr><td>random_forest</td><td class="num">0.9769 ± 0.0088</td><td class="num">0.9487</td><td class="num">0.8300</td><td class="num">0.9491</td></tr>
+        <tr class="served"><td>hist_gb (משרת)</td><td class="num">0.9857 ± 0.0051</td><td class="num">0.9724</td><td class="num">0.8740</td><td class="num">0.9689</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>למה קו הבסיס חשוב:</strong> 83.42% מהלקוחות לא נטשו. מודל שאומר "אף אחד לא נוטש" מגיע ל-83% דיוק ולא שווה כלום — ה-recall שלו אפס. בלי השורה האפורה הזאת בטבלה, 96% דיוק נשמע מרשים; איתה רואים שהמודל באמת הוסיף משהו.</p>
+  <p><strong>ומה שבאמת נמדד:</strong> תקציב השימור הולך ל-10% העליונים ברשימה. מתוך 507 הלקוחות שהמודל סימן ראשונים, <strong>97.24% באמת נטשו</strong> — מול 16.58% אם היינו בוחרים אקראית. זה המספר שמצדיק את הפרויקט.</p>
+
+  <h2><span class="num">04</span>ROC-AUC של 0.9857 — בדקתי אם זו דליפה</h2>
+  <div class="notice">
+    <h3>התוכנית עצמה מזהירה: ROC-AUC קרוב ל-1.0 = חשד</h3>
+    <p>מספר גבוה כל כך הוא סיבה לבדוק, לא לחגוג. שלוש בדיקות:</p>
+    <ul>
+      <li><strong>מתאם עם התווית:</strong> הפיצ'ר הכי מתואם הוא <code>orders_per_tenure_month</code> עם 0.38, אחריו <code>Tenure</code> עם 0.34-. אף פיצ'ר לא מעל 0.6. אין עמודה שמסגירה את התשובה.</li>
+      <li><strong>על מה המודל נשען:</strong> <code>Tenure</code> 0.0889, <code>Complain</code> 0.0209, <code>NumberOfAddress</code> 0.0090. אלה בדיוק שני המניעים ש-M1 מצא ב-EDA: ותק 0-1 חודשים = 51.3% נטישה, ותלונה = 31.3% מול 10.8%. שני חישובים בלתי תלויים שמצביעים על אותו דבר.</li>
+      <li><strong>כפילויות:</strong> M1 כבר הוריד 557 רשומות זהות בדיוק בשביל זה. נשארו 242 שורות פיצ'רים כפולות (4.8%) — מגבלה מתועדת, לא באג.</li>
+    </ul>
+    <p><strong>המסקנה:</strong> הדאטה הזה פשוט למיד. אבל אני אומר את זה אחרי שבדקתי, לא במקום לבדוק.</p>
+  </div>
+
+  <h2><span class="num">05</span>הוגנות</h2>
+  <p>המאפיינים המוגנים אינם קלט למודל, ובכל זאת נמדדים: מודל שתופס נוטשים בקבוצה אחת ומפספס בשנייה הוא מודל שאסור להפעיל, ורואים את זה רק אם מסתכלים.</p>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>מאפיין</th><th>קבוצה</th><th class="num">n</th><th class="num">recall</th><th class="num">precision</th><th class="num">אחוז שסומנו</th></tr></thead>
+      <tbody>
+        <tr><td>Gender</td><td>Female</td><td class="num">2,026</td><td class="num">0.8900</td><td class="num">0.9228</td><td class="num">0.1471</td></tr>
+        <tr><td>Gender</td><td>Male</td><td class="num">3,047</td><td class="num">0.8647</td><td class="num">0.9407</td><td class="num">0.1605</td></tr>
+        <tr><td>MaritalStatus</td><td>Divorced</td><td class="num">848</td><td class="num">0.9032</td><td class="num">0.9655</td><td class="num">0.1368</td></tr>
+        <tr><td>MaritalStatus</td><td>Married</td><td class="num">2,672</td><td class="num">0.8675</td><td class="num">0.8912</td><td class="num">0.1100</td></tr>
+        <tr><td>MaritalStatus</td><td>Single</td><td class="num">1,553</td><td class="num">0.8699</td><td class="num">0.9576</td><td class="num">0.2428</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>ה-recall דומה בכל הקבוצות (0.86 עד 0.90), כלומר המודל לא מפספס קבוצה שלמה. הפער היחיד שבולט הוא באחוז שסומנו: רווקים 24.3% מול נשואים 11.0% — וזה משקף את שיעורי הנטישה האמיתיים שנמצאו ב-EDA (רווקים 26.7% מול נשואים 11.3%), לא הטיה שהמודל המציא.</p>
+
+  <h2><span class="num">06</span>שתי החלטות ובאג אחד</h2>
+  <h3>D-M4-1 — <code>train_all</code> מקבל את העמודות המוגנות בנפרד</h3>
+  <p>§3.7 דורש בלוק הוגנות ב-<code>metrics.json</code>, אבל §3.6 קובע שמסגרת הפיצ'רים לא מכילה את <code>Gender</code> ו-<code>MaritalStatus</code> — בכוונה. אי אפשר למדוד מה שאין. הפתרון: פרמטר אופציונלי נוסף שמעביר אותן בנפרד. בלעדיו הבלוק יוצא ריק ומצהיר על כך, במקום להמציא מספרים.</p>
+  <h3>D-M4-2 — <code>trained_at</code> לא נמצא ב-<code>metrics.json</code></h3>
+  <p>§3.7 מפרט מפתח <code>trained_at</code>, אבל כלל הברזל ב-<code>CLAUDE.md</code> דורש ש-<code>metrics.json</code> יהיה זהה בייט-בייט בין ריצות — וקריאת שעון גורמת לקובץ להיות שונה מעצמו בכל פעם. חותמת הזמן עברה ל-<code>run_meta.json</code> לידו, בדיוק כמו שדור עשה לריצות של צוות 1.</p>
+  <div class="notice">
+    <h3>באג שנתפס תוך כדי: טבלת החשיבויות לא הייתה ממוינת</h3>
+    <p>מיינתי את החשיבויות בקוד לפי ערך יורד, אבל <code>metrics.json</code> נכתב עם <code>sort_keys=True</code> — ולכן הן חוזרות מהקובץ לפי א"ב. כרטיס המודל לקח את "עשרת הראשונים" והציג חתך אלפביתי שנראה כמו דירוג. נתפס רק כי הסתכלתי בפלט האמיתי במקום להאמין לקוד. המיון עבר למרנדר, ויש בדיקה שמאכילה אותו מילון אלפביתי ומוודאת שהסדר מתהפך.</p>
+  </div>
+
+  <h2><span class="num">07</span>השער</h2>
+  <div class="gate">
+    <p><strong>GATE M4: PASS 6/6</strong></p>
+    <ul>
+      <li>הבדיקות ירוקות (176)</li>
+      <li><code>metrics.json</code> כולל קו בסיס, שלוש וריאציות ומודל משרת</li>
+      <li>אף עמודה אסורה לא הגיעה למודל ולא לחשיבויות</li>
+      <li>המודל נטען ומחזיר הסתברות לשורה האמיתית הראשונה</li>
+      <li>המודל המשרת מנצח את קו הבסיס גם ב-ROC-AUC וגם ב-precision@top10</li>
+      <li>שתי ריצות מייצרות <code>features.csv</code> ו-<code>metrics.json</code> זהים בייט-בייט</li>
+    </ul>
+    <p>כל חמשת השערים בפרויקט ירוקים: M0 5/5, M1 7/7, M2 5/5, M3 8/8, M4 6/6.</p>
+  </div>
+  <p>הערה לדור: הבדיקה <code>tests/test_health.py</code> קבעה <code>model_loaded is False</code> עם ההערה "no model artifact before M4". M4 היא בדיוק מה שמייצר את הקובץ הזה, אז הבדיקה עודכנה לוודא ש-<code>/health</code> אומר את האמת. אחרי המיזוג האתר החי ידווח <code>model_loaded: true</code>.</p>
+
+  <h2><span class="num">08</span>מה הלאה</h2>
+  <p>שני החצאים מוכנים. <strong>M5 נעשה יחד</strong>: הסוכנים של צוות 2, ה-Flow שמחבר, ובעיקר ההוכחה שכל זה עובד — לשבור את הדאטה בכוונה ולראות את ה-Flow מסרב להתאמן.</p>
+  <p>נקודה אחת לסכם לפני M5: הבדיקה <code>features</code> במאמת מצפה לפיצ'רים <strong>הגולמיים</strong> המוצהרים בחוזה. ארבעת המחושבים אינם מוצהרים — הם נגזרים — אז אסור להעביר אותם ל-<code>required_features</code>.</p>
+
+  <footer>HarborVale Workflow · דוח תחנה M4 · 2026-09-08 · <code>docs/reports/M4_HE.html</code> · ענף <code>feat/m4-scientist-tools</code></footer>
+</main>
+</body>
+</html>
