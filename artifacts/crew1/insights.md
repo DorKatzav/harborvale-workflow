@@ -17,24 +17,26 @@
 
 ## Overview
 
-Dataset: customer transactions cleaned to 5,073 rows. Headline churn is 16.6% (841 of 5,073 customers). This report summarizes who churns and the strongest statistical drivers found in the cleaned file.
+Dataset: 5,630 raw rows ingested and 5,073 rows after cleaning. Headline churn rate is 16.6% (841 customers churned).
 
 ## Cleaning
 
-5630 rows came in and 5,073 rows went out after cleaning. We removed 557 duplicate records. We normalized spelling: PreferredLoginDevice 'Phone' across 1,231 rows; PreferredPaymentMode values 'CC' (273 rows) and 'COD' (365 rows); PreferedOrderCat 'Mobile' across 809 rows. We cast types for CustomerID, Churn, CityTier, Complain, SatisfactionScore, NumberOfDeviceRegistered, and NumberOfAddress. Missing values were intentionally kept for Tenure (231), WarehouseToHome (221), HourSpendOnApp (230), OrderAmountHikeFromlastYear (252), CouponUsed (210), OrderCount (243), and DaySinceLastOrder (288).
+I profiled and cleaned the workbook: 5,630 rows in → 5,073 rows out; 557 duplicate records were removed. I standardized label inconsistencies: PreferredLoginDevice 'Phone' standardized (1,231 rows), PreferredPaymentMode values unified for 'CC' (273) and 'COD' (365), and PreferedOrderCat 'Mobile' standardized (809). I cast CustomerID, Churn, CityTier, Complain, SatisfactionScore, NumberOfDeviceRegistered, and NumberOfAddress to integer types. I intentionally kept nulls for later review: Tenure (231), WarehouseToHome (221), HourSpendOnApp (230), OrderAmountHikeFromlastYear (252), CouponUsed (210), OrderCount (243), DaySinceLastOrder (288).
 
 ## Who churns
 
-Highest churn: New customers (Tenure 0-1) churn at 51.3% (n=1,076). Lowest churn: customers preferring 'Grocery' churn at 4.4% (n=366). For context: single customers churn at 26.7% (n=1,553) while married customers churn at 11.3% (n=2,672).
+Highest churn: customers with Tenure 0–1 month churn at 51.3% (n=1,076). Lowest churn: Grocery customers churn at 4.4% (n=366).
 
 ## Drivers
 
-Top correlations with churn (not causation): Tenure -0.34, Complain 0.25, DaySinceLastOrder -0.15, CashbackAmount -0.14, NumberOfDeviceRegistered 0.12. Interpretation: Tenure has the strongest negative relationship with churn (churn falls as tenure rises). Customers who complained have higher churn (31.3% vs 10.8%). DaySinceLastOrder shows a modest negative correlation and should be investigated further rather than assumed causal.
+Top correlations with churn (two-decimal): Tenure -0.34, Complain 0.25, DaySinceLastOrder -0.15, CashbackAmount -0.14, NumberOfDeviceRegistered 0.12. These statistics suggest newer customers and customers who have complained are associated with higher churn; the negative Tenure correlation aligns with the 51.3% churn in the 0–1 month group. The negative correlation for DaySinceLastOrder (-0.15) is unexpected and should be investigated further. Correlation is not causation.
 
 ## Recommendations
 
-1) Prioritize onboarding and retention for Tenure 0-1 customers: 1,076 customers churn at 51.3% — build an outreach workflow for this cohort and measure churn change.
-2) Treat complainants as a high-retention-risk group: customers who complained churn at 31.3% versus 10.8% for non-complainers — add urgent complaint resolution plus targeted offers and track repeat churn.
-3) Target payment-mode segments: COD users churn at 25.4% (n=457) and E-wallet users at 22.8% (n=562) versus Credit Card users at 14.2% (n=1,596) — run payment-specific incentives or friction-reduction experiments for COD and E-wallet cohorts.
+1) Run an intensive onboarding and early-engagement program for customers in Tenure 0–1 month (51.3% churn, n=1,076): automated welcome messages, a 2-week follow-up, and a first-order discount; measure 30-day churn reduction.
+
+2) Implement a complaints rapid-response and escalation workflow: customers who complained churn at 31.3% versus 10.8% for non-complainers. Set a same-day triage SLA and track complaint-to-churn conversion.
+
+3) Target the Mobile Phone order category (26.3% churn, n=1,855) with category-specific retention offers and UX/payment nudges; run a COD (25.4% churn, n=457) payment-education pilot to reduce friction.
 
 _Key numbers are rendered from stats.json and cleaning_report.json; the sections are written by the analyst crew._

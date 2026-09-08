@@ -41,3 +41,24 @@ write_insights:
   expected_output: >
     The path to insights.md exactly as returned by the write_insights tool.
   agent: business_analyst
+
+author_contract:
+  description: >
+    Write the dataset contract the modelling crew must honour. Step 1: call build_contract_measured
+    with clean_csv={out_dir}/clean_data.csv, out_dir={out_dir}, raw_path={raw_path}; it measures every
+    column and returns the columns with their dtype, role, unit, nullable, null_count, allowed_values,
+    min, max and a pre-filled description. Those measured values are facts: you do not change them and
+    you do not restate them from memory. Step 2: call write_contract_human_fields with
+    contract_path={out_dir}/dataset_contract.json and three JSON arguments:
+    descriptions_json = one clear sentence per column for a newcomer (all 20 columns; improve the
+    dictionary text where it is unclear, keep it where it is fine);
+    rationales_json = for every column, why the constraint exists and what the modelling crew may assume
+    (name the unit for money, distance, time and percentage columns; say what a null means; say that
+    protected columns are not features; say the id is not a feature and the target is the label);
+    assumptions_json = a list of 5 to 8 dataset-level assumptions written as plain sentences, for example
+    that CashbackAmount is in USD and not cents, that the row count and sha256 identify exactly this file,
+    that nulls are kept and imputation is the modelling crew's job, and what a duplicate-record removal did.
+    If the tool answers with "ERROR: ...", fix the JSON and call it again.
+  expected_output: >
+    The path to dataset_contract.json exactly as returned by write_contract_human_fields.
+  agent: data_steward

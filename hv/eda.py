@@ -90,7 +90,7 @@ def _mean(s: pd.Series) -> float | None:
 
 def write_stats(s: dict, path: Path) -> None:
     Path(path).parent.mkdir(parents=True, exist_ok=True)
-    Path(path).write_text(json.dumps(s, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    Path(path).write_text(json.dumps(s, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
 
 
 # ------------------------------------------------------------------ report
@@ -221,5 +221,5 @@ every number comes from <code>stats.json</code> / the cleaned frame.</p>
 </body>
 </html>
 """
-    out_path.write_text(html, encoding="utf-8")
+    out_path.write_text(html, encoding="utf-8", newline="\n")
     return out_path

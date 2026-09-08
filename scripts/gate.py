@@ -166,7 +166,10 @@ def check_pytest_without_key() -> None:
 
 
 def check_crew1_files_present() -> None:
-    expected = ["clean_data.csv", "cleaning_report.json", "stats.json", "eda_report.html", "insights.md"]
+    expected = [
+        "clean_data.csv", "cleaning_report.json", "stats.json",
+        "eda_report.html", "insights.md", "dataset_contract.json",
+    ]  # fmt: skip
     missing = [f for f in expected if not (CREW1 / f).exists()]
     assert not missing, f"missing in artifacts/crew1: {missing}"
 
@@ -181,6 +184,30 @@ def check_insights_sections_and_numbers() -> None:
     stats = json.loads((CREW1 / "stats.json").read_text())
     rep = json.loads((CREW1 / "cleaning_report.json").read_text())
     assert insights.key_numbers_match(text, stats, rep), "key-numbers table in insights.md != stats.json"
+
+
+def check_contract_validates_clean_file() -> None:
+    sys.path.insert(0, str(ROOT))
+    from hv.contract import validate
+
+    report = validate(CREW1 / "clean_data.csv", CREW1 / "dataset_contract.json")
+    assert report.passed, "; ".join(f"{c.name}/{c.column}: {c.message}" for c in report.failures)
+
+
+def check_agent_did_not_touch_measured_fields() -> None:
+    sys.path.insert(0, str(ROOT))
+    import pandas as pd
+
+    from crews.analyst.tools import measured_fields
+    from hv.contract import build_contract, load_contract
+
+    committed = load_contract(CREW1 / "dataset_contract.json")
+    clean = CREW1 / "clean_data.csv"
+    fresh = build_contract(pd.read_csv(clean), source="gate", clean_csv=clean)
+    assert measured_fields(committed) == measured_fields(fresh), "committed contract differs from fresh build"
+    assert committed.assumptions, "the steward wrote no assumptions"
+    empty = [c.name for c in committed.columns if not c.rationale]
+    assert not empty, f"columns without a rationale: {empty}"
 
 
 def check_real_run_recorded() -> None:
@@ -214,8 +241,10 @@ M1: list[Check] = [
 M3: list[Check] = [
     ("pytest green with OPENAI_API_KEY unset", check_pytest_without_key),
     ("ruff clean", check_ruff),
-    ("five crew-1 files in artifacts/crew1", check_crew1_files_present),
+    ("six crew-1 files in artifacts/crew1", check_crew1_files_present),
     ("insights.md: five sections, key numbers equal stats.json", check_insights_sections_and_numbers),
+    ("dataset_contract.json validates clean_data.csv", check_contract_validates_clean_file),
+    ("measured fields equal a fresh build; prose written", check_agent_did_not_touch_measured_fields),
     ("clean_data.csv / stats.json identical to a fresh stub run", check_two_runs_identical),
     ("real crew run recorded (run_meta.json + PROJECT_LOG)", check_real_run_recorded),
 ]

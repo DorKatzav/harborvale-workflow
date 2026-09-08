@@ -2,3 +2,7 @@
 pythonpath = ["."]
 testpaths = ["tests"]
 addopts = "-q"
+filterwarnings = [
+    "ignore::DeprecationWarning:crewai",
+    "ignore::DeprecationWarning:pydantic",
+]

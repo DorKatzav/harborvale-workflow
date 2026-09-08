@@ -1,0 +1,1112 @@
+╭───────────────────────── 🚀 Crew Execution Started ──────────────────────────╮
+│                                                                              │
+│  Crew Execution Started                                                      │
+│  Name: AnalystCrew                                                           │
+│  ID: 54505422-d2df-4081-8b85-d1f63b6b9e38                                    │
+│                                                                              │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+╭────────────────────────────── 📋 Task Started ───────────────────────────────╮
+│                                                                              │
+│  Task Started                                                                │
+│  Name: profile_and_clean                                                     │
+│  ID: a226a18e-5ccb-4d8e-a0e8-56872cf61b8e                                    │
+│                                                                              │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+╭────────────────────────────── 🤖 Agent Started ──────────────────────────────╮
+│                                                                              │
+│  Agent: Data Quality Engineer                                                │
+│                                                                              │
+│  Task: Step 1: call the profile_raw_data tool on the raw workbook at         │
+│  /Users/katzav/AI Developers                                                 │
+│  Course/Projects/Final_Project/HarborVale_Workflow/data/raw/ecommerce_churn  │
+│  .xlsx and read its JSON. Step 2: call the clean_dataset tool with           │
+│  raw_path=/Users/katzav/AI Developers                                        │
+│  Course/Projects/Final_Project/HarborVale_Workflow/data/raw/ecommerce_churn  │
+│  .xlsx and out_dir=runs/20260908-205214/crew1. Do not compute anything       │
+│  yourself and do not open the file any other way: every number you report    │
+│  must appear in a tool's JSON. Then write a cleaning narrative of 3 to 5     │
+│  sentences for a manager: how many rows came in and went out, which          │
+│  spellings were unified and how many rows each touched, how many duplicate   │
+│  records were removed and why that matters, and which columns still have     │
+│  missing values (kept on purpose, declared for the next crew).               │
+│                                                                              │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+╭─────────────────────── 🔧 Tool Execution Started (#1) ───────────────────────╮
+│                                                                              │
+│  Tool: clean_dataset                                                         │
+│  Args: {'raw_path': '/Users/katzav/AI Developers                             │
+│  Course/Projects/Final_Project/HarborVale_Workflow/data/raw/ecommerce_churn  │
+│  .xlsx', 'out_dir': 'runs/20260908-205214/crew1'}                            │
+│                                                                              │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+╭─────────────────────── 🔧 Tool Execution Started (#1) ───────────────────────╮
+│                                                                              │
+│  Tool: profile_raw_data                                                      │
+│  Args: {'raw_path': '/Users/katzav/AI Developers                             │
+│  Course/Projects/Final_Project/HarborVale_Workflow/data/raw/ecommerce_churn  │
+│  .xlsx'}                                                                     │
+│                                                                              │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+╭────────────────────── ✅ Tool Execution Completed (#1) ──────────────────────╮
+│                                                                              │
+│  Tool Completed                                                              │
+│  Tool: profile_raw_data                                                      │
+│  Output: {"rows": 5630, "cols": 20, "columns": {"CustomerID": {"dtype":      │
+│  "int64", "null_count": 0, "n_unique": 5630, "sample_values": [50001,        │
+│  50002, 50003, 50004, 50005, 50006, 50007, 50008, 50009, 50010]}, "Churn":   │
+│  {"dtype": "int64", "null_count": 0, "n_unique": 2, "sample_values": [0,     │
+│  1]}, "Tenure": {"dtype": "float64", "null_count": 264, "n_unique": 36,      │
+│  "sample_values": [0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0]},       │
+│  "PreferredLoginDevice": {"dtype": "str", "null_count": 0, "n_unique": 3,    │
+│  "sample_values": ["Mobile Phone", "Computer", "Phone"]}, "CityTier":        │
+│  {"dtype": "int64", "null_count": 0, "n_unique": 3, "sample_values": [1, 2,  │
+│  3]}, "WarehouseToHome": {"dtype": "float64", "null_count": 251,             │
+│  "n_unique": 34, "sample_values": [5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0,      │
+│  12.0, 13.0, 14.0]}, "PreferredPaymentMode": {"dtype": "str", "null_count":  │
+│  0, "n_unique": 7, "sample_values": ["Debit Card", "Credit Card", "E         │
+│  wallet", "UPI", "COD", "CC", "Cash on Delivery"]}, "Gender": {"dtype":      │
+│  "str", "null_count": 0, "n_unique": 2, "sample_values": ["Male",            │
+│  "Female"]}, "HourSpendOnApp": {"dtype": "float64", "null_count": 255,       │
+│  "n_unique": 6, "sample_values": [0.0, 1.0, 2.0, 3.0, 4.0, 5.0]},            │
+│  "NumberOfDeviceRegistered": {"dtype": "int64", "null_count": 0,             │
+│  "n_unique": 6, "sample_values": [1, 2, 3, 4, 5, 6]}, "PreferedOrderCat":    │
+│  {"dtype": "str", "null_count": 0, "n_unique": 6, "sample_values": ["Laptop  │
+│  & Accessory", "Mobile Phone", "Fashion", "Mobile", "Grocery", "Others"]},   │
+│  "SatisfactionScore": {"dtype": "int64", "null_count": 0, "n_unique": 5,     │
+│  "sample_values": [1, 2, 3, 4, 5]}, "MaritalStatus": {"dtype": "str",        │
+│  "null_count": 0, "n_unique": 3, "sample_values": ["Married", "Single",      │
+│  "Divorced"]}, "NumberOfAddress": {"dtype": "int64", "null_count": 0,        │
+│  "n_unique": 15, "sample_values": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]},          │
+│  "Complain": {"dtype": "int64", "null_count": 0, "n_unique": 2,              │
+│  "sample_values": [0, 1]}, "OrderAmountHikeFromlastYear": {"dtype":          │
+│  "float64", "null_count": 265, "n_unique": 16, "sample_values": [11.0,       │
+│  12.0, 13.0, 14.0, 15.0, 16.0, 17.0, 18.0, 19.0, 20.0]}, "CouponUsed":       │
+│  {"dtype": "float64", "null_count": 256, "n_unique": 17, "sample_values":    │
+│  [0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0]}, "OrderCount":          │
+│  {"dtype": "float64", "null_count": 258, "n_unique": 16, "sample_values":    │
+│  [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0]}, "DaySinceLastOrder":  │
+│  {"dtype": "float64", "null_count": 307, "n_unique": 22, "sample_values":    │
+│  [0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0]}, "CashbackAmount":      │
+│  {"dtype": "float64", "null_count": 0, "n_unique": 2586, "sample_values":    │
+│  [0.0, 12.0, 25.0, 37.0, 56.0, 81.0, 110.09, 110.50999999999999,             │
+│  110.52000000000001, 110.81]}}, "duplicate_rows": 0, "duplicate_ids": 0,     │
+│  "duplicate_records": 556, "numeric_describe": {"CustomerID": {"min":        │
+│  50001.0, "max": 55630.0, "mean": 52815.5, "std": 1625.3853}, "Churn":       │
+│  {"min": 0.0, "max": 1.0, "mean": 0.1684, "std": 0.3742}, "Tenure": {"min":  │
+│  0.0, "max": 61.0, "mean": 10.1899, "std": 8.5572}, "CityTier": {"min":      │
+│  1.0, "max": 3.0, "mean": 1.6547, "std": 0.9154}, "WarehouseToHome":         │
+│  {"min": 5.0, "max": 127.0, "mean": 15.6399, "std": 8.5315},                 │
+│  "HourSpendOnApp": {"min": 0.0, "max": 5.0, "mean": 2.9315, "std": 0.7219},  │
+│  "NumberOfDeviceRegistered": {"min": 1.0, "max": 6.0, "mean": 3.689, "std":  │
+│  1.024}, "SatisfactionScore": {"min": 1.0, "max": 5.0, "mean": 3.0668,       │
+│  "std": 1.3802}, "NumberOfAddress": {"min": 1.0, "max": 22.0, "mean":        │
+│  4.214, "std": 2.5836}, "Complain": {"min": 0.0, "max": 1.0, "mean":         │
+│  0.2849, "std": 0.4514}, "OrderAmountHikeFromlastYear": {"min": 11.0,        │
+│  "max": 26.0, "mean": 15.7079, "std": 3.6755}, "CouponUsed": {"min": 0.0,    │
+│  "max": 16.0, "mean": 1.751, "std": 1.8946}, "OrderCount": {"min": 1.0,      │
+│  "max": 16.0, "mean": 3.008, "std": 2.9397}, "DaySinceLastOrder": {"min":    │
+│  0.0, "max": 46.0, "mean": 4.5435, "std": 3.6544}, "CashbackAmount":         │
+│  {"min": 0.0, "max": 324.99, "mean": 177.223, "std": 49.207}}}               │
+│                                                                              │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+╭────────────────────── ✅ Tool Execution Completed (#1) ──────────────────────╮
+│                                                                              │
+│  Tool Completed                                                              │
+│  Tool: clean_dataset                                                         │
+│  Output: {"clean_csv": "runs/20260908-205214/crew1/clean_data.csv",          │
+│  "sha256":                                                                   │
+│  "ef1e1f758009fa575837a3b4b62384c1f3516297d775aa2c10ef796a449073a2",         │
+│  "report": {"rows_in": 5630, "rows_out": 5073, "duplicate_rows_dropped": 0,  │
+│  "duplicate_ids_dropped": 0, "duplicate_records_dropped": 557,               │
+│  "entity_fixes": {"PreferredLoginDevice": {"Phone": 1231},                   │
+│  "PreferredPaymentMode": {"CC": 273, "COD": 365}, "PreferedOrderCat":        │
+│  {"Mobile": 809}}, "dtype_casts": {"CustomerID": "int", "Churn": "int",      │
+│  "CityTier": "int", "Complain": "int", "SatisfactionScore": "int",           │
+│  "NumberOfDeviceRegistered": "int", "NumberOfAddress": "int"},               │
+│  "nulls_kept": {"Tenure": 231, "WarehouseToHome": 221, "HourSpendOnApp":     │
+│  230, "OrderAmountHikeFromlastYear": 252, "CouponUsed": 210, "OrderCount":   │
+│  243, "DaySinceLastOrder": 288}}}                                            │
+│                                                                              │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Tool profile_raw_data executed with result: {"rows": 5630, "cols": 20, "columns": {"CustomerID": {"dtype": "int64", "null_count": 0, "n_unique": 5630, "sample_values": [50001, 50002, 50003, 50004, 50005, 50006, 50007, 50008, 50009, 50010]}, "Ch...
+Tool clean_dataset executed with result: {"clean_csv": "runs/20260908-205214/crew1/clean_data.csv", "sha256": "ef1e1f758009fa575837a3b4b62384c1f3516297d775aa2c10ef796a449073a2", "report": {"rows_in": 5630, "rows_out": 5073, "duplicate_rows_d...
+
+[Finalize] todos_count=0, todos_with_results=0
+╭─────────────────────────── ✅ Agent Final Answer ────────────────────────────╮
+│                                                                              │
+│  Agent: Data Quality Engineer                                                │
+│                                                                              │
+│  Final Answer:                                                               │
+│  I profiled and cleaned the raw workbook: 5630 rows came in and 5073 rows    │
+│  went out after cleaning. We unified spelling/label inconsistencies:         │
+│  PreferredLoginDevice "Phone" standardized (1231 rows),                      │
+│  PreferredPaymentMode "CC" (273 rows) and "COD" (365 rows) unified, and      │
+│  PreferedOrderCat "Mobile" standardized (809 rows). We removed 557           │
+│  duplicate records (identical except for CustomerID), which prevents         │
+│  double-counting customers downstream. We kept nulls intentionally for the   │
+│  next crew to inspect: Tenure (231), WarehouseToHome (221), HourSpendOnApp   │
+│  (230), OrderAmountHikeFromlastYear (252), CouponUsed (210), OrderCount      │
+│  (243), and DaySinceLastOrder (288).                                         │
+│                                                                              │
+│  CLEAN_CSV: runs/20260908-205214/crew1/clean_data.csv                        │
+│                                                                              │
+│  {"rows_in": 5630, "rows_out": 5073, "duplicate_rows_dropped": 0,            │
+│  "duplicate_ids_dropped": 0, "duplicate_records_dropped": 557,               │
+│  "entity_fixes": {"PreferredLoginDevice": {"Phone": 1231},                   │
+│  "PreferredPaymentMode": {"CC": 273, "COD": 365}, "PreferedOrderCat":        │
+│  {"Mobile": 809}}, "dtype_casts": {"CustomerID": "int", "Churn": "int",      │
+│  "CityTier": "int", "Complain": "int", "SatisfactionScore": "int",           │
+│  "NumberOfDeviceRegistered": "int", "NumberOfAddress": "int"},               │
+│  "nulls_kept": {"Tenure": 231, "WarehouseToHome": 221, "HourSpendOnApp":     │
+│  230, "OrderAmountHikeFromlastYear": 252, "CouponUsed": 210, "OrderCount":   │
+│  243, "DaySinceLastOrder": 288}}                                             │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+╭───────────────────────────── 📋 Task Completion ─────────────────────────────╮
+│                                                                              │
+│  Task Completed                                                              │
+│  Name: profile_and_clean                                                     │
+│  Agent: Data Quality Engineer                                                │
+│                                                                              │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+╭────────────────────────────── 📋 Task Started ───────────────────────────────╮
+│                                                                              │
+│  Task Started                                                                │
+│  Name: explore                                                               │
+│  ID: b30ca449-5f6d-44b7-9074-6f9af86b3418                                    │
+│                                                                              │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+╭────────────────────────────── 🤖 Agent Started ──────────────────────────────╮
+│                                                                              │
+│  Agent: Business Analyst                                                     │
+│                                                                              │
+│  Task: Call the run_eda tool with                                            │
+│  clean_csv=runs/20260908-205214/crew1/clean_data.csv and                     │
+│  out_dir=runs/20260908-205214/crew1. Read the "stats" object it returns.     │
+│  Then list 6 to 8 findings about who churns and why. Each finding must cite  │
+│  the exact figure from the stats (rates as percentages with one decimal,     │
+│  counts as integers, correlations with two decimals) and name the group it   │
+│  applies to. Cover at least: the overall churn rate, tenure buckets, the     │
+│  complaint effect, the strongest categorical differences, and the top        │
+│  correlates. Do not invent numbers and do not compute new ones from the      │
+│  ones you were given.                                                        │
+│                                                                              │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+╭─────────────────────── 🔧 Tool Execution Started (#1) ───────────────────────╮
+│                                                                              │
+│  Tool: run_eda                                                               │
+│  Args: {'clean_csv': 'runs/20260908-205214/crew1/clean_data.csv',            │
+│  'out_dir': 'runs/20260908-205214/crew1'}                                    │
+│                                                                              │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+Tool run_eda executed with result: {"stats": {"n_rows": 5073, "n_cols": 20, "churn_rate": 0.1658, "churn_count": 841, "nulls": {"Tenure": 231, "WarehouseToHome": 221, "HourSpendOnApp": 230, "OrderAmountHikeFromlastYear": 252, "CouponUs...
+╭────────────────────── ✅ Tool Execution Completed (#1) ──────────────────────╮
+│                                                                              │
+│  Tool Completed                                                              │
+│  Tool: run_eda                                                               │
+│  Output: {"stats": {"n_rows": 5073, "n_cols": 20, "churn_rate": 0.1658,      │
+│  "churn_count": 841, "nulls": {"Tenure": 231, "WarehouseToHome": 221,        │
+│  "HourSpendOnApp": 230, "OrderAmountHikeFromlastYear": 252, "CouponUsed":    │
+│  210, "OrderCount": 243, "DaySinceLastOrder": 288}, "churn_by_category":     │
+│  {"PreferredLoginDevice": {"Computer": {"n": 1457, "churn_rate": 0.1956},    │
+│  "Mobile Phone": {"n": 3616, "churn_rate": 0.1538}},                         │
+│  "PreferredPaymentMode": {"Cash on Delivery": {"n": 457, "churn_rate":       │
+│  0.2538}, "Credit Card": {"n": 1596, "churn_rate": 0.1416}, "Debit Card":    │
+│  {"n": 2098, "churn_rate": 0.1501}, "E wallet": {"n": 562, "churn_rate":     │
+│  0.2278}, "UPI": {"n": 360, "churn_rate": 0.1556}}, "Gender": {"Female":     │
+│  {"n": 2026, "churn_rate": 0.1525}, "Male": {"n": 3047, "churn_rate":        │
+│  0.1746}}, "PreferedOrderCat": {"Fashion": {"n": 763, "churn_rate":          │
+│  0.1625}, "Grocery": {"n": 366, "churn_rate": 0.0437}, "Laptop &             │
+│  Accessory": {"n": 1847, "churn_rate": 0.105}, "Mobile Phone": {"n": 1855,   │
+│  "churn_rate": 0.2631}, "Others": {"n": 242, "churn_rate": 0.0785}},         │
+│  "MaritalStatus": {"Divorced": {"n": 848, "churn_rate": 0.1462}, "Married":  │
+│  {"n": 2672, "churn_rate": 0.113}, "Single": {"n": 1553, "churn_rate":       │
+│  0.2672}}, "CityTier": {"1": {"n": 3305, "churn_rate": 0.1398}, "2": {"n":   │
+│  195, "churn_rate": 0.1744}, "3": {"n": 1573, "churn_rate": 0.2193}}},       │
+│  "numeric_by_churn": {"Tenure": {"mean_churn": 3.4657, "mean_stay":          │
+│  11.4947}, "WarehouseToHome": {"mean_churn": 16.9909, "mean_stay":           │
+│  15.2724}, "HourSpendOnApp": {"mean_churn": 2.9507, "mean_stay": 2.925},     │
+│  "NumberOfDeviceRegistered": {"mean_churn": 3.956, "mean_stay": 3.6326},     │
+│  "SatisfactionScore": {"mean_churn": 3.3413, "mean_stay": 2.9657},           │
+│  "NumberOfAddress": {"mean_churn": 4.4958, "mean_stay": 4.1342},             │
+│  "Complain": {"mean_churn": 0.5339, "mean_stay": 0.2328},                    │
+│  "OrderAmountHikeFromlastYear": {"mean_churn": 15.5296, "mean_stay":         │
+│  15.7529}, "CouponUsed": {"mean_churn": 1.7943, "mean_stay": 1.8083},        │
+│  "OrderCount": {"mean_churn": 2.9479, "mean_stay": 3.1238},                  │
+│  "DaySinceLastOrder": {"mean_churn": 3.3287, "mean_stay": 4.8279},           │
+│  "CashbackAmount": {"mean_churn": 161.7769, "mean_stay": 180.7984}},         │
+│  "correlation_with_churn": {"Tenure": -0.3424, "Complain": 0.2487,           │
+│  "DaySinceLastOrder": -0.1518, "CashbackAmount": -0.1432,                    │
+│  "NumberOfDeviceRegistered": 0.1168, "SatisfactionScore": 0.1009,            │
+│  "WarehouseToHome": 0.073, "NumberOfAddress": 0.0522,                        │
+│  "OrderAmountHikeFromlastYear": -0.0229, "OrderCount": -0.0221,              │
+│  "HourSpendOnApp": 0.0131, "CouponUsed": -0.0027}, "top_drivers":            │
+│  ["Tenure", "Complain", "DaySinceLastOrder", "CashbackAmount",               │
+│  "NumberOfDeviceRegistered"], "complain_churn_rate": 0.3131,                 │
+│  "no_complain_churn_rate": 0.1077, "tenure_buckets": {"0-1": {"n": 1076,     │
+│  "churn_rate": 0.513}, "2-6": {"n": 868, "churn_rate": 0.0737}, "7-12":      │
+│  {"n": 1184, "churn_rate": 0.0566}, "13+": {"n": 1714, "churn_rate":         │
+│  0.0525}}}, "stats_json": "runs/20260908-205214/crew1/stats.json",           │
+│  "eda_html": "runs/20260908-205214/crew1/eda_report.html"}                   │
+│                                                                              │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+[Finalize] todos_count=0, todos_with_results=0
+╭─────────────────────────── ✅ Agent Final Answer ────────────────────────────╮
+│                                                                              │
+│  Agent: Business Analyst                                                     │
+│                                                                              │
+│  Final Answer:                                                               │
+│  - Overall — churn rate 16.6% (841 customers churned).                       │
+│  - Tenure 0–1 month — churn rate 51.3% (n=1076); Tenure 13+ months — churn   │
+│  rate 5.3% (n=1714).                                                         │
+│  - Complaints — customers who complained churn at 31.3% vs customers who     │
+│  did not complain at 10.8% (complain_churn_rate 31.3%,                       │
+│  no_complain_churn_rate 10.8%).                                              │
+│  - Preferred order category — Mobile Phone customers churn at 26.3%          │
+│  (n=1855) while Grocery customers churn at 4.4% (n=366).                     │
+│  - Preferred payment mode — Cash on Delivery customers churn at 25.4%        │
+│  (n=457); E wallet users churn at 22.8% (n=562).                             │
+│  - Login device — Computer users churn at 19.6% (n=1457) vs Mobile Phone     │
+│  users at 15.4% (n=3616).                                                    │
+│  - City tier — Tier 3 churn rate 21.9% (n=1573) vs Tier 1 churn rate 14.0%   │
+│  (n=3305).                                                                   │
+│  - Top correlations with churn (two-decimal): Tenure -0.34, Complain 0.25,   │
+│  DaySinceLastOrder -0.15, CashbackAmount -0.14, NumberOfDeviceRegistered     │
+│  0.12.                                                                       │
+│                                                                              │
+│  Two- or three-word summary of strongest drivers: Tenure, Complain,          │
+│  DaySinceLastOrder.                                                          │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+╭───────────────────────────── 📋 Task Completion ─────────────────────────────╮
+│                                                                              │
+│  Task Completed                                                              │
+│  Name: explore                                                               │
+│  Agent: Business Analyst                                                     │
+│                                                                              │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+╭────────────────────────────── 📋 Task Started ───────────────────────────────╮
+│                                                                              │
+│  Task Started                                                                │
+│  Name: write_insights                                                        │
+│  ID: 7ef36842-e62a-4bda-8baf-634af165dced                                    │
+│                                                                              │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+╭────────────────────────────── 🤖 Agent Started ──────────────────────────────╮
+│                                                                              │
+│  Agent: Business Analyst                                                     │
+│                                                                              │
+│  Task: Write the business-facing insights document by calling the            │
+│  write_insights tool with out_dir=runs/20260908-205214/crew1 and             │
+│  sections_json = a JSON object with exactly these five keys, each a          │
+│  non-empty Markdown string: "Overview" (what the dataset is and the          │
+│  headline churn rate, 2-3 sentences), "Cleaning" (what the Data Quality      │
+│  Engineer changed, from the previous task's narrative), "Who churns" (the    │
+│  groups with the highest and lowest churn, with their rates), "Drivers"      │
+│  (the strongest correlates and what they suggest, correlation is not         │
+│  causation), "Recommendations" (3 concrete actions for the retention team,   │
+│  each tied to a finding). Use only numbers that appeared in the tool         │
+│  outputs of the previous tasks. The key-numbers table is generated by the    │
+│  tool; do not write your own table. If the tool answers with "ERROR: ...",   │
+│  fix the sections and call it again.                                         │
+│                                                                              │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+╭─────────────────────── 🔧 Tool Execution Started (#1) ───────────────────────╮
+│                                                                              │
+│  Tool: write_insights                                                        │
+│  Args: {'out_dir': 'runs/20260908-205214/crew1', 'sections_json':            │
+│  '{"Overview":"Dataset: 5,630 raw rows ingested and 5,073 rows after         │
+│  cleaning. Headline churn rate is 16.6% (841 customers                       │
+│  churned).","Cleanin...                                                      │
+│                                                                              │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+Tool write_insights executed with result: runs/20260908-205214/crew1/insights.md...
+╭────────────────────── ✅ Tool Execution Completed (#1) ──────────────────────╮
+│                                                                              │
+│  Tool Completed                                                              │
+│  Tool: write_insights                                                        │
+│  Output: runs/20260908-205214/crew1/insights.md                              │
+│                                                                              │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+[Finalize] todos_count=0, todos_with_results=0
+╭─────────────────────────── ✅ Agent Final Answer ────────────────────────────╮
+│                                                                              │
+│  Agent: Business Analyst                                                     │
+│                                                                              │
+│  Final Answer:                                                               │
+│  runs/20260908-205214/crew1/insights.md                                      │
+│                                                                              │
+│  Overview                                                                    │
+│  Dataset: 5,630 raw rows ingested and 5,073 rows after cleaning. Headline    │
+│  churn rate is 16.6% (841 customers churned).                                │
+│                                                                              │
+│  Cleaning                                                                    │
+│  I profiled and cleaned the workbook: 5,630 rows in → 5,073 rows out; 557    │
+│  duplicate records were removed. I standardized label inconsistencies:       │
+│  PreferredLoginDevice 'Phone' standardized (1,231 rows),                     │
+│  PreferredPaymentMode values unified for 'CC' (273) and 'COD' (365), and     │
+│  PreferedOrderCat 'Mobile' standardized (809). I cast CustomerID, Churn,     │
+│  CityTier, Complain, SatisfactionScore, NumberOfDeviceRegistered, and        │
+│  NumberOfAddress to integer types. I intentionally kept nulls for later      │
+│  review: Tenure (231), WarehouseToHome (221), HourSpendOnApp (230),          │
+│  OrderAmountHikeFromlastYear (252), CouponUsed (210), OrderCount (243),      │
+│  DaySinceLastOrder (288).                                                    │
+│                                                                              │
+│  Who churns                                                                  │
+│  Highest churn: customers with Tenure 0–1 month churn at 51.3% (n=1,076).    │
+│  Lowest churn: Grocery customers churn at 4.4% (n=366).                      │
+│                                                                              │
+│  Drivers                                                                     │
+│  Top correlations with churn (two-decimal): Tenure -0.34, Complain 0.25,     │
+│  DaySinceLastOrder -0.15, CashbackAmount -0.14, NumberOfDeviceRegistered     │
+│  0.12. These statistics suggest newer customers and customers who have       │
+│  complained are associated with higher churn; the negative Tenure            │
+│  correlation aligns with the 51.3% churn in the 0–1 month group. The         │
+│  negative correlation for DaySinceLastOrder (-0.15) is unexpected and        │
+│  should be investigated further. Correlation is not causation.               │
+│                                                                              │
+│  Recommendations                                                             │
+│  1) Run an intensive onboarding and early-engagement program for customers   │
+│  in Tenure 0–1 month (51.3% churn, n=1,076): automated welcome messages, a   │
+│  2-week follow-up, and a first-order discount; measure 30-day churn          │
+│  reduction.                                                                  │
+│                                                                              │
+│  2) Implement a complaints rapid-response and escalation workflow:           │
+│  customers who complained churn at 31.3% versus 10.8% for non-complainers.   │
+│  Set a same-day triage SLA and track complaint-to-churn conversion.          │
+│                                                                              │
+│  3) Target the Mobile Phone order category (26.3% churn, n=1,855) with       │
+│  category-specific retention offers and UX/payment nudges; run a COD (25.4%  │
+│  churn, n=457) payment-education pilot to reduce friction.                   │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+╭───────────────────────────── 📋 Task Completion ─────────────────────────────╮
+│                                                                              │
+│  Task Completed                                                              │
+│  Name: write_insights                                                        │
+│  Agent: Business Analyst                                                     │
+│                                                                              │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+╭────────────────────────────── 📋 Task Started ───────────────────────────────╮
+│                                                                              │
+│  Task Started                                                                │
+│  Name: author_contract                                                       │
+│  ID: 6f9d7051-8b1c-421a-b297-fd58e95dd9e5                                    │
+│                                                                              │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+╭────────────────────────────── 🤖 Agent Started ──────────────────────────────╮
+│                                                                              │
+│  Agent: Data Steward                                                         │
+│                                                                              │
+│  Task: Write the dataset contract the modelling crew must honour. Step 1:    │
+│  call build_contract_measured with                                           │
+│  clean_csv=runs/20260908-205214/crew1/clean_data.csv,                        │
+│  out_dir=runs/20260908-205214/crew1, raw_path=/Users/katzav/AI Developers    │
+│  Course/Projects/Final_Project/HarborVale_Workflow/data/raw/ecommerce_churn  │
+│  .xlsx; it measures every column and returns the columns with their dtype,   │
+│  role, unit, nullable, null_count, allowed_values, min, max and a            │
+│  pre-filled description. Those measured values are facts: you do not change  │
+│  them and you do not restate them from memory. Step 2: call                  │
+│  write_contract_human_fields with                                            │
+│  contract_path=runs/20260908-205214/crew1/dataset_contract.json and three    │
+│  JSON arguments: descriptions_json = one clear sentence per column for a     │
+│  newcomer (all 20 columns; improve the dictionary text where it is unclear,  │
+│  keep it where it is fine); rationales_json = for every column, why the      │
+│  constraint exists and what the modelling crew may assume (name the unit     │
+│  for money, distance, time and percentage columns; say what a null means;    │
+│  say that protected columns are not features; say the id is not a feature    │
+│  and the target is the label); assumptions_json = a list of 5 to 8           │
+│  dataset-level assumptions written as plain sentences, for example that      │
+│  CashbackAmount is in USD and not cents, that the row count and sha256       │
+│  identify exactly this file, that nulls are kept and imputation is the       │
+│  modelling crew's job, and what a duplicate-record removal did. If the tool  │
+│  answers with "ERROR: ...", fix the JSON and call it again.                  │
+│                                                                              │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+╭─────────────────────── 🔧 Tool Execution Started (#1) ───────────────────────╮
+│                                                                              │
+│  Tool: build_contract_measured                                               │
+│  Args: {'clean_csv': 'runs/20260908-205214/crew1/clean_data.csv',            │
+│  'out_dir': 'runs/20260908-205214/crew1', 'raw_path': '/Users/katzav/AI      │
+│  Developers Course/Projects/Final_Project/HarborVale_Workflow/data/raw/...   │
+│                                                                              │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+Tool build_contract_measured executed with result: {"contract_path": "runs/20260908-205214/crew1/dataset_contract.json", "row_count": 5073, "sha256": "ef1e1f758009fa575837a3b4b62384c1f3516297d775aa2c10ef796a449073a2", "columns": [{"name": "CustomerID"...
+╭────────────────────── ✅ Tool Execution Completed (#1) ──────────────────────╮
+│                                                                              │
+│  Tool Completed                                                              │
+│  Tool: build_contract_measured                                               │
+│  Output: {"contract_path":                                                   │
+│  "runs/20260908-205214/crew1/dataset_contract.json", "row_count": 5073,      │
+│  "sha256":                                                                   │
+│  "ef1e1f758009fa575837a3b4b62384c1f3516297d775aa2c10ef796a449073a2",         │
+│  "columns": [{"name": "CustomerID", "dtype": "int", "role": "id", "unit":    │
+│  null, "nullable": false, "null_count": 0, "allowed_values": null, "min":    │
+│  50001.0, "max": 55630.0, "description": "Unique customer ID"}, {"name":     │
+│  "Churn", "dtype": "int", "role": "target", "unit": null, "nullable":        │
+│  false, "null_count": 0, "allowed_values": null, "min": 0.0, "max": 1.0,     │
+│  "description": "Churn Flag"}, {"name": "Tenure", "dtype": "float", "role":  │
+│  "feature", "unit": "months", "nullable": true, "null_count": 231,           │
+│  "allowed_values": null, "min": 0.0, "max": 61.0, "description": "Tenure of  │
+│  customer in organization"}, {"name": "PreferredLoginDevice", "dtype":       │
+│  "category", "role": "feature", "unit": null, "nullable": false,             │
+│  "null_count": 0, "allowed_values": ["Computer", "Mobile Phone"], "min":     │
+│  null, "max": null, "description": "Preferred login device of customer"},    │
+│  {"name": "CityTier", "dtype": "int", "role": "feature", "unit": null,       │
+│  "nullable": false, "null_count": 0, "allowed_values": null, "min": 1.0,     │
+│  "max": 3.0, "description": "City tier"}, {"name": "WarehouseToHome",        │
+│  "dtype": "float", "role": "feature", "unit": "km", "nullable": true,        │
+│  "null_count": 221, "allowed_values": null, "min": 5.0, "max": 127.0,        │
+│  "description": "Distance in between warehouse to home of customer"},        │
+│  {"name": "PreferredPaymentMode", "dtype": "category", "role": "feature",    │
+│  "unit": null, "nullable": false, "null_count": 0, "allowed_values": ["Cash  │
+│  on Delivery", "Credit Card", "Debit Card", "E wallet", "UPI"], "min":       │
+│  null, "max": null, "description": "Preferred payment method of customer"},  │
+│  {"name": "Gender", "dtype": "category", "role": "protected", "unit": null,  │
+│  "nullable": false, "null_count": 0, "allowed_values": ["Female", "Male"],   │
+│  "min": null, "max": null, "description": "Gender of customer"}, {"name":    │
+│  "HourSpendOnApp", "dtype": "float", "role": "feature", "unit": "hours",     │
+│  "nullable": true, "null_count": 230, "allowed_values": null, "min": 0.0,    │
+│  "max": 5.0, "description": "Number of hours spend on mobile application or  │
+│  website"}, {"name": "NumberOfDeviceRegistered", "dtype": "int", "role":     │
+│  "feature", "unit": null, "nullable": false, "null_count": 0,                │
+│  "allowed_values": null, "min": 1.0, "max": 6.0, "description": "Total       │
+│  number of deceives is registered on particular customer"}, {"name":         │
+│  "PreferedOrderCat", "dtype": "category", "role": "feature", "unit": null,   │
+│  "nullable": false, "null_count": 0, "allowed_values": ["Fashion",           │
+│  "Grocery", "Laptop & Accessory", "Mobile Phone", "Others"], "min": null,    │
+│  "max": null, "description": "Preferred order category of customer in last   │
+│  month"}, {"name": "SatisfactionScore", "dtype": "int", "role": "feature",   │
+│  "unit": null, "nullable": false, "null_count": 0, "allowed_values": null,   │
+│  "min": 1.0, "max": 5.0, "description": "Satisfactory score of customer on   │
+│  service"}, {"name": "MaritalStatus", "dtype": "category", "role":           │
+│  "protected", "unit": null, "nullable": false, "null_count": 0,              │
+│  "allowed_values": ["Divorced", "Married", "Single"], "min": null, "max":    │
+│  null, "description": "Marital status of customer"}, {"name":                │
+│  "NumberOfAddress", "dtype": "int", "role": "feature", "unit": null,         │
+│  "nullable": false, "null_count": 0, "allowed_values": null, "min": 1.0,     │
+│  "max": 22.0, "description": "Total number of added added on particular      │
+│  customer"}, {"name": "Complain", "dtype": "int", "role": "feature",         │
+│  "unit": null, "nullable": false, "null_count": 0, "allowed_values": null,   │
+│  "min": 0.0, "max": 1.0, "description": "Any complaint has been raised in    │
+│  last month"}, {"name": "OrderAmountHikeFromlastYear", "dtype": "float",     │
+│  "role": "feature", "unit": "percent", "nullable": true, "null_count": 252,  │
+│  "allowed_values": null, "min": 11.0, "max": 26.0, "description":            │
+│  "Percentage increases in order from last year"}, {"name": "CouponUsed",     │
+│  "dtype": "float", "role": "feature", "unit": null, "nullable": true,        │
+│  "null_count": 210, "allowed_values": null, "min": 0.0, "max": 16.0,         │
+│  "description": "Total number of coupon has been used in last month"},       │
+│  {"name": "OrderCount", "dtype": "float", "role": "feature", "unit": null,   │
+│  "nullable": true, "null_count": 243, "allowed_values": null, "min": 1.0,    │
+│  "max": 16.0, "description": "Total number of orders has been places in      │
+│  last month"}, {"name": "DaySinceLastOrder", "dtype": "float", "role":       │
+│  "feature", "unit": "days", "nullable": true, "null_count": 288,             │
+│  "allowed_values": null, "min": 0.0, "max": 46.0, "description": "Day Since  │
+│  last order by customer"}, {"name": "CashbackAmount", "dtype": "float",      │
+│  "role": "feature", "unit": "USD", "nullable": false, "null_count": 0,       │
+│  "allowed_values": null, "min": 0.0, "max": 324.99, "description": "Average  │
+│  cashback in last month"}]}                                                  │
+│                                                                              │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+Tool write_contract_human_fields executed with result: ERROR: invalid JSON: Extra data: line 1 column 1038 (char 1037)...
+╭─────────────────────── 🔧 Tool Execution Started (#1) ───────────────────────╮
+│                                                                              │
+│  Tool: write_contract_human_fields                                           │
+│  Args: {'contract_path':                                                     │
+│  'runs/20260908-205214/crew1/dataset_contract.json', 'descriptions_json':    │
+│  '{"CustomerID": "Unique integer identifier for each customer (not a         │
+│  modeling feature).","Churn": "Binary targ...                                │
+│                                                                              │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭────────────────────── ✅ Tool Execution Completed (#1) ──────────────────────╮
+│                                                                              │
+│  Tool Completed                                                              │
+│  Tool: write_contract_human_fields                                           │
+│  Output: ERROR: invalid JSON: Extra data: line 1 column 1038 (char 1037)     │
+│                                                                              │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+
+╭─────────────────────── 🔧 Tool Execution Started (#2) ───────────────────────╮
+│                                                                              │
+│  Tool: write_contract_human_fields                                           │
+│  Args: {'contract_path':                                                     │
+│  'runs/20260908-205214/crew1/dataset_contract.json', 'descriptions_json':    │
+│  '{"CustomerID":"Unique integer identifier for each customer (not a          │
+│  modeling feature).","Churn":"Binary target...                               │
+│                                                                              │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+Tool write_contract_human_fields executed with result: runs/20260908-205214/crew1/dataset_contract.json...
+╭────────────────────── ✅ Tool Execution Completed (#2) ──────────────────────╮
+│                                                                              │
+│  Tool Completed                                                              │
+│  Tool: write_contract_human_fields                                           │
+│  Output: runs/20260908-205214/crew1/dataset_contract.json                    │
+│                                                                              │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+[Finalize] todos_count=0, todos_with_results=0
+╭─────────────────────────── ✅ Agent Final Answer ────────────────────────────╮
+│                                                                              │
+│  Agent: Data Steward                                                         │
+│                                                                              │
+│  Final Answer:                                                               │
+│  runs/20260908-205214/crew1/dataset_contract.json                            │
+│                                                                              │
+│  {"contract_path":"runs/20260908-205214/crew1/dataset_contract.json","row_c  │
+│  ount":5073,"sha256":"ef1e1f758009fa575837a3b4b62384c1f3516297d775aa2c10ef7  │
+│  96a449073a2","columns":[{"name":"CustomerID","dtype":"int","role":"id","un  │
+│  it":null,"nullable":false,"null_count":0,"allowed_values":null,"min":50001  │
+│  .0,"max":55630.0,"description":"Unique customer                             │
+│  ID","human_description":"Unique integer identifier for each customer (not   │
+│  a modeling feature).","rationale":"This is the primary identifier for       │
+│  joining back to upstream systems and must not be used as a feature; it is   │
+│  unique per                                                                  │
+│  row."},{"name":"Churn","dtype":"int","role":"target","unit":null,"nullable  │
+│  ":false,"null_count":0,"allowed_values":null,"min":0.0,"max":1.0,"descript  │
+│  ion":"Churn Flag","human_description":"Binary target: 1 if the customer     │
+│  churned, 0 if retained.","rationale":"The binary label the model must       │
+│  predict: 1 = churned, 0 = retained. Treat this column as the target; do     │
+│  not convert to categorical if your training function expects                │
+│  integers."},{"name":"Tenure","dtype":"float","role":"feature","unit":"mont  │
+│  hs","nullable":true,"null_count":231,"allowed_values":null,"min":0.0,"max"  │
+│  :61.0,"description":"Tenure of customer in                                  │
+│  organization","human_description":"Customer tenure in months (can be        │
+│  fractional); 0 means joined within the last month.","rationale":"Unit:      │
+│  months. Nulls (231) indicate missing tenure information from source and     │
+│  were intentionally kept; Tenure is highly predictive (new customers churn   │
+│  more), so impute or model missingness rather than arbitrarily setting       │
+│  zeros."},{"name":"PreferredLoginDevice","dtype":"category","role":"feature  │
+│  ","unit":null,"nullable":false,"null_count":0,"allowed_values":["Computer"  │
+│  ,"Mobile Phone"],"min":null,"max":null,"description":"Preferred login       │
+│  device of customer","human_description":"Customer's most-used login device  │
+│  during the observation window ('Computer' or 'Mobile                        │
+│  Phone').","rationale":"Categorical with two allowed values; standardized    │
+│  during cleaning. No nulls remain; use as a                                  │
+│  predictor."},{"name":"CityTier","dtype":"int","role":"feature","unit":null  │
+│  ,"nullable":false,"null_count":0,"allowed_values":null,"min":1.0,"max":3.0  │
+│  ,"description":"City tier","human_description":"City tier coded as an       │
+│  integer (1 = Tier 1, 2 = Tier 2, 3 = Tier 3).","rationale":"Integer         │
+│  ordinal (1–3). No nulls; can be used as numeric ordinal or one-hot encoded  │
+│  depending on modeling                                                       │
+│  choice."},{"name":"WarehouseToHome","dtype":"float","role":"feature","unit  │
+│  ":"km","nullable":true,"null_count":221,"allowed_values":null,"min":5.0,"m  │
+│  ax":127.0,"description":"Distance in between warehouse to home of           │
+│  customer","human_description":"Distance in kilometers from the customer's   │
+│  primary warehouse to their home address.","rationale":"Unit: km. Nulls      │
+│  (221) indicate missing distance data; values range 5–127 km. Impute         │
+│  sensibly or include a missing indicator; distance may correlate with        │
+│  delivery                                                                    │
+│  friction."},{"name":"PreferredPaymentMode","dtype":"category","role":"feat  │
+│  ure","unit":null,"nullable":false,"null_count":0,"allowed_values":["Cash    │
+│  on Delivery","Credit Card","Debit Card","E                                  │
+│  wallet","UPI"],"min":null,"max":null,"description":"Preferred payment       │
+│  method of customer","human_description":"Customer's preferred payment       │
+│  method (Cash on Delivery, Credit Card, Debit Card, E wallet,                │
+│  UPI).","rationale":"Categorical with five allowed values (Cash on           │
+│  Delivery, Credit Card, Debit Card, E wallet, UPI); normalized during        │
+│  cleaning. Encode appropriately for                                          │
+│  models."},{"name":"Gender","dtype":"category","role":"protected","unit":nu  │
+│  ll,"nullable":false,"null_count":0,"allowed_values":["Female","Male"],"min  │
+│  ":null,"max":null,"description":"Gender of                                  │
+│  customer","human_description":"Customer gender (protected                   │
+│  attribute).","rationale":"Protected attribute: included for fairness and    │
+│  auditing. Do not use as a predictive feature without explicit business and  │
+│  legal                                                                       │
+│  justification."},{"name":"HourSpendOnApp","dtype":"float","role":"feature"  │
+│  ,"unit":"hours","nullable":true,"null_count":230,"allowed_values":null,"mi  │
+│  n":0.0,"max":5.0,"description":"Number of hours spend on mobile             │
+│  application or website","human_description":"Hours per day the customer     │
+│  spends on the app or website (can be fractional).","rationale":"Unit:       │
+│  hours per day. Nulls (230) were kept; range 0–5. Treat as numeric and       │
+│  decide an imputation or a missingness                                       │
+│  feature."},{"name":"NumberOfDeviceRegistered","dtype":"int","role":"featur  │
+│  e","unit":null,"nullable":false,"null_count":0,"allowed_values":null,"min"  │
+│  :1.0,"max":6.0,"description":"Total number of deceives is registered on     │
+│  particular customer","human_description":"Count of devices the customer     │
+│  has registered with the service.","rationale":"Small integer (1–6). No      │
+│  nulls; use directly as numeric or                                           │
+│  categorical."},{"name":"PreferedOrderCat","dtype":"category","role":"featu  │
+│  re","unit":null,"nullable":false,"null_count":0,"allowed_values":["Fashion  │
+│  ","Grocery","Laptop & Accessory","Mobile                                    │
+│  Phone","Others"],"min":null,"max":null,"description":"Preferred order       │
+│  category of customer in last month","human_description":"Most frequent      │
+│  order category in the last month (e.g., 'Mobile Phone',                     │
+│  'Grocery').","rationale":"Categorical with five allowed categories          │
+│  capturing purchase preferences; use suitable                                │
+│  encoding."},{"name":"SatisfactionScore","dtype":"int","role":"feature","un  │
+│  it":null,"nullable":false,"null_count":0,"allowed_values":null,"min":1.0,"  │
+│  max":5.0,"description":"Satisfactory score of customer on                   │
+│  service","human_description":"Customer satisfaction score on a 1–5 integer  │
+│  scale measured by recent surveys.","rationale":"Integer 1–5; no nulls.      │
+│  Consider as ordinal or numeric depending on                                 │
+│  algorithm."},{"name":"MaritalStatus","dtype":"category","role":"protected"  │
+│  ,"unit":null,"nullable":false,"null_count":0,"allowed_values":["Divorced",  │
+│  "Married","Single"],"min":null,"max":null,"description":"Marital status of  │
+│  customer","human_description":"Customer marital status (protected           │
+│  attribute).","rationale":"Protected attribute: included for fairness        │
+│  checks and not to be used as a feature without                              │
+│  approval."},{"name":"NumberOfAddress","dtype":"int","role":"feature","unit  │
+│  ":null,"nullable":false,"null_count":0,"allowed_values":null,"min":1.0,"ma  │
+│  x":22.0,"description":"Total number of added added on particular            │
+│  customer","human_description":"Number of delivery addresses the customer    │
+│  has saved.","rationale":"Integer (1–22). No nulls; may reflect engagement   │
+│  and should be used as a numeric                                             │
+│  predictor."},{"name":"Complain","dtype":"int","role":"feature","unit":null  │
+│  ,"nullable":false,"null_count":0,"allowed_values":null,"min":0.0,"max":1.0  │
+│  ,"description":"Any complaint has been raised in last                       │
+│  month","human_description":"Indicator (0/1) whether the customer raised     │
+│  any complaint in the last month.","rationale":"Binary indicator (0/1) of    │
+│  recent complaints; no nulls. Strong predictor for churn; include as a       │
+│  feature."},{"name":"OrderAmountHikeFromlastYear","dtype":"float","role":"f  │
+│  eature","unit":"percent","nullable":true,"null_count":252,"allowed_values"  │
+│  :null,"min":11.0,"max":26.0,"description":"Percentage increases in order    │
+│  from last year","human_description":"Percent change in order amount versus  │
+│  the same period last year (percentage points).","rationale":"Unit: percent  │
+│  (percentage points). Nulls (252) kept; observed range 11–26. Interpret as   │
+│  percentage points (not fraction); missing values should be handled by       │
+│  modeling                                                                    │
+│  team."},{"name":"CouponUsed","dtype":"float","role":"feature","unit":null,  │
+│  "nullable":true,"null_count":210,"allowed_values":null,"min":0.0,"max":16.  │
+│  0,"description":"Total number of coupon has been used in last               │
+│  month","human_description":"Number of coupons the customer used in the      │
+│  last month.","rationale":"Nulls (210) indicate unknown coupon usage; range  │
+│  0–16. Treat as count; missingness may be                                    │
+│  informative."},{"name":"OrderCount","dtype":"float","role":"feature","unit  │
+│  ":null,"nullable":true,"null_count":243,"allowed_values":null,"min":1.0,"m  │
+│  ax":16.0,"description":"Total number of orders has been places in last      │
+│  month","human_description":"Number of orders placed by the customer in the  │
+│  last month.","rationale":"Orders in last month; nulls (243) were kept.      │
+│  Range 1–16. Impute or model missingness as                                  │
+│  appropriate."},{"name":"DaySinceLastOrder","dtype":"float","role":"feature  │
+│  ","unit":"days","nullable":true,"null_count":288,"allowed_values":null,"mi  │
+│  n":0.0,"max":46.0,"description":"Day Since last order by                    │
+│  customer","human_description":"Days since the customer's most recent        │
+│  order.","rationale":"Unit: days. Nulls (288) indicate missing last-order    │
+│  date; range 0–46. Missingness may be predictive of                          │
+│  churn."},{"name":"CashbackAmount","dtype":"float","role":"feature","unit":  │
+│  "USD","nullable":false,"null_count":0,"allowed_values":null,"min":0.0,"max  │
+│  ":324.99,"description":"Average cashback in last                            │
+│  month","human_description":"Average cashback earned by the customer in the  │
+│  last month (USD).","rationale":"Unit: USD. No nulls. This is the average    │
+│  cashback in the last month (monetary feature). Values are not in cents;     │
+│  treat as continuous."}],"descriptions_json":"{\"CustomerID\":\"Unique       │
+│  integer identifier for each customer (not a modeling                        │
+│  feature).\",\"Churn\":\"Binary target: 1 if the customer churned, 0 if      │
+│  retained.\",\"Tenure\":\"Customer tenure in months (can be fractional); 0   │
+│  means joined within the last                                                │
+│  month.\",\"PreferredLoginDevice\":\"Customer's most-used login device       │
+│  during the observation window ('Computer' or 'Mobile                        │
+│  Phone').\",\"CityTier\":\"City tier coded as an integer (1 = Tier 1, 2 =    │
+│  Tier 2, 3 = Tier 3).\",\"WarehouseToHome\":\"Distance in kilometers from    │
+│  the customer's primary warehouse to their home                              │
+│  address.\",\"PreferredPaymentMode\":\"Customer's preferred payment method   │
+│  (Cash on Delivery, Credit Card, Debit Card, E wallet,                       │
+│  UPI).\",\"Gender\":\"Customer gender (protected                             │
+│  attribute).\",\"HourSpendOnApp\":\"Hours per day the customer spends on     │
+│  the app or website (can be                                                  │
+│  fractional).\",\"NumberOfDeviceRegistered\":\"Count of devices the          │
+│  customer has registered with the service.\",\"PreferedOrderCat\":\"Most     │
+│  frequent order category in the last month (e.g., 'Mobile Phone',            │
+│  'Grocery').\",\"SatisfactionScore\":\"Customer satisfaction score on a 1–5  │
+│  integer scale measured by recent surveys.\",\"MaritalStatus\":\"Customer    │
+│  marital status (protected attribute).\",\"NumberOfAddress\":\"Number of     │
+│  delivery addresses the customer has saved.\",\"Complain\":\"Indicator       │
+│  (0/1) whether the customer raised any complaint in the last                 │
+│  month.\",\"OrderAmountHikeFromlastYear\":\"Percent change in order amount   │
+│  versus the same period last year (percentage                                │
+│  points).\",\"CouponUsed\":\"Number of coupons the customer used in the      │
+│  last month.\",\"OrderCount\":\"Number of orders placed by the customer in   │
+│  the last month.\",\"DaySinceLastOrder\":\"Days since the customer's most    │
+│  recent order.\",\"CashbackAmount\":\"Average cashback earned by the         │
+│  customer in the last month                                                  │
+│  (USD).\"}","rationales_json":"{\"CustomerID\":\"This is the primary         │
+│  identifier for joining back to upstream systems and must not be used as a   │
+│  feature; it is unique per row.\",\"Churn\":\"The binary label the model     │
+│  must predict: 1 = churned, 0 = retained. Treat this column as the target;   │
+│  do not convert to categorical if your training function expects             │
+│  integers.\",\"Tenure\":\"Unit: months. Nulls (231) indicate missing tenure  │
+│  information from source and were intentionally kept; Tenure is highly       │
+│  predictive (new customers churn more), so impute or model missingness       │
+│  rather than arbitrarily setting                                             │
+│  zeros.\",\"PreferredLoginDevice\":\"Categorical with two allowed values;    │
+│  standardized during cleaning. No nulls remain; use as a                     │
+│  predictor.\",\"CityTier\":\"Integer ordinal (1–3). No nulls; can be used    │
+│  as numeric ordinal or one-hot encoded depending on modeling                 │
+│  choice.\",\"WarehouseToHome\":\"Unit: km. Nulls (221) indicate missing      │
+│  distance data; values range 5–127 km. Impute sensibly or include a missing  │
+│  indicator; distance may correlate with delivery                             │
+│  friction.\",\"PreferredPaymentMode\":\"Categorical with five allowed        │
+│  values (Cash on Delivery, Credit Card, Debit Card, E wallet, UPI);          │
+│  normalized during cleaning. Encode appropriately for                        │
+│  models.\",\"Gender\":\"Protected attribute: included for fairness and       │
+│  auditing. Do not use as a predictive feature without explicit business and  │
+│  legal justification.\",\"HourSpendOnApp\":\"Unit: hours per day. Nulls      │
+│  (230) were kept; range 0–5. Treat as numeric and decide an imputation or a  │
+│  missingness feature.\",\"NumberOfDeviceRegistered\":\"Small integer (1–6).  │
+│  No nulls; use directly as numeric or                                        │
+│  categorical.\",\"PreferedOrderCat\":\"Categorical with five allowed         │
+│  categories capturing purchase preferences; use suitable                     │
+│  encoding.\",\"SatisfactionScore\":\"Integer 1–5; no nulls. Consider as      │
+│  ordinal or numeric depending on algorithm.\",\"MaritalStatus\":\"Protected  │
+│  attribute: included for fairness checks and not to be used as a feature     │
+│  without approval.\",\"NumberOfAddress\":\"Integer (1–22). No nulls; may     │
+│  reflect engagement and should be used as a numeric                          │
+│  predictor.\",\"Complain\":\"Binary indicator (0/1) of recent complaints;    │
+│  no nulls. Strong predictor for churn; include as a                          │
+│  feature.\",\"OrderAmountHikeFromlastYear\":\"Unit: percent (percentage      │
+│  points). Nulls (252) kept; observed range 11–26. Interpret as percentage    │
+│  points (not fraction); missing values should be handled by modeling         │
+│  team.\",\"CouponUsed\":\"Nulls (210) indicate unknown coupon usage; range   │
+│  0–16. Treat as count; missingness may be                                    │
+│  informative.\",\"OrderCount\":\"Orders in last month; nulls (243) were      │
+│  kept. Range 1–16. Impute or model missingness as                            │
+│  appropriate.\",\"DaySinceLastOrder\":\"Unit: days. Nulls (288) indicate     │
+│  missing last-order date; range 0–46. Missingness may be predictive of       │
+│  churn.\",\"CashbackAmount\":\"Unit: USD. No nulls. This is the average      │
+│  cashback in the last month (monetary feature). Values are not in cents;     │
+│  treat as continuous.\"}","assumptions_json":"[\"CashbackAmount is           │
+│  expressed in USD and is the average cashback received in the last calendar  │
+│  month, not cumulative and not cents-based.\",\"OrderAmountHikeFromlastYear  │
+│  is measured in percentage points (e.g., 15 means a 15% increase), not a     │
+│  0–1 fraction.\",\"The row_count (5073) and sha256                           │
+│  (ef1e1f758009fa575837a3b4b62384c1f3516297d775aa2c10ef796a449073a2)          │
+│  identify this cleaned CSV exactly; use them to verify file identity when    │
+│  reproducing experiments.\",\"Nulls in Tenure, WarehouseToHome,              │
+│  HourSpendOnApp, OrderAmountHikeFromlastYear, CouponUsed, OrderCount, and    │
+│  DaySinceLastOrder were intentionally preserved during cleaning; imputation  │
+│  or null-aware modeling is the modeling team's responsibility.\",\"557       │
+│  duplicate records were removed during cleaning; duplicates were identical   │
+│  except for CustomerID and were dropped to avoid double-counting customer    │
+│  behavior.\",\"Protected attributes (Gender, MaritalStatus) are included     │
+│  for auditing and fairness checks but should not be used as predictive       │
+│  features without documented justification and approvals.\",\"CustomerID is  │
+│  unique per row and must not be used as a predictive feature. Churn is the   │
+│  label and must be used as the target variable in model training.\"]}        │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+╭───────────────────────────── 📋 Task Completion ─────────────────────────────╮
+│                                                                              │
+│  Task Completed                                                              │
+│  Name: author_contract                                                       │
+│  Agent: Data Steward                                                         │
+│                                                                              │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+{
+  "clean_csv": "runs/20260908-205214/crew1/clean_data.csv",
+  "eda_html": "runs/20260908-205214/crew1/eda_report.html",
+  "stats_json": "runs/20260908-205214/crew1/stats.json",
+  "insights_md": "runs/20260908-205214/crew1/insights.md",
+  "contract_json": "runs/20260908-205214/crew1/dataset_contract.json",
+  "llm_calls": 10,
+  "prompt_tokens": 27683,
+  "cached_prompt_tokens": 11776,
+  "completion_tokens": 16389,
+  "cost_usd": 0.037,
+  "duration_s": 176.8
+}
+╭────────────────────────────── Crew Completion ───────────────────────────────╮
+│                                                                              │
+│  Crew Execution Completed                                                    │
+│  Name: AnalystCrew                                                           │
+│  ID: 54505422-d2df-4081-8b85-d1f63b6b9e38                                    │
+│  Final Output: runs/20260908-205214/crew1/dataset_contract.json              │
+│                                                                              │
+│  {"contract_path":"runs/20260908-205214/crew1/dataset_contract.json","row_c  │
+│  ount":5073,"sha256":"ef1e1f758009fa575837a3b4b62384c1f3516297d775aa2c10ef7  │
+│  96a449073a2","columns":[{"name":"CustomerID","dtype":"int","role":"id","un  │
+│  it":null,"nullable":false,"null_count":0,"allowed_values":null,"min":50001  │
+│  .0,"max":55630.0,"description":"Unique customer                             │
+│  ID","human_description":"Unique integer identifier for each customer (not   │
+│  a modeling feature).","rationale":"This is the primary identifier for       │
+│  joining back to upstream systems and must not be used as a feature; it is   │
+│  unique per                                                                  │
+│  row."},{"name":"Churn","dtype":"int","role":"target","unit":null,"nullable  │
+│  ":false,"null_count":0,"allowed_values":null,"min":0.0,"max":1.0,"descript  │
+│  ion":"Churn Flag","human_description":"Binary target: 1 if the customer     │
+│  churned, 0 if retained.","rationale":"The binary label the model must       │
+│  predict: 1 = churned, 0 = retained. Treat this column as the target; do     │
+│  not convert to categorical if your training function expects                │
+│  integers."},{"name":"Tenure","dtype":"float","role":"feature","unit":"mont  │
+│  hs","nullable":true,"null_count":231,"allowed_values":null,"min":0.0,"max"  │
+│  :61.0,"description":"Tenure of customer in                                  │
+│  organization","human_description":"Customer tenure in months (can be        │
+│  fractional); 0 means joined within the last month.","rationale":"Unit:      │
+│  months. Nulls (231) indicate missing tenure information from source and     │
+│  were intentionally kept; Tenure is highly predictive (new customers churn   │
+│  more), so impute or model missingness rather than arbitrarily setting       │
+│  zeros."},{"name":"PreferredLoginDevice","dtype":"category","role":"feature  │
+│  ","unit":null,"nullable":false,"null_count":0,"allowed_values":["Computer"  │
+│  ,"Mobile Phone"],"min":null,"max":null,"description":"Preferred login       │
+│  device of customer","human_description":"Customer's most-used login device  │
+│  during the observation window ('Computer' or 'Mobile                        │
+│  Phone').","rationale":"Categorical with two allowed values; standardized    │
+│  during cleaning. No nulls remain; use as a                                  │
+│  predictor."},{"name":"CityTier","dtype":"int","role":"feature","unit":null  │
+│  ,"nullable":false,"null_count":0,"allowed_values":null,"min":1.0,"max":3.0  │
+│  ,"description":"City tier","human_description":"City tier coded as an       │
+│  integer (1 = Tier 1, 2 = Tier 2, 3 = Tier 3).","rationale":"Integer         │
+│  ordinal (1–3). No nulls; can be used as numeric ordinal or one-hot encoded  │
+│  depending on modeling                                                       │
+│  choice."},{"name":"WarehouseToHome","dtype":"float","role":"feature","unit  │
+│  ":"km","nullable":true,"null_count":221,"allowed_values":null,"min":5.0,"m  │
+│  ax":127.0,"description":"Distance in between warehouse to home of           │
+│  customer","human_description":"Distance in kilometers from the customer's   │
+│  primary warehouse to their home address.","rationale":"Unit: km. Nulls      │
+│  (221) indicate missing distance data; values range 5–127 km. Impute         │
+│  sensibly or include a missing indicator; distance may correlate with        │
+│  delivery                                                                    │
+│  friction."},{"name":"PreferredPaymentMode","dtype":"category","role":"feat  │
+│  ure","unit":null,"nullable":false,"null_count":0,"allowed_values":["Cash    │
+│  on Delivery","Credit Card","Debit Card","E                                  │
+│  wallet","UPI"],"min":null,"max":null,"description":"Preferred payment       │
+│  method of customer","human_description":"Customer's preferred payment       │
+│  method (Cash on Delivery, Credit Card, Debit Card, E wallet,                │
+│  UPI).","rationale":"Categorical with five allowed values (Cash on           │
+│  Delivery, Credit Card, Debit Card, E wallet, UPI); normalized during        │
+│  cleaning. Encode appropriately for                                          │
+│  models."},{"name":"Gender","dtype":"category","role":"protected","unit":nu  │
+│  ll,"nullable":false,"null_count":0,"allowed_values":["Female","Male"],"min  │
+│  ":null,"max":null,"description":"Gender of                                  │
+│  customer","human_description":"Customer gender (protected                   │
+│  attribute).","rationale":"Protected attribute: included for fairness and    │
+│  auditing. Do not use as a predictive feature without explicit business and  │
+│  legal                                                                       │
+│  justification."},{"name":"HourSpendOnApp","dtype":"float","role":"feature"  │
+│  ,"unit":"hours","nullable":true,"null_count":230,"allowed_values":null,"mi  │
+│  n":0.0,"max":5.0,"description":"Number of hours spend on mobile             │
+│  application or website","human_description":"Hours per day the customer     │
+│  spends on the app or website (can be fractional).","rationale":"Unit:       │
+│  hours per day. Nulls (230) were kept; range 0–5. Treat as numeric and       │
+│  decide an imputation or a missingness                                       │
+│  feature."},{"name":"NumberOfDeviceRegistered","dtype":"int","role":"featur  │
+│  e","unit":null,"nullable":false,"null_count":0,"allowed_values":null,"min"  │
+│  :1.0,"max":6.0,"description":"Total number of deceives is registered on     │
+│  particular customer","human_description":"Count of devices the customer     │
+│  has registered with the service.","rationale":"Small integer (1–6). No      │
+│  nulls; use directly as numeric or                                           │
+│  categorical."},{"name":"PreferedOrderCat","dtype":"category","role":"featu  │
+│  re","unit":null,"nullable":false,"null_count":0,"allowed_values":["Fashion  │
+│  ","Grocery","Laptop & Accessory","Mobile                                    │
+│  Phone","Others"],"min":null,"max":null,"description":"Preferred order       │
+│  category of customer in last month","human_description":"Most frequent      │
+│  order category in the last month (e.g., 'Mobile Phone',                     │
+│  'Grocery').","rationale":"Categorical with five allowed categories          │
+│  capturing purchase preferences; use suitable                                │
+│  encoding."},{"name":"SatisfactionScore","dtype":"int","role":"feature","un  │
+│  it":null,"nullable":false,"null_count":0,"allowed_values":null,"min":1.0,"  │
+│  max":5.0,"description":"Satisfactory score of customer on                   │
+│  service","human_description":"Customer satisfaction score on a 1–5 integer  │
+│  scale measured by recent surveys.","rationale":"Integer 1–5; no nulls.      │
+│  Consider as ordinal or numeric depending on                                 │
+│  algorithm."},{"name":"MaritalStatus","dtype":"category","role":"protected"  │
+│  ,"unit":null,"nullable":false,"null_count":0,"allowed_values":["Divorced",  │
+│  "Married","Single"],"min":null,"max":null,"description":"Marital status of  │
+│  customer","human_description":"Customer marital status (protected           │
+│  attribute).","rationale":"Protected attribute: included for fairness        │
+│  checks and not to be used as a feature without                              │
+│  approval."},{"name":"NumberOfAddress","dtype":"int","role":"feature","unit  │
+│  ":null,"nullable":false,"null_count":0,"allowed_values":null,"min":1.0,"ma  │
+│  x":22.0,"description":"Total number of added added on particular            │
+│  customer","human_description":"Number of delivery addresses the customer    │
+│  has saved.","rationale":"Integer (1–22). No nulls; may reflect engagement   │
+│  and should be used as a numeric                                             │
+│  predictor."},{"name":"Complain","dtype":"int","role":"feature","unit":null  │
+│  ,"nullable":false,"null_count":0,"allowed_values":null,"min":0.0,"max":1.0  │
+│  ,"description":"Any complaint has been raised in last                       │
+│  month","human_description":"Indicator (0/1) whether the customer raised     │
+│  any complaint in the last month.","rationale":"Binary indicator (0/1) of    │
+│  recent complaints; no nulls. Strong predictor for churn; include as a       │
+│  feature."},{"name":"OrderAmountHikeFromlastYear","dtype":"float","role":"f  │
+│  eature","unit":"percent","nullable":true,"null_count":252,"allowed_values"  │
+│  :null,"min":11.0,"max":26.0,"description":"Percentage increases in order    │
+│  from last year","human_description":"Percent change in order amount versus  │
+│  the same period last year (percentage points).","rationale":"Unit: percent  │
+│  (percentage points). Nulls (252) kept; observed range 11–26. Interpret as   │
+│  percentage points (not fraction); missing values should be handled by       │
+│  modeling                                                                    │
+│  team."},{"name":"CouponUsed","dtype":"float","role":"feature","unit":null,  │
+│  "nullable":true,"null_count":210,"allowed_values":null,"min":0.0,"max":16.  │
+│  0,"description":"Total number of coupon has been used in last               │
+│  month","human_description":"Number of coupons the customer used in the      │
+│  last month.","rationale":"Nulls (210) indicate unknown coupon usage; range  │
+│  0–16. Treat as count; missingness may be                                    │
+│  informative."},{"name":"OrderCount","dtype":"float","role":"feature","unit  │
+│  ":null,"nullable":true,"null_count":243,"allowed_values":null,"min":1.0,"m  │
+│  ax":16.0,"description":"Total number of orders has been places in last      │
+│  month","human_description":"Number of orders placed by the customer in the  │
+│  last month.","rationale":"Orders in last month; nulls (243) were kept.      │
+│  Range 1–16. Impute or model missingness as                                  │
+│  appropriate."},{"name":"DaySinceLastOrder","dtype":"float","role":"feature  │
+│  ","unit":"days","nullable":true,"null_count":288,"allowed_values":null,"mi  │
+│  n":0.0,"max":46.0,"description":"Day Since last order by                    │
+│  customer","human_description":"Days since the customer's most recent        │
+│  order.","rationale":"Unit: days. Nulls (288) indicate missing last-order    │
+│  date; range 0–46. Missingness may be predictive of                          │
+│  churn."},{"name":"CashbackAmount","dtype":"float","role":"feature","unit":  │
+│  "USD","nullable":false,"null_count":0,"allowed_values":null,"min":0.0,"max  │
+│  ":324.99,"description":"Average cashback in last                            │
+│  month","human_description":"Average cashback earned by the customer in the  │
+│  last month (USD).","rationale":"Unit: USD. No nulls. This is the average    │
+│  cashback in the last month (monetary feature). Values are not in cents;     │
+│  treat as continuous."}],"descriptions_json":"{\"CustomerID\":\"Unique       │
+│  integer identifier for each customer (not a modeling                        │
+│  feature).\",\"Churn\":\"Binary target: 1 if the customer churned, 0 if      │
+│  retained.\",\"Tenure\":\"Customer tenure in months (can be fractional); 0   │
+│  means joined within the last                                                │
+│  month.\",\"PreferredLoginDevice\":\"Customer's most-used login device       │
+│  during the observation window ('Computer' or 'Mobile                        │
+│  Phone').\",\"CityTier\":\"City tier coded as an integer (1 = Tier 1, 2 =    │
+│  Tier 2, 3 = Tier 3).\",\"WarehouseToHome\":\"Distance in kilometers from    │
+│  the customer's primary warehouse to their home                              │
+│  address.\",\"PreferredPaymentMode\":\"Customer's preferred payment method   │
+│  (Cash on Delivery, Credit Card, Debit Card, E wallet,                       │
+│  UPI).\",\"Gender\":\"Customer gender (protected                             │
+│  attribute).\",\"HourSpendOnApp\":\"Hours per day the customer spends on     │
+│  the app or website (can be                                                  │
+│  fractional).\",\"NumberOfDeviceRegistered\":\"Count of devices the          │
+│  customer has registered with the service.\",\"PreferedOrderCat\":\"Most     │
+│  frequent order category in the last month (e.g., 'Mobile Phone',            │
+│  'Grocery').\",\"SatisfactionScore\":\"Customer satisfaction score on a 1–5  │
+│  integer scale measured by recent surveys.\",\"MaritalStatus\":\"Customer    │
+│  marital status (protected attribute).\",\"NumberOfAddress\":\"Number of     │
+│  delivery addresses the customer has saved.\",\"Complain\":\"Indicator       │
+│  (0/1) whether the customer raised any complaint in the last                 │
+│  month.\",\"OrderAmountHikeFromlastYear\":\"Percent change in order amount   │
+│  versus the same period last year (percentage                                │
+│  points).\",\"CouponUsed\":\"Number of coupons the customer used in the      │
+│  last month.\",\"OrderCount\":\"Number of orders placed by the customer in   │
+│  the last month.\",\"DaySinceLastOrder\":\"Days since the customer's most    │
+│  recent order.\",\"CashbackAmount\":\"Average cashback earned by the         │
+│  customer in the last month                                                  │
+│  (USD).\"}","rationales_json":"{\"CustomerID\":\"This is the primary         │
+│  identifier for joining back to upstream systems and must not be used as a   │
+│  feature; it is unique per row.\",\"Churn\":\"The binary label the model     │
+│  must predict: 1 = churned, 0 = retained. Treat this column as the target;   │
+│  do not convert to categorical if your training function expects             │
+│  integers.\",\"Tenure\":\"Unit: months. Nulls (231) indicate missing tenure  │
+│  information from source and were intentionally kept; Tenure is highly       │
+│  predictive (new customers churn more), so impute or model missingness       │
+│  rather than arbitrarily setting                                             │
+│  zeros.\",\"PreferredLoginDevice\":\"Categorical with two allowed values;    │
+│  standardized during cleaning. No nulls remain; use as a                     │
+│  predictor.\",\"CityTier\":\"Integer ordinal (1–3). No nulls; can be used    │
+│  as numeric ordinal or one-hot encoded depending on modeling                 │
+│  choice.\",\"WarehouseToHome\":\"Unit: km. Nulls (221) indicate missing      │
+│  distance data; values range 5–127 km. Impute sensibly or include a missing  │
+│  indicator; distance may correlate with delivery                             │
+│  friction.\",\"PreferredPaymentMode\":\"Categorical with five allowed        │
+│  values (Cash on Delivery, Credit Card, Debit Card, E wallet, UPI);          │
+│  normalized during cleaning. Encode appropriately for                        │
+│  models.\",\"Gender\":\"Protected attribute: included for fairness and       │
+│  auditing. Do not use as a predictive feature without explicit business and  │
+│  legal justification.\",\"HourSpendOnApp\":\"Unit: hours per day. Nulls      │
+│  (230) were kept; range 0–5. Treat as numeric and decide an imputation or a  │
+│  missingness feature.\",\"NumberOfDeviceRegistered\":\"Small integer (1–6).  │
+│  No nulls; use directly as numeric or                                        │
+│  categorical.\",\"PreferedOrderCat\":\"Categorical with five allowed         │
+│  categories capturing purchase preferences; use suitable                     │
+│  encoding.\",\"SatisfactionScore\":\"Integer 1–5; no nulls. Consider as      │
+│  ordinal or numeric depending on algorithm.\",\"MaritalStatus\":\"Protected  │
+│  attribute: included for fairness checks and not to be used as a feature     │
+│  without approval.\",\"NumberOfAddress\":\"Integer (1–22). No nulls; may     │
+│  reflect engagement and should be used as a numeric                          │
+│  predictor.\",\"Complain\":\"Binary indicator (0/1) of recent complaints;    │
+│  no nulls. Strong predictor for churn; include as a                          │
+│  feature.\",\"OrderAmountHikeFromlastYear\":\"Unit: percent (percentage      │
+│  points). Nulls (252) kept; observed range 11–26. Interpret as percentage    │
+│  points (not fraction); missing values should be handled by modeling         │
+│  team.\",\"CouponUsed\":\"Nulls (210) indicate unknown coupon usage; range   │
+│  0–16. Treat as count; missingness may be                                    │
+│  informative.\",\"OrderCount\":\"Orders in last month; nulls (243) were      │
+│  kept. Range 1–16. Impute or model missingness as                            │
+│  appropriate.\",\"DaySinceLastOrder\":\"Unit: days. Nulls (288) indicate     │
+│  missing last-order date; range 0–46. Missingness may be predictive of       │
+│  churn.\",\"CashbackAmount\":\"Unit: USD. No nulls. This is the average      │
+│  cashback in the last month (monetary feature). Values are not in cents;     │
+│  treat as continuous.\"}","assumptions_json":"[\"CashbackAmount is           │
+│  expressed in USD and is the average cashback received in the last calendar  │
+│  month, not cumulative and not cents-based.\",\"OrderAmountHikeFromlastYear  │
+│  is measured in percentage points (e.g., 15 means a 15% increase), not a     │
+│  0–1 fraction.\",\"The row_count (5073) and sha256                           │
+│  (ef1e1f758009fa575837a3b4b62384c1f3516297d775aa2c10ef796a449073a2)          │
+│  identify this cleaned CSV exactly; use them to verify file identity when    │
+│  reproducing experiments.\",\"Nulls in Tenure, WarehouseToHome,              │
+│  HourSpendOnApp, OrderAmountHikeFromlastYear, CouponUsed, OrderCount, and    │
+│  DaySinceLastOrder were intentionally preserved during cleaning; imputation  │
+│  or null-aware modeling is the modeling team's responsibility.\",\"557       │
+│  duplicate records were removed during cleaning; duplicates were identical   │
+│  except for CustomerID and were dropped to avoid double-counting customer    │
+│  behavior.\",\"Protected attributes (Gender, MaritalStatus) are included     │
+│  for auditing and fairness checks but should not be used as predictive       │
+│  features without documented justification and approvals.\",\"CustomerID is  │
+│  unique per row and must not be used as a predictive feature. Churn is the   │
+│  label and must be used as the target variable in model training.\"]}        │
+│                                                                              │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+╭─────────────────────────────── Tracing Status ───────────────────────────────╮
+│                                                                              │
+│  Info: Tracing is disabled.                                                  │
+│                                                                              │
+│  To enable tracing, do any one of these:                                     │
+│  • Set tracing=True in your Crew/Flow code                                   │
+│  • Set CREWAI_TRACING_ENABLED=true in your project's .env file               │
+│  • Run: crewai traces enable                                                 │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
