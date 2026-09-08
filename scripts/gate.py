@@ -331,7 +331,82 @@ M2: list[Check] = [
     ("dataset_contract.json round-trips unchanged", check_contract_round_trips),
 ]
 
-GATES: dict[int, list[Check]] = {0: M0, 1: M1, 2: M2, 3: M3}
+# ---------------------------------------------------------------- M4 checks
+CREW2 = ROOT / "artifacts" / "crew2"
+METRICS_JSON = CREW2 / "metrics.json"
+FEATURES_CSV = CREW2 / "features.csv"
+MODEL_JOBLIB = CREW2 / "model.joblib"
+NEVER_A_FEATURE = {"CustomerID", "Churn", "Gender", "MaritalStatus"}
+
+
+def _metrics() -> dict:
+    if not METRICS_JSON.exists():
+        raise Skip("artifacts/crew2/metrics.json not built yet (M4 task 5)")
+    return json.loads(METRICS_JSON.read_text(encoding="utf-8"))
+
+
+def check_metrics_shape() -> None:
+    m = _metrics()
+    assert "baseline" in m, "metrics.json has no baseline to compare against"
+    n_variants = len(m.get("variants", {}))
+    assert n_variants >= 3, f"only {n_variants} variants, the brief asks for three"
+    assert m.get("served") in m["variants"], f"served model {m.get('served')!r} is not one of the variants"
+
+
+def check_no_leakage_in_features() -> None:
+    m = _metrics()
+    features = m["features"]
+    listed = set(features["numeric"]) | set(features["categorical"]) | set(features["engineered"])
+    leaked = listed & NEVER_A_FEATURE
+    assert not leaked, f"these must never be model inputs: {sorted(leaked)}"
+    assert not set(m["importances"]) & NEVER_A_FEATURE, "a forbidden column reached the importances"
+
+
+def check_model_predicts_a_real_row() -> None:
+    if not MODEL_JOBLIB.exists():
+        raise Skip("artifacts/crew2/model.joblib not built yet (M4 task 5)")
+    import pandas as pd
+
+    from hv.train import predict_one
+
+    row = pd.read_csv(CREW1 / "clean_data.csv").iloc[0].to_dict()
+    proba = predict_one(MODEL_JOBLIB, row)
+    assert 0.0 <= proba <= 1.0, f"predicted probability {proba} is not a probability"
+
+
+def check_served_beats_the_baseline() -> None:
+    m = _metrics()
+    served = m["variants"][m["served"]]["roc_auc"]["mean"]
+    baseline = m["baseline"]["roc_auc"]
+    assert served > baseline, f"served roc_auc {served} does not beat the baseline {baseline}"
+    top10 = m["variants"][m["served"]]["precision_at_top10"]
+    assert top10 > m["baseline"]["precision_at_top10"], (
+        f"precision@top10 {top10} does not beat the baseline {m['baseline']['precision_at_top10']}"
+    )
+
+
+def check_crew2_runs_are_identical() -> None:
+    if not METRICS_JSON.exists():
+        raise Skip("artifacts/crew2/ not built yet (M4 task 5)")
+    with tempfile.TemporaryDirectory() as tmp:
+        res = _run([PY, "scripts/run_crew2_tools.py", "--out", tmp])
+        assert res.returncode == 0, res.stdout.strip().splitlines()[-1] if res.stdout else "runner failed"
+        for name in ("features.csv", "metrics.json"):
+            fresh = (Path(tmp) / name).read_bytes()
+            assert (CREW2 / name).read_bytes() == fresh, f"{name} differs between runs"
+
+
+M4: list[Check] = [
+    ("pytest green", check_pytest),
+    ("metrics.json has a baseline, three variants and a served model", check_metrics_shape),
+    ("no id / target / protected column reached the model", check_no_leakage_in_features),
+    ("the model loads and scores the first real row", check_model_predicts_a_real_row),
+    ("the served model beats the majority baseline", check_served_beats_the_baseline),
+    ("two runs produce identical features.csv and metrics.json", check_crew2_runs_are_identical),
+]
+
+
+GATES: dict[int, list[Check]] = {0: M0, 1: M1, 2: M2, 3: M3, 4: M4}
 
 
 def main() -> int:
