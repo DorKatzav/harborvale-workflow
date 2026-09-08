@@ -53,8 +53,11 @@ def _fairness_table(metrics: dict) -> list[str]:
 
 
 def _importance_table(metrics: dict, top: int = 10) -> list[str]:
+    """Sorted here, not trusted from the file: metrics.json is written with sorted keys, so the
+    importances arrive back in alphabetical order and "the top ten" would be a top ten of nothing."""
+    ranked = sorted(metrics.get("importances", {}).items(), key=lambda kv: kv[1], reverse=True)
     lines = ["| feature | permutation importance |", "|---|---|"]
-    for name, value in list(metrics.get("importances", {}).items())[:top]:
+    for name, value in ranked[:top]:
         lines.append(f"| {name} | {_fmt(value)} |")
     return lines
 

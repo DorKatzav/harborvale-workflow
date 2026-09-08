@@ -116,3 +116,10 @@ def test_the_evaluation_report_lists_the_importances():
     report = render_evaluation_report(METRICS, {})
     assert "permutation importance" in report
     assert "| Tenure | 0.1200 |" in report
+
+
+def test_importances_are_ranked_even_when_the_file_gives_them_alphabetically():
+    """metrics.json is written with sorted keys, so the ranking has to be redone when rendering."""
+    alphabetical = {"aardvark": 0.01, "zebra": 0.99}
+    report = render_evaluation_report({**METRICS, "importances": alphabetical}, {})
+    assert report.index("zebra") < report.index("aardvark")
