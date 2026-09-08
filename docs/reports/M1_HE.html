@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HarborVale — דוח M1: הכלים של צוות 1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Suez+One&family=Assistant:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --paper:#eef1ef; --card:#fff; --ink:#1b2733; --ink-soft:#46545f; --wind:#0f5c6e; --wind-soft:#e3eef1; --tape:#c9560c; --tape-soft:#fbe9dc; --gate:#2f7d46; --gate-soft:#e7f2ea; --line:#c9d2cd;
+    --mono:"IBM Plex Mono",ui-monospace,monospace; --display:"Suez One","Arial Hebrew",serif; --body:"Assistant","Helvetica Neue",Arial,sans-serif; }
+  * { box-sizing:border-box; }
+  html { font-size:106%; }
+  body { margin:0; background:var(--paper); color:var(--ink); font-family:var(--body); font-size:1.08rem; line-height:1.7; text-align:start; }
+  main { max-width:58rem; margin-inline:auto; padding:2.5rem 1.25rem 5rem; }
+  code { font-family:var(--mono); font-size:.85em; direction:ltr; unicode-bidi:isolate; background:#f0ede6; border:1px solid #ddd8cc; border-radius:4px; padding:.05em .35em; white-space:nowrap; }
+  pre { font-family:var(--mono); font-size:.82rem; line-height:1.5; direction:ltr; text-align:left; unicode-bidi:isolate; background:#1b2733; color:#e8eef2; border-radius:10px; padding:1rem 1.25rem; overflow-x:auto; margin:.75rem 0 1.25rem; }
+  .eyebrow { font-family:var(--mono); font-size:.78rem; letter-spacing:.12em; color:var(--wind); border-block-end:2px solid var(--wind); display:inline-block; padding-block-end:.3rem; margin-block-end:1rem; }
+  h1 { font-family:var(--display); font-weight:400; font-size:clamp(2rem,5vw,2.8rem); line-height:1.15; margin:0 0 .75rem; }
+  .lede { color:var(--ink-soft); max-width:46rem; margin-block-end:1.5rem; }
+  h2 { font-family:var(--display); font-weight:400; font-size:1.6rem; margin:2.5rem 0 .8rem; }
+  h2 .num { font-family:var(--mono); font-size:.9rem; color:var(--tape); letter-spacing:.1em; margin-inline-end:.75rem; }
+  h3 { font-family:var(--display); font-weight:400; font-size:1.2rem; margin:1.5rem 0 .5rem; }
+  p { margin:.5rem 0 .9rem; } ul, ol { margin:.4rem 0 1rem; padding-inline-start:1.5rem; } li { margin-block-end:.35rem; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:1.25rem 1.5rem; margin-block:1rem; }
+  .gate { border:2px solid var(--gate); background:var(--gate-soft); border-radius:10px; padding:.9rem 1.1rem; margin-block:1.25rem; position:relative; }
+  .gate::before { content:"✓ שער בדיקה"; position:absolute; inset-block-start:-.85rem; inset-inline-end:1rem; background:var(--gate); color:#fff; font-family:var(--display); font-size:.85rem; padding:.1rem .7rem; border-radius:4px; transform:rotate(2deg); }
+  .notice { border-inline-start:5px solid var(--tape); background:var(--tape-soft); border-radius:8px; padding:1rem 1.25rem; margin-block:1.5rem; }
+  .info { border-inline-start:5px solid var(--wind); background:var(--wind-soft); border-radius:8px; padding:1rem 1.25rem; margin-block:1.5rem; }
+  .notice h3, .info h3 { margin:0 0 .4rem; font-size:1.1rem; }
+  .tablewrap { overflow-x:auto; margin-block:.75rem 1.25rem; }
+  table { border-collapse:collapse; width:100%; background:var(--card); border:1px solid var(--line); font-size:.97rem; }
+  th, td { border:1px solid var(--line); padding:.55rem .8rem; text-align:start; vertical-align:top; }
+  th { background:var(--wind); color:#fff; font-weight:600; }
+  td.num, th.num { font-family:var(--mono); direction:ltr; text-align:end; white-space:nowrap; }
+  td.ok { color:var(--gate); font-weight:700; white-space:nowrap; }
+  .options { display:grid; grid-template-columns:repeat(auto-fit,minmax(16rem,1fr)); gap:.9rem; margin-block:.75rem 1.25rem; }
+  .opt { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:1rem 1.2rem; position:relative; }
+  .opt.rec { border:2px solid var(--gate); background:var(--gate-soft); }
+  .opt.rec::before { content:"✓ מומלץ"; position:absolute; inset-block-start:-.8rem; inset-inline-end:1rem; background:var(--gate); color:#fff; font-family:var(--display); font-size:.8rem; padding:.05rem .65rem; border-radius:4px; transform:rotate(2deg); }
+  .opt h4 { margin:.25rem 0 .4rem; }
+  .opt .pro { color:var(--gate); } .opt .con { color:var(--tape); }
+  figure { margin:1rem 0; } figure img { max-width:100%; border:1px solid var(--line); border-radius:8px; }
+  figcaption { color:var(--ink-soft); font-size:.9rem; }
+  footer { margin-block-start:3rem; color:var(--ink-soft); font-size:.85rem; border-block-start:1px solid var(--line); padding-block-start:1rem; }
+  a { color:var(--wind); }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <span class="eyebrow">HARBORVALE · דוח תחנה · M1 · 2026-09-08</span>
+    <h1>M1: הכלים של צוות 1 — טעינה, ניקוי, EDA</h1>
+    <p class="lede">התחנה הזאת בונה את מה שהסוכנים של צוות האנליסטים יקראו לו ככלים ב-M3: קריאת הקובץ הגולמי, ניקוי דטרמיניסטי שמדווח בדיוק מה שינה, וסטטיסטיקה תיאורית עם דוח HTML. בלי סוכנים עדיין. כל מספר בדף הזה הגיע מהפלט של הקוד (<code>cleaning_report.json</code>, <code>stats.json</code>), לא מהזיכרון.</p>
+  </header>
+
+  <h2><span class="num">01</span>מה נבנה</h2>
+  <div class="card">
+    <ul>
+      <li><b><code>hv/ingest.py</code></b>: <code>load_raw</code> (הגיליון כמו שהוא), <code>load_data_dictionary</code> (מוצא את גיליון המילון לפי תוכן, לא לפי מיקום; הקובץ מאיית "Discerption"), <code>sha256_file</code>, <code>profile</code> (שורות, ריקים, ייחודיים, דוגמאות, כפילויות, טווחים).</li>
+      <li><b><code>hv/cleaning.py</code></b>: רווחים → מפת ישויות → שורות כפולות → מזהים כפולים → רשומות כפולות (D-M1-1, עם דגל) → המרת טיפוסים → מיון. <b>אף פעם לא משלים ריקים.</b> מחזיר <code>CleaningReport</code> עם כל מה שהשתנה.</li>
+      <li><b><code>hv/eda.py</code></b>: <code>stats</code> (נטישה לפי קטגוריה, ממוצעים לפי תוצאה, קורלציות, קבוצות ותק, תלונות) → <code>stats.json</code> ממוין; <code>render_eda_html</code> → דוח HTML בקובץ אחד, חמישה גרפים מוטמעים, בלי קישורים חיצוניים.</li>
+      <li><b><code>scripts/run_crew1_tools.py</code></b>: מריץ הכל על הקובץ האמיתי ל-<code>artifacts/crew1/</code> (זמני; ב-M3 הסוכנים יחליפו אותו).</li>
+      <li><b>21 בדיקות חדשות</b> (29 בסך הכל) על מסגרת סינתטית של 8 שורות עם כל סוגי הלכלוך: איותים, רווחים, שורה כפולה, זוג רשומות זהות עם מזהה שונה, ריקים.</li>
+    </ul>
+  </div>
+
+  <h2><span class="num">02</span>מה מצאנו בדאטה</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>מדד</th><th>גולמי</th><th>אחרי ניקוי</th></tr></thead>
+    <tbody>
+      <tr><td>שורות</td><td class="num">5,630</td><td class="num">5,073</td></tr>
+      <tr><td>עמודות</td><td class="num">20</td><td class="num">20</td></tr>
+      <tr><td>שורות כפולות (זהות לגמרי)</td><td class="num">0</td><td class="num">0</td></tr>
+      <tr><td>מזהים כפולים</td><td class="num">0</td><td class="num">0</td></tr>
+      <tr><td>רשומות זהות בכל עמודה חוץ מ-CustomerID</td><td class="num">556</td><td>0 (הוסרו 557)</td></tr>
+      <tr><td>שיעור נטישה</td><td class="num">16.84% (948)</td><td class="num">16.58% (841)</td></tr>
+      <tr><td>ריקים: Tenure / WarehouseToHome / HourSpendOnApp</td><td class="num">264 / 251 / 255</td><td class="num">231 / 221 / 230</td></tr>
+      <tr><td>ריקים: OrderAmountHike / CouponUsed / OrderCount / DaySinceLastOrder</td><td class="num">265 / 256 / 258 / 307</td><td class="num">252 / 210 / 243 / 288</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>תיקוני איות (מפת הישויות)</h3>
+  <ul>
+    <li><code>PreferredLoginDevice</code>: "Phone" → "Mobile Phone" ב-<b>1,231</b> שורות.</li>
+    <li><code>PreferredPaymentMode</code>: "CC" → "Credit Card" ב-<b>273</b>, "COD" → "Cash on Delivery" ב-<b>365</b>.</li>
+    <li><code>PreferedOrderCat</code>: "Mobile" → "Mobile Phone" ב-<b>809</b>.</li>
+  </ul>
+  <p>פרט קטן שמעיד שהצנרת עובדת: בגולמי יש 556 זוגות רשומות זהות, אבל הניקוי הסיר 557. הזוג הנוסף היה זהה בכל דבר חוץ מ-"CC" מול "Credit Card": רק אחרי איחוד האיותים הוא התגלה ככפילות.</p>
+
+  <h3>מי נוטש (מתוך <code>stats.json</code>)</h3>
+  <ul>
+    <li><b>ותק הוא הסיפור.</b> לקוחות בותק 0–1 חודשים: 1,076 לקוחות, <b>51.3%</b> נטישה. ותק 2–6: 7.4%. ותק 7–12: 5.7%. ותק 13+: 5.3%. ממוצע ותק: 3.5 חודשים אצל הנוטשים מול 11.5 אצל הנשארים. קורלציה −0.34.</li>
+    <li><b>תלונה מכפילה פי שלושה.</b> התלוננו בחודש האחרון: 31.3% נטישה; לא התלוננו: 10.8%. קורלציה +0.25.</li>
+    <li><b>קטגוריית הזמנה:</b> טלפונים ניידים 26.3% מול מכולת 4.4% ומחשבים ניידים 10.5%.</li>
+    <li><b>מצב משפחתי:</b> רווקים 26.7%, גרושים 14.6%, נשואים 11.3%. (מאפיין מוגן: לא פיצ'ר, כן בדיקת הוגנות.)</li>
+    <li><b>עיר:</b> דרגה 3: 21.9%, דרגה 1: 14.0%. <b>תשלום:</b> מזומן במשלוח 25.4%, ארנק דיגיטלי 22.8%, כרטיס אשראי 14.2%.</li>
+    <li><b>כסף והתנהגות:</b> קאשבק ממוצע 161.8 אצל הנוטשים מול 180.8; ימים מאז ההזמנה האחרונה 3.3 מול 4.8 (הנוטשים הזמינו לאחרונה <i>יותר</i> קרוב, לא פחות). קופונים: קורלציה אפס.</li>
+    <li>חמשת המתאמים החזקים: Tenure (−0.34), Complain (+0.25), DaySinceLastOrder (−0.15), CashbackAmount (−0.14), NumberOfDeviceRegistered (+0.12).</li>
+  </ul>
+  <figure>
+    <img src="img/m1_eda_report.jpg" alt="ראש דוח ה-EDA שנוצר: 5,073 שורות, 16.6% נטישה, גרף שיעור הנטישה">
+    <figcaption>ראש <code>artifacts/crew1/eda_report.html</code> כפי שנפתח בדפדפן. הדוח המלא כולל חמישה גרפים וטבלת סטטיסטיקה תיאורית.</figcaption>
+  </figure>
+
+  <h2><span class="num">03</span>החלטה D-M1-1 (אושרה: A)</h2>
+  <div class="notice">
+    <h3>556 לקוחות "שונים" עם רשומה זהה לחלוטין</h3>
+    <p>בקובץ יש 556 זוגות שורות שזהות בכל 19 העמודות (כולל Churn, כולל הריקים באותם מקומות), ורק ה-CustomerID שונה. זה לא נראה כמו שני לקוחות אמיתיים; זה נראה כמו שכפול שנעשה כשבנו את הדאטה. הברייף מבקש ניקוי "ראוי", וזו בדיוק ההחלטה שצריך לכתוב ולא לעשות בשקט.</p>
+  </div>
+  <div class="options">
+    <div class="opt rec">
+      <h4>A: להסיר, לשמור את המזהה הנמוך (מה שהקובץ הנקי עושה עכשיו)</h4>
+      <ul>
+        <li class="pro">אותה רשומה בדיוק לא יכולה להופיע גם באימון וגם בבדיקה. עם השכפולים, המודל ב-M4 "יזכור" 10% מהשורות ויקבל ציון מנופח שלא אומר כלום על לקוח חדש.</li>
+        <li class="pro">התוצאה נרשמת בחוזה כמספר שורות ו-hash; שקוף לצוות 2.</li>
+        <li class="con">מאבדים 557 שורות (9.9%). שיעור הנטישה זז מ-16.84% ל-16.58%.</li>
+      </ul>
+    </div>
+    <div class="opt">
+      <h4>B: להשאיר (<code>--keep-duplicate-records</code>)</h4>
+      <ul>
+        <li class="pro">המזהים שונים, אז "לפי הדאטה" אלה לקוחות שונים; 5,630 שורות כמו במקור.</li>
+        <li class="con">דליפה בין קפלי ה-CV: מדדים אופטימיים. כרטיס המודל יצטרך להסביר למה 10% מהדאטה הם עותקים.</li>
+      </ul>
+    </div>
+  </div>
+  <p>הקוד תומך בשתי האפשרויות בדגל אחד, והבדיקות מכסות את שתיהן. אם תבחר B, אני מריץ מחדש, מעדכן את התוצרים והמספרים בדוח, ורושם ביומן.</p>
+
+  <h2><span class="num">04</span>תוצאת השער</h2>
+  <div class="gate">
+    <div class="tablewrap"><table>
+      <thead><tr><th>בדיקה</th><th>תוצאה</th></tr></thead>
+      <tbody>
+        <tr><td>pytest ירוק (29 בדיקות)</td><td class="ok">PASS</td></tr>
+        <tr><td>ruff נקי</td><td class="ok">PASS</td></tr>
+        <tr><td>מספר השורות ב-<code>clean_data.csv</code> תואם לדוח הניקוי, והחשבון סוגר</td><td class="ok">PASS</td></tr>
+        <tr><td>אפס "Phone" / "CC" / "COD" / "Mobile" בעמודות הממופות</td><td class="ok">PASS</td></tr>
+        <tr><td>הריקים בקובץ שווים בדיוק ל-<code>nulls_kept</code> (שום דבר לא הושלם)</td><td class="ok">PASS</td></tr>
+        <tr><td>שתי ריצות → <code>clean_data.csv</code> ו-<code>stats.json</code> זהים בייט-בייט</td><td class="ok">PASS</td></tr>
+        <tr><td><code>eda_report.html</code> בלי נכסים חיצוניים; שיעור נטישה סביר</td><td class="ok">PASS</td></tr>
+      </tbody>
+    </table></div>
+    <p><code>GATE M1: PASS 7/7</code>. <code>clean_data.csv</code>: sha256 <code>ef1e1f758009…</code>, 5,073 שורות.</p>
+  </div>
+
+  <h2><span class="num">05</span>מה למדנו</h2>
+  <ul>
+    <li>ב-pandas 3 עמודות טקסט הן <code>str</code> ולא <code>object</code>; זיהוי לפי <code>is_string_dtype</code> ולא לפי <code>select_dtypes("object")</code>.</li>
+    <li>קורלציה על עמודה קבועה מייצרת אזהרת numpy; הקוד מדלג על עמודות עם ערך אחד במקום להשתיק אזהרות.</li>
+    <li>סדר הניקוי חשוב: מפת הישויות לפני הכפילויות, אחרת כפילות "מוסווית" באיות שורדת.</li>
+  </ul>
+
+  <h2><span class="num">06</span>סגירה</h2>
+  <div class="info">
+    <p>שני הדברים נסגרו: D-M1-1 אושרה כ-A (להסיר, לשמור את המזהה הנמוך), ו-<a href="https://github.com/DorKatzav/harborvale-workflow/pull/5">PR #5</a> מוזג. M1 סגורה.</p>
+    <p>הבא, M2: החוזה והמאמת. אם הפרטנר מצטרף ולוקח את מסלול B, זה שלו; אחרת אני ממשיך.</p>
+  </div>
+
+  <footer>HarborVale Workflow · דוח M1 · 2026-09-08 · ריפו: github.com/DorKatzav/harborvale-workflow</footer>
+</main>
+</body>
+</html>
