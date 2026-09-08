@@ -74,8 +74,11 @@ def _fold_metrics(y_true, proba) -> dict:
     }
 
 
-def _cv_run(pipe, X: pd.DataFrame, y, n_splits: int = 5, seed: int = SEED) -> tuple[dict, np.ndarray]:
+def cv_run(pipe, X: pd.DataFrame, y, n_splits: int = 5, seed: int = SEED) -> tuple[dict, np.ndarray]:
     """One stratified pass: per-fold metrics and the out-of-fold probability of every row.
+
+    Public because `hv.train` needs both halves of the same pass; `cv_scores` and `oof_proba`
+    are the two convenience views on it.
 
     Both come out of the same loop - refitting the folds a second time to collect the out-of-fold
     predictions would double the cost of every run for nothing.
@@ -106,12 +109,12 @@ def _cv_run(pipe, X: pd.DataFrame, y, n_splits: int = 5, seed: int = SEED) -> tu
 
 def cv_scores(pipe, X: pd.DataFrame, y, n_splits: int = 5, seed: int = SEED) -> dict:
     """Cross-validated scores: mean and std per metric, plus precision on the top 10% of the ranking."""
-    return _cv_run(pipe, X, y, n_splits, seed)[0]
+    return cv_run(pipe, X, y, n_splits, seed)[0]
 
 
 def oof_proba(pipe, X: pd.DataFrame, y, n_splits: int = 5, seed: int = SEED) -> np.ndarray:
     """Out-of-fold churn probability per row - what fairness and the top-10% cut are measured on."""
-    return _cv_run(pipe, X, y, n_splits, seed)[1]
+    return cv_run(pipe, X, y, n_splits, seed)[1]
 
 
 def fairness_by_group(y_true, y_pred, groups: pd.Series) -> dict:
