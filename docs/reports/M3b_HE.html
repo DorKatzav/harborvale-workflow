@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HarborVale — דוח M3b: אחראי הדאטה כותב את החוזה</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Suez+One&family=Assistant:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --paper:#eef1ef; --card:#fff; --ink:#1b2733; --ink-soft:#46545f; --wind:#0f5c6e; --wind-soft:#e3eef1; --tape:#c9560c; --tape-soft:#fbe9dc; --gate:#2f7d46; --gate-soft:#e7f2ea; --line:#c9d2cd;
+    --mono:"IBM Plex Mono",ui-monospace,monospace; --display:"Suez One","Arial Hebrew",serif; --body:"Assistant","Helvetica Neue",Arial,sans-serif; }
+  * { box-sizing:border-box; }
+  html { font-size:106%; }
+  body { margin:0; background:var(--paper); color:var(--ink); font-family:var(--body); font-size:1.08rem; line-height:1.7; text-align:start; }
+  main { max-width:58rem; margin-inline:auto; padding:2.5rem 1.25rem 5rem; }
+  code { font-family:var(--mono); font-size:.85em; direction:ltr; unicode-bidi:isolate; background:#f0ede6; border:1px solid #ddd8cc; border-radius:4px; padding:.05em .35em; white-space:nowrap; }
+  .eyebrow { font-family:var(--mono); font-size:.78rem; letter-spacing:.12em; color:var(--wind); border-block-end:2px solid var(--wind); display:inline-block; padding-block-end:.3rem; margin-block-end:1rem; }
+  h1 { font-family:var(--display); font-weight:400; font-size:clamp(2rem,5vw,2.8rem); line-height:1.15; margin:0 0 .75rem; }
+  .lede { color:var(--ink-soft); max-width:46rem; margin-block-end:1.5rem; }
+  h2 { font-family:var(--display); font-weight:400; font-size:1.6rem; margin:2.5rem 0 .8rem; }
+  h2 .num { font-family:var(--mono); font-size:.9rem; color:var(--tape); letter-spacing:.1em; margin-inline-end:.75rem; }
+  h3 { font-family:var(--display); font-weight:400; font-size:1.2rem; margin:1.5rem 0 .5rem; }
+  p { margin:.5rem 0 .9rem; } ul, ol { margin:.4rem 0 1rem; padding-inline-start:1.5rem; } li { margin-block-end:.35rem; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:1.25rem 1.5rem; margin-block:1rem; }
+  .gate { border:2px solid var(--gate); background:var(--gate-soft); border-radius:10px; padding:.9rem 1.1rem; margin-block:1.25rem; position:relative; }
+  .gate::before { content:"✓ שער בדיקה"; position:absolute; inset-block-start:-.85rem; inset-inline-end:1rem; background:var(--gate); color:#fff; font-family:var(--display); font-size:.85rem; padding:.1rem .7rem; border-radius:4px; transform:rotate(2deg); }
+  .notice { border-inline-start:5px solid var(--tape); background:var(--tape-soft); border-radius:8px; padding:1rem 1.25rem; margin-block:1.5rem; }
+  .info { border-inline-start:5px solid var(--wind); background:var(--wind-soft); border-radius:8px; padding:1rem 1.25rem; margin-block:1.5rem; }
+  .notice h3, .info h3 { margin:0 0 .4rem; font-size:1.1rem; }
+  .tablewrap { overflow-x:auto; margin-block:.75rem 1.25rem; }
+  table { border-collapse:collapse; width:100%; background:var(--card); border:1px solid var(--line); font-size:.97rem; }
+  th, td { border:1px solid var(--line); padding:.55rem .8rem; text-align:start; vertical-align:top; }
+  th { background:var(--wind); color:#fff; font-weight:600; }
+  td.num { font-family:var(--mono); direction:ltr; text-align:end; white-space:nowrap; }
+  td.ok { color:var(--gate); font-weight:700; white-space:nowrap; }
+  blockquote { border-inline-start:4px solid var(--line); margin:1rem 0; padding:.25rem 1rem; color:var(--ink-soft); direction:ltr; text-align:left; unicode-bidi:isolate; font-size:.95rem; }
+  footer { margin-block-start:3rem; color:var(--ink-soft); font-size:.85rem; border-block-start:1px solid var(--line); padding-block-start:1rem; }
+  a { color:var(--wind); }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <span class="eyebrow">HARBORVALE · דוח תחנה · M3b · 2026-09-08</span>
+    <h1>M3b: אחראי הדאטה כותב את החוזה. צוות 1 שלם.</h1>
+    <p class="lede">M3 נסגרה עם שני סוכנים כי משימת החוזה חיכתה ל-M2. יורן מיזג את M2, ועכשיו הסוכן השלישי, אחראי הדאטה, מקבל את הכלים שלו ואת המשימה שלו. הכלי מודד את החוזה; הסוכן כותב רק את התיאורים, הנימוקים וההנחות. הצוות עומד בדרישת הברייף: שלושה סוכנים, ארבעה תוצרים.</p>
+  </header>
+
+  <h2><span class="num">01</span>מה נוסף</h2>
+  <div class="card">
+    <ul>
+      <li><b>שני כלים</b>: <code>build_contract_measured</code> (קורא ל-<code>hv.contract.build_contract</code> של יורן; מחזיר את כל השדות הנמדדים) ו-<code>write_contract_human_fields</code> (מקבל תיאורים, נימוקים והנחות; עובר דרך <code>apply_human_fields</code> שלא יכול לגעת בשדה נמדד; שם עמודה לא מוכר או JSON שבור מחזירים "ERROR: …").</li>
+      <li><b>הסוכן <code>data_steward</code> והמשימה <code>author_contract</code></b>: המשימה אומרת במפורש "הערכים הנמדדים הם עובדות; אתה לא משנה אותם ולא מצטט אותם מהזיכרון", ומבקשת תיאור לכל עמודה, נימוק לכל אילוץ (יחידות, משמעות ריק, מאפיינים מוגנים), ו-5–8 הנחות ברמת הדאטה.</li>
+      <li><b><code>measured_fields()</code></b>: תצוגה של החוזה בלי הטקסט האנושי ובלי המטא-דאטה (זמן יצירה, מי יצר). שני חוזים מאותו קובץ חייבים להסכים עליה. זו הבדיקה שמוכיחה שהסוכן לא נגע במספרים.</li>
+      <li><b>צוות ה-stub</b> כותב עכשיו גם חוזה (נימוק לכל עמודה מתוך התפקיד והיחידה, חמש הנחות קבועות).</li>
+      <li><b>שער M3</b>: שמונה בדיקות במקום שש. השתיים החדשות: החוזה מאמת את הקובץ הנקי; השדות הנמדדים שווים לבנייה טרייה ויש נימוק לכל עמודה והנחות.</li>
+      <li><b>תיקון ל-Windows</b> (הממצא של יורן ב-M2): כל <code>write_text</code> ב-<code>hv/</code> ו-<code>crews/</code> כותב עם <code>newline="\n"</code>, כדי ש-<code>stats.json</code> יהיה זהה בייט-בייט גם במכונה שלו.</li>
+      <li>7 בדיקות חדשות (121 בסך הכל). הערה ב-<code>PLAN.md</code> על M3b.</li>
+    </ul>
+  </div>
+
+  <h2><span class="num">02</span>הריצה האמיתית: שלושה סוכנים, ארבע משימות</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>מדד</th><th>M3 (שני סוכנים)</th><th>M3b (שלושה סוכנים)</th></tr></thead>
+    <tbody>
+      <tr><td>קריאות למודל</td><td class="num">7</td><td class="num">10</td></tr>
+      <tr><td>טוקנים בקלט (מהם ב-cache)</td><td class="num">12,385 (3,456)</td><td class="num">27,683 (11,776)</td></tr>
+      <tr><td>טוקנים בפלט</td><td class="num">7,139</td><td class="num">16,389</td></tr>
+      <tr><td><b>עלות</b></td><td class="num">$0.0166</td><td class="num">$0.037</td></tr>
+      <tr><td><b>משך</b></td><td class="num">96.4 s</td><td class="num">176.8 s</td></tr>
+      <tr><td>סבבי "ERROR" מהכלי</td><td class="num">0</td><td class="num">1</td></tr>
+    </tbody>
+  </table></div>
+  <p>הסבב היחיד: הקריאה הראשונה של אחראי הדאטה ל-<code>write_contract_human_fields</code> הגיעה עם JSON שבור ("Extra data" אחרי אובייקט התיאורים). הכלי החזיר "ERROR: invalid JSON", הסוכן תיקן, והקריאה השנייה הצליחה. בדיוק בשביל זה הכלים מחזירים שגיאה כטקסט במקום לזרוק חריגה.</p>
+
+  <h3>מה אחראי הדאטה כתב (מתוך <code>dataset_contract.json</code>)</h3>
+  <blockquote>"CashbackAmount is expressed in USD and is the average cashback received in the last calendar month, not cumulative and not cents-based."</blockquote>
+  <blockquote>"557 duplicate records were removed during cleaning; duplicates were identical except for CustomerID and were dropped to avoid double-counting customer behavior."</blockquote>
+  <blockquote>Tenure — Unit: months. Nulls (231) indicate missing tenure information from source and were intentionally kept; Tenure is highly predictive (new customers churn more)…</blockquote>
+  <p>שבע הנחות ברמת הדאטה, נימוק לכל אחת מ-20 העמודות. ההנחה על הדולרים מול הסנטים היא הסיפור של Harbor &amp; Vale, כתוב בקובץ שצוות 2 חייב לקרוא.</p>
+
+  <div class="info">
+    <h3>ההוכחה שהסוכן לא נגע במספרים</h3>
+    <p>השדות הנמדדים בחוזה שיצא מהסוכנים זהים לחוזה שיורן בנה ב-M2 מאותו קובץ, ו-<code>clean_data.csv</code>, <code>cleaning_report.json</code> ו-<code>stats.json</code> עדיין זהים בייט-בייט ל-M1. השתנו רק: התיאורים, הנימוקים, ההנחות, ו-<code>produced_by</code> (עכשיו <code>analyst_crew</code>).</p>
+  </div>
+
+  <h2><span class="num">03</span>תוצאת השער</h2>
+  <div class="gate">
+    <div class="tablewrap"><table>
+      <thead><tr><th>בדיקה</th><th>תוצאה</th></tr></thead>
+      <tbody>
+        <tr><td>pytest ירוק בלי מפתח (121 בדיקות)</td><td class="ok">PASS</td></tr>
+        <tr><td>ruff נקי</td><td class="ok">PASS</td></tr>
+        <tr><td>ששת הקבצים של צוות 1 ב-<code>artifacts/crew1/</code></td><td class="ok">PASS</td></tr>
+        <tr><td><code>insights.md</code>: חמישה סעיפים, מספרים שווים ל-<code>stats.json</code></td><td class="ok">PASS</td></tr>
+        <tr><td><code>dataset_contract.json</code> מאמת את <code>clean_data.csv</code></td><td class="ok">PASS</td></tr>
+        <tr><td>השדות הנמדדים שווים לבנייה טרייה; נימוק לכל עמודה והנחות נכתבו</td><td class="ok">PASS</td></tr>
+        <tr><td>קבצי הדאטה זהים לריצת stub טרייה</td><td class="ok">PASS</td></tr>
+        <tr><td>הריצה האמיתית מתועדת</td><td class="ok">PASS</td></tr>
+      </tbody>
+    </table></div>
+    <p><code>GATE M3: PASS 8/8</code>. וגם, על אותו ענף: M1 7/7, M2 5/5.</p>
+  </div>
+
+  <h2><span class="num">04</span>מה למדנו</h2>
+  <ul>
+    <li>העלות גדלה פי שניים עם הסוכן השלישי: החוזה עם 20 עמודות מהדהד בהקשר, והסוכן כותב הרבה. עדיין פחות מ-4 סנט לריצה של כל צוות 1.</li>
+    <li>שגיאת JSON אחת מהסוכן היא צפויה כשמבקשים שלושה ארגומנטים ארוכים; "ERROR כטקסט" עלה סבב אחד ולא ריצה שלמה.</li>
+    <li>לוג ביומן נכנס מעכשיו ב-PR של הקוד (לא בדוקומנטציה שאחריו), כי שער M3 קורא אותו ו-main נשאר ירוק.</li>
+  </ul>
+
+  <h2><span class="num">05</span>מה אני צריך ממך</h2>
+  <div class="info">
+    <p><b>אישור מיזוג</b> של ה-PR של M3b. אחריו M3 סגורה לגמרי, ויורן יכול להתחיל את M4 על main שמכיל את כל צוות 1. M5 (ה-Flow) מחכה לשני החצאים.</p>
+  </div>
+
+  <footer>HarborVale Workflow · דוח M3b · 2026-09-08 · לוג הריצה: <code>docs/notes/m3b_crew1_run.txt</code></footer>
+</main>
+</body>
+</html>
