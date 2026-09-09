@@ -85,7 +85,8 @@ def classify_dtype(s: pd.Series) -> Dtype:
     """Map a pandas dtype onto the four contract dtypes.
 
     pandas 3 gives text columns the `str` dtype rather than `object`, so both are accepted here
-    (D-M2-1 in PROJECT_LOG.md); a categorical column is text as far as the contract cares.
+    and both map to `category` (D-M2-3 in PROJECT_LOG.md); a categorical column is text as far
+    as the contract cares.
     """
     d = s.dtype
     if ptypes.is_bool_dtype(d):
