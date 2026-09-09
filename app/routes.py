@@ -11,12 +11,7 @@ from flask import Blueprint, Response, abort, jsonify, render_template, request,
 from werkzeug.exceptions import RequestEntityTooLarge
 
 from app import artifacts as A
-from hv.config import ARTIFACTS_DIR, CSV_KW
-
-try:  # READ_CSV_KW arrives with M4 (PR #15); until it merges, keep the same setting here
-    from hv.config import READ_CSV_KW
-except ImportError:  # pragma: no cover - removed when M4 merges
-    READ_CSV_KW = {"float_precision": "round_trip"}
+from hv.config import ARTIFACTS_DIR, CSV_KW, READ_CSV_KW
 from hv.contract import PRESETS, load_contract, save_contract, tamper, validate
 
 bp = Blueprint("pages", __name__)

@@ -1,0 +1,191 @@
+{
+  "baseline": {
+    "accuracy": 0.8342,
+    "f1": 0.0,
+    "pr_auc": 0.1658,
+    "precision": 0.0,
+    "precision_at_top10": 0.1658,
+    "predicted_class": 0,
+    "recall": 0.0,
+    "roc_auc": 0.5,
+    "strategy": "majority"
+  },
+  "fairness": {
+    "Gender": {
+      "Female": {
+        "n": 2026,
+        "positive_rate": 0.1466,
+        "precision": 0.9259,
+        "recall": 0.89
+      },
+      "Male": {
+        "n": 3047,
+        "positive_rate": 0.1605,
+        "precision": 0.9407,
+        "recall": 0.8647
+      }
+    },
+    "MaritalStatus": {
+      "Divorced": {
+        "n": 848,
+        "positive_rate": 0.1368,
+        "precision": 0.9655,
+        "recall": 0.9032
+      },
+      "Married": {
+        "n": 2672,
+        "positive_rate": 0.1104,
+        "precision": 0.8915,
+        "recall": 0.8709
+      },
+      "Single": {
+        "n": 1553,
+        "positive_rate": 0.2415,
+        "precision": 0.96,
+        "recall": 0.8675
+      }
+    }
+  },
+  "features": {
+    "categorical": [
+      "PreferredLoginDevice",
+      "PreferredPaymentMode",
+      "PreferedOrderCat"
+    ],
+    "engineered": [
+      "cashback_per_order",
+      "orders_per_tenure_month",
+      "coupon_rate",
+      "recency_bucket"
+    ],
+    "numeric": [
+      "Tenure",
+      "CityTier",
+      "WarehouseToHome",
+      "HourSpendOnApp",
+      "NumberOfDeviceRegistered",
+      "SatisfactionScore",
+      "NumberOfAddress",
+      "Complain",
+      "OrderAmountHikeFromlastYear",
+      "CouponUsed",
+      "OrderCount",
+      "DaySinceLastOrder",
+      "CashbackAmount"
+    ]
+  },
+  "importances": {
+    "CashbackAmount": 0.0035,
+    "CityTier": 0.0002,
+    "Complain": 0.0209,
+    "CouponUsed": 0.0,
+    "DaySinceLastOrder": 0.0009,
+    "HourSpendOnApp": 0.0,
+    "NumberOfAddress": 0.009,
+    "NumberOfDeviceRegistered": 0.0009,
+    "OrderAmountHikeFromlastYear": 0.0007,
+    "OrderCount": 0.0,
+    "PreferedOrderCat": 0.0008,
+    "PreferredLoginDevice": 0.0002,
+    "PreferredPaymentMode": 0.0012,
+    "SatisfactionScore": 0.0023,
+    "Tenure": 0.0889,
+    "WarehouseToHome": 0.0043,
+    "cashback_per_order": 0.0008,
+    "coupon_rate": 0.0,
+    "orders_per_tenure_month": 0.0017,
+    "recency_bucket": 0.0
+  },
+  "n_rows": 5073,
+  "positive_rate": 0.1658,
+  "served": "hist_gb",
+  "variants": {
+    "hist_gb": {
+      "accuracy": {
+        "mean": 0.9691,
+        "std": 0.0066
+      },
+      "f1": {
+        "mean": 0.9033,
+        "std": 0.0216
+      },
+      "pr_auc": {
+        "mean": 0.9498,
+        "std": 0.0201
+      },
+      "precision": {
+        "mean": 0.9353,
+        "std": 0.019
+      },
+      "precision_at_top10": 0.9724,
+      "recall": {
+        "mean": 0.874,
+        "std": 0.0319
+      },
+      "roc_auc": {
+        "mean": 0.9857,
+        "std": 0.0051
+      }
+    },
+    "logreg": {
+      "accuracy": {
+        "mean": 0.8186,
+        "std": 0.0065
+      },
+      "f1": {
+        "mean": 0.5985,
+        "std": 0.0176
+      },
+      "pr_auc": {
+        "mean": 0.686,
+        "std": 0.0201
+      },
+      "precision": {
+        "mean": 0.4726,
+        "std": 0.012
+      },
+      "precision_at_top10": 0.7712,
+      "recall": {
+        "mean": 0.8157,
+        "std": 0.0302
+      },
+      "roc_auc": {
+        "mean": 0.8913,
+        "std": 0.0169
+      }
+    },
+    "random_forest": {
+      "accuracy": {
+        "mean": 0.9485,
+        "std": 0.0096
+      },
+      "f1": {
+        "mean": 0.8419,
+        "std": 0.031
+      },
+      "pr_auc": {
+        "mean": 0.917,
+        "std": 0.0196
+      },
+      "precision": {
+        "mean": 0.8566,
+        "std": 0.0278
+      },
+      "precision_at_top10": 0.9487,
+      "recall": {
+        "mean": 0.8288,
+        "std": 0.0439
+      },
+      "roc_auc": {
+        "mean": 0.977,
+        "std": 0.0086
+      }
+    }
+  },
+  "versions": {
+    "numpy": "2.4.6",
+    "pandas": "3.0.5",
+    "python": "3.11.16",
+    "scikit_learn": "1.9.0"
+  }
+}

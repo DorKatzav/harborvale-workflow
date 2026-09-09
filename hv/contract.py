@@ -21,7 +21,7 @@ import pandas as pd
 import pandas.api.types as ptypes
 from pydantic import BaseModel
 
-from hv.config import PRIMARY_KEY, PROTECTED, SEED, TARGET, UNITS
+from hv.config import PRIMARY_KEY, PROTECTED, READ_CSV_KW, SEED, TARGET, UNITS
 
 HUMAN_FIELDS = {"description", "rationale"}  # + the top-level "assumptions"
 CONTRACT_VERSION = "1.0"
@@ -295,7 +295,7 @@ def validate(
         df, path, source = data, None, "<DataFrame>"
     else:
         path = Path(data)
-        df, source = pd.read_csv(path), str(path)
+        df, source = pd.read_csv(path, **READ_CSV_KW), str(path)
 
     checks: list[Check] = []
     add = checks.append

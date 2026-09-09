@@ -20,7 +20,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from hv.config import ARTIFACTS_DIR, CSV_KW  # noqa: E402
+from hv.config import ARTIFACTS_DIR, CSV_KW, READ_CSV_KW  # noqa: E402
 from hv.contract import PRESETS, load_contract, save_contract, tamper, validate  # noqa: E402
 
 DEFAULT_CLEAN = ARTIFACTS_DIR / "crew1" / "clean_data.csv"
@@ -45,7 +45,7 @@ def main() -> int:
             print("run Crew 1 first (M1) or pass --clean / --contract explicitly")
             return 1
 
-    original = pd.read_csv(args.clean)
+    original = pd.read_csv(args.clean, **READ_CSV_KW)
     contract = load_contract(args.contract)
     tampered, tampered_contract = tamper(original, contract, args.preset)
 

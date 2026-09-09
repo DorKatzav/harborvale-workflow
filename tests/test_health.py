@@ -1,6 +1,7 @@
 import pytest
 
 from app.main import create_app
+from hv.config import ARTIFACTS_DIR
 
 
 @pytest.fixture
@@ -17,7 +18,9 @@ def test_health_reports_version_and_commit(client):
     assert body["status"] == "ok"
     assert body["version"] == "0.1.0"
     assert isinstance(body["commit"], str) and body["commit"]
-    assert body["model_loaded"] is False  # no model artifact before M4
+    # M4 published artifacts/crew2/model.joblib, so this now reports True on a full checkout;
+    # what /health must always do is tell the truth about whether the file is there.
+    assert body["model_loaded"] is (ARTIFACTS_DIR / "crew2" / "model.joblib").exists()
     assert body["uptime_s"] >= 0
 
 
