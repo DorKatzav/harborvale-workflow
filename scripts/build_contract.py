@@ -15,7 +15,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from hv.config import ARTIFACTS_DIR, RAW_PATH, RAW_SHEET  # noqa: E402
+from hv.config import ARTIFACTS_DIR, RAW_PATH, RAW_SHEET, READ_CSV_KW  # noqa: E402
 from hv.contract import build_contract, save_contract, validate  # noqa: E402
 
 DEFAULT_CLEAN = ARTIFACTS_DIR / "crew1" / "clean_data.csv"
@@ -37,7 +37,7 @@ def main() -> int:
         print(f"missing clean file: {args.clean} - run scripts/run_crew1_tools.py first")
         return 1
 
-    df = pd.read_csv(args.clean)
+    df = pd.read_csv(args.clean, **READ_CSV_KW)
     dictionary = load_data_dictionary()
     contract = build_contract(
         df,

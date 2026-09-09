@@ -12,7 +12,7 @@ from crewai.tools import tool
 
 from hv import cleaning, eda, ingest, insights
 from hv import contract as hvc
-from hv.config import RAW_SHEET
+from hv.config import RAW_SHEET, READ_CSV_KW
 
 
 @tool("profile_raw_data")
@@ -49,7 +49,7 @@ def run_eda(clean_csv: str, out_dir: str) -> str:
 
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
-    df = pd.read_csv(clean_csv)
+    df = pd.read_csv(clean_csv, **READ_CSV_KW)
     s = eda.stats(df)
     eda.write_stats(s, out / "stats.json")
     eda.render_eda_html(df, s, out / "eda_report.html")
@@ -109,7 +109,7 @@ def build_contract_measured(clean_csv: str, out_dir: str, raw_path: str) -> str:
 
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
-    df = pd.read_csv(clean_csv)
+    df = pd.read_csv(clean_csv, **READ_CSV_KW)
     dictionary = ingest.load_data_dictionary(Path(raw_path)) if Path(raw_path).exists() else {}
     source = f"{Path(raw_path).name} [{RAW_SHEET}] -> hv.cleaning.clean -> {Path(clean_csv).name}"
     c = hvc.build_contract(df, source=source, clean_csv=Path(clean_csv), dictionary=dictionary)

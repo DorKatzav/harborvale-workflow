@@ -21,7 +21,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from hv.config import ARTIFACTS_DIR, PRIMARY_KEY, PROTECTED  # noqa: E402
+from hv.config import ARTIFACTS_DIR, PRIMARY_KEY, PROTECTED, READ_CSV_KW  # noqa: E402
 from hv.contract import load_contract, validate  # noqa: E402
 from hv.features import build_features, write_features  # noqa: E402
 from hv.model_card import REQUIRED_SECTIONS, render_evaluation_report, render_model_card  # noqa: E402
@@ -60,7 +60,7 @@ def main() -> int:
         print("refusing to train on data that disagrees with its contract")
         return 2
 
-    df = pd.read_csv(args.clean)
+    df = pd.read_csv(args.clean, **READ_CSV_KW)
     features = build_features(df, contract)
     args.out.mkdir(parents=True, exist_ok=True)
     features_sha = write_features(features, args.out / "features.csv")

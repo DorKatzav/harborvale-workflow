@@ -98,9 +98,12 @@ CREW1 = ROOT / "artifacts" / "crew1"
 def _crew1_clean():
     import pandas as pd
 
+    sys.path.insert(0, str(ROOT))
+    from hv.config import READ_CSV_KW
+
     path = CREW1 / "clean_data.csv"
     assert path.exists(), "artifacts/crew1/clean_data.csv missing"
-    return pd.read_csv(path)
+    return pd.read_csv(path, **READ_CSV_KW)
 
 
 def _cleaning_report() -> dict:
@@ -199,11 +202,12 @@ def check_agent_did_not_touch_measured_fields() -> None:
     import pandas as pd
 
     from crews.analyst.tools import measured_fields
+    from hv.config import READ_CSV_KW
     from hv.contract import build_contract, load_contract
 
     committed = load_contract(CREW1 / "dataset_contract.json")
     clean = CREW1 / "clean_data.csv"
-    fresh = build_contract(pd.read_csv(clean), source="gate", clean_csv=clean)
+    fresh = build_contract(pd.read_csv(clean, **READ_CSV_KW), source="gate", clean_csv=clean)
     assert measured_fields(committed) == measured_fields(fresh), "committed contract differs from fresh build"
     assert committed.assumptions, "the steward wrote no assumptions"
     empty = [c.name for c in committed.columns if not c.rationale]
@@ -367,9 +371,10 @@ def check_model_predicts_a_real_row() -> None:
         raise Skip("artifacts/crew2/model.joblib not built yet (M4 task 5)")
     import pandas as pd
 
+    from hv.config import READ_CSV_KW
     from hv.train import predict_one
 
-    row = pd.read_csv(CREW1 / "clean_data.csv").iloc[0].to_dict()
+    row = pd.read_csv(CREW1 / "clean_data.csv", **READ_CSV_KW).iloc[0].to_dict()
     proba = predict_one(MODEL_JOBLIB, row)
     assert 0.0 <= proba <= 1.0, f"predicted probability {proba} is not a probability"
 
