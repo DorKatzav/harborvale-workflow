@@ -104,20 +104,23 @@
         <tr><td>כל חמשת הדפים נבנים</td><td class="ok">PASS</td></tr>
         <tr><td>לוח השבירה תופס את כל שש התקלות</td><td class="ok">PASS</td></tr>
         <tr><td>צילומי מסך לדוח קיימים</td><td class="ok">PASS</td></tr>
-        <tr><td>כל הדפים מחזירים 200 ב-URL החי</td><td class="wait">FAIL — מכוון</td></tr>
-        <tr><td>לוח השבירה החי מסרב לקאשבק בסנטים</td><td class="wait">FAIL — מכוון</td></tr>
+        <tr><td>כל הדפים מחזירים 200 ב-URL החי</td><td class="ok">PASS</td></tr>
+        <tr><td>לוח השבירה החי מסרב לקאשבק בסנטים</td><td class="ok">PASS</td></tr>
       </tbody>
     </table></div>
-    <p><code>GATE M6: FAIL 5/7</code>. שתי הבדיקות החיות נכשלות כי ב-Railway עדיין רץ השלד של M0, שאין בו דפים כאלה. השער אומר את האמת: האתר החי אינו האתר הזה. אחרי המיזוג Railway יפרוס מחדש, אריץ שוב ואדווח 7/7.</p>
+    <p><code>GATE M6: PASS 7/7</code>. אחרי מיזוג #17 ופריסה מחדש ב-Railway, כל שבע עברו. גם שאר השערים ירוקים על main: M1 7/7, M2 5/5, M3 8/8, M4 6/6.</p>
+    <p>בדיקה ידנית מול האתר החי: כל שש התקלות נתפסו — <code>unit_change</code> ← integrity, range · <code>rename_column</code> ← columns, integrity · <code>drop_contract_field</code> ← columns · <code>bad_category</code> ← integrity, values · <code>dtype_change</code> ← dtype, integrity · <code>row_loss</code> ← integrity, rows.</p>
   </div>
+
+  <figure>
+    <img src="img/m6_model_live.jpg" alt="דף המודל באתר החי: hist_gb משרת, טבלת השוואה וחשיבויות">
+    <figcaption>דף המודל באתר החי, אחרי שה-M4 של יורן מוזג. הדף התמלא לבד מ-<code>artifacts/crew2/</code>: המודל המשרת, ההשוואה מול קו הבסיס, והחשיבויות מדורגות לפי ערך.</figcaption>
+  </figure>
 
   <h2><span class="num">05</span>מה נשאר פתוח</h2>
   <div class="notice">
-    <h3>שני דברים תלויים ב-M4 של יורן</h3>
-    <ul>
-      <li><b>דף המודל ריק בכוונה.</b> הוא נבנה מ-<code>artifacts/crew2/</code>, שקיים רק בענף של יורן. כשה-PR שלו ימוזג הדף יתמלא לבד — טבלת ההשוואה, החשיבויות וכרטיס המודל כבר כתובים ונבדקו מול מדדים סינתטיים.</li>
-      <li><b>שורה אחת למחיקה.</b> <code>app/routes.py</code> מייבא את <code>READ_CSV_KW</code> עם נפילה לערך זהה, כי התיקון חי בענף שלו. אחרי המיזוג מוחקים את הנפילה.</li>
-    </ul>
+    <h3>מה שהיה תלוי ב-M4 — נסגר</h3>
+    <p>שני הדברים נסגרו באותו ערב: M4 מוזג, דף המודל התמלא לבד (ראה הצילום למעלה), והנפילה הזמנית ב-<code>app/routes.py</code> נמחקה — הוא מייבא עכשיו את <code>READ_CSV_KW</code> ישירות.</p>
   </div>
   <p>לא נבדק: התנהגות ברוחב מובייל אמיתי. הפריסה בנויה לזה (עמודה אחת מתחת ל-60rem, טבלאות שגוללות בעצמן) ואין גלישה אופקית ברוחב שולחני, אבל שינוי גודל החלון בדפדפן לא נתפס בכלי הצילום, אז לא ראיתי את זה בעיניים. אבדוק אחרי הפריסה מול הטלפון.</p>
 
