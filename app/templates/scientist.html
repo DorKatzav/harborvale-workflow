@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Model — HarborVale Workflow{% endblock %}
+{% block content %}
+
+<h1>The modelling crew</h1>
+<p class="lede">
+  Three agents that never see the raw data. They read the contract and the clean file, engineer features
+  from the columns the contract marks usable, train several models, compare them honestly and publish a
+  model card that says what the model must not be used for.
+</p>
+
+{% if c2.available %}
+<dl class="facts">
+  <div><dt>Served model</dt><dd>{{ c2.metrics.served }}</dd></div>
+  <div><dt>Trained on</dt><dd>{{ "{:,}".format(c2.metrics.n_rows) }}</dd></div>
+  <div><dt>Churn rate</dt><dd>{{ "{:.2%}".format(c2.metrics.positive_rate) }}</dd></div>
+  <div><dt>Model inputs</dt><dd>{{ (c2.metrics.features.numeric | length) + (c2.metrics.features.categorical | length) + (c2.metrics.features.engineered | length) }}</dd></div>
+</dl>
+
+<h2>How the candidates compared</h2>
+<p>Five stratified folds, one seed, the same features. A majority guess is included because 83% accuracy
+   sounds impressive until you see it never finds a single churner.</p>
+<div class="tablewrap">
+  <table>
+    <caption class="visually-hidden">Model comparison</caption>
+    <thead>
+      <tr><th scope="col">Model</th><th class="num" scope="col">ROC AUC</th>
+          <th class="num" scope="col">F1</th><th class="num" scope="col">Precision in the top 10%</th></tr>
+    </thead>
+    <tbody>
+      {% for v in variants %}
+      <tr class="{{ 'is-served' if v.served }}">
+        <th scope="row">{{ v.name }}{% if v.served %} (served){% endif %}</th>
+        <td class="num">{{ "%.4f"|format(v.roc_auc) if v.roc_auc is not none else "—" }}{% if v.roc_auc_std %} ± {{ "%.4f"|format(v.roc_auc_std) }}{% endif %}</td>
+        <td class="num">{{ "%.4f"|format(v.f1) if v.f1 is not none else "—" }}</td>
+        <td class="num">{{ "%.4f"|format(v.precision_at_top10) if v.precision_at_top10 is not none else "—" }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% if importances %}
+<h2>What the served model leans on</h2>
+<div class="tablewrap">
+  <table>
+    <caption class="visually-hidden">Permutation importance, ranked</caption>
+    <thead><tr><th scope="col">Feature</th><th class="num" scope="col">Permutation importance</th></tr></thead>
+    <tbody>
+      {% for name, value in importances %}
+      <tr><th scope="row"><code>{{ name }}</code></th><td class="num">{{ "%.4f"|format(value) }}</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endif %}
+
+<section class="panel prose">{{ c2.model_card_html | safe }}</section>
+<section class="panel prose">{{ c2.evaluation_html | safe }}</section>
+<p><a href="{{ url_for('pages.artifact_file', filename='crew2/features.csv') }}">Download the feature set</a>
+   · <a href="{{ url_for('pages.artifact_file', filename='crew2/metrics.json') }}">the raw metrics</a></p>
+
+{% else %}
+<section class="empty">
+  <h2>Not published yet</h2>
+  <p>The modelling crew has not published a model card into <code>artifacts/crew2/</code> on this
+     deployment. The analyst crew's half of the handoff is live:
+     <a href="{{ url_for('pages.contract') }}">read the contract it wrote</a>.</p>
+</section>
+{% endif %}
+
+{% endblock %}

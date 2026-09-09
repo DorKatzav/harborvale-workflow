@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}HarborVale Workflow{% endblock %}</title>
+<meta name="description" content="Two agent crews, one dataset contract between them, and a workflow that refuses to train when the data and the contract disagree.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600&family=Public+Sans:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%2316242c'/><path d='M6 20h20M16 6v14' stroke='%23e7eaec' stroke-width='3'/></svg>">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="masthead">
+  <a class="wordmark" href="{{ url_for('pages.index') }}">
+    <span class="wordmark__mark" aria-hidden="true"></span>
+    HarborVale<span class="wordmark__thin"> Workflow</span>
+  </a>
+  <nav aria-label="Sections">
+    <a href="{{ url_for('pages.analyst') }}" {% if page == 'analyst' %}aria-current="page"{% endif %}>Analyst crew</a>
+    <a href="{{ url_for('pages.contract') }}" {% if page == 'contract' %}aria-current="page"{% endif %}>The contract</a>
+    <a href="{{ url_for('pages.scientist') }}" {% if page == 'scientist' %}aria-current="page"{% endif %}>Model</a>
+    <a href="{{ url_for('pages.runs') }}" {% if page == 'runs' %}aria-current="page"{% endif %}>Runs</a>
+  </nav>
+</header>
+
+<main id="main">
+  {% block content %}{% endblock %}
+</main>
+
+<footer class="colophon">
+  <p>Built from the artifacts of the last successful run. Nothing on this page is computed in the browser.</p>
+  <p class="mono">v{{ version }} · {{ commit }} · <a href="https://github.com/DorKatzav/harborvale-workflow">source</a></p>
+</footer>
+
+{% block scripts %}{% endblock %}
+</body>
+</html>

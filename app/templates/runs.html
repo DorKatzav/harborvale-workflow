@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Runs — HarborVale Workflow{% endblock %}
+{% block content %}
+
+<h1>Runs</h1>
+<p class="lede">
+  Everything on this site comes from one published run, committed to the repository. A live run on the
+  server, behind a password, arrives with the next milestone.
+</p>
+
+<section class="panel">
+  <h2>The published run</h2>
+  <dl class="facts">
+    <div><dt>Model calls</dt><dd>{{ run.llm_calls or "—" }}</dd></div>
+    <div><dt>Prompt tokens</dt><dd>{{ "{:,}".format(run.crew1.prompt_tokens) if run.crew1.prompt_tokens else "—" }}</dd></div>
+    <div><dt>Cost</dt><dd>${{ "%.3f"|format(run.cost_usd or 0) }}</dd></div>
+    <div><dt>Duration</dt><dd>{{ run.duration_s or "—" }}s</dd></div>
+  </dl>
+  <p>Agent prose differs between runs; the data files do not. <code>clean_data.csv</code>,
+     <code>stats.json</code> and the measured half of the contract come out identical byte for byte,
+     because tools compute them and agents only describe them.</p>
+</section>
+
+<section class="panel">
+  <h2>Published artifacts</h2>
+  <div class="tablewrap">
+    <table>
+      <caption class="visually-hidden">Files published by the two crews</caption>
+      <thead><tr><th scope="col">Crew</th><th scope="col">File</th><th scope="col">What it is</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Analyst</th><td><a href="{{ url_for('pages.artifact_file', filename='crew1/clean_data.csv') }}">clean_data.csv</a></td><td>The cleaned dataset the modelling crew trains on</td></tr>
+        <tr><th scope="row">Analyst</th><td><a href="{{ url_for('pages.artifact_file', filename='crew1/eda_report.html') }}">eda_report.html</a></td><td>Charts and descriptive statistics</td></tr>
+        <tr><th scope="row">Analyst</th><td><a href="{{ url_for('pages.artifact_file', filename='crew1/insights.md') }}">insights.md</a></td><td>What the data says, for a manager</td></tr>
+        <tr><th scope="row">Analyst</th><td><a href="{{ url_for('pages.artifact_file', filename='crew1/dataset_contract.json') }}">dataset_contract.json</a></td><td>The interface between the crews</td></tr>
+        {% if c2.available %}
+        <tr><th scope="row">Modelling</th><td><a href="{{ url_for('pages.artifact_file', filename='crew2/features.csv') }}">features.csv</a></td><td>The engineered feature set</td></tr>
+        <tr><th scope="row">Modelling</th><td><a href="{{ url_for('pages.artifact_file', filename='crew2/model.joblib') }}">model.joblib</a></td><td>The trained model</td></tr>
+        <tr><th scope="row">Modelling</th><td><a href="{{ url_for('pages.artifact_file', filename='crew2/evaluation_report.md') }}">evaluation_report.md</a></td><td>How the candidates compared</td></tr>
+        <tr><th scope="row">Modelling</th><td><a href="{{ url_for('pages.artifact_file', filename='crew2/model_card.md') }}">model_card.md</a></td><td>Purpose, metrics, limitations, ethics</td></tr>
+        {% else %}
+        <tr><th scope="row">Modelling</th><td colspan="2">Not published on this deployment yet.</td></tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+{% endblock %}

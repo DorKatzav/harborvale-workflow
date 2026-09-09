@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}The contract — HarborVale Workflow{% endblock %}
+{% block content %}
+
+<h1>The contract</h1>
+<p class="lede">
+  This file is the only thing the modelling crew is allowed to assume. The measured parts are produced by
+  a Python tool from the clean file; the descriptions, the reasons and the assumptions are written by the
+  crew's data steward. The validator reads the measured parts and ignores the prose, so no amount of
+  confident writing can make broken data pass.
+</p>
+
+{% if c1.available %}
+{% include "_breakit.html" %}
+
+<section class="panel">
+  <h2>Assumptions the modelling crew may rely on</h2>
+  <ul class="assumptions">
+    {% for line in c1.contract.assumptions %}<li>{{ line }}</li>{% endfor %}
+  </ul>
+</section>
+
+<h2>Every column, as declared</h2>
+<p>Roles decide what may become a model input: an id and a target never can, and the two protected
+   attributes are kept for fairness reporting only.</p>
+<div class="tablewrap">
+  <table>
+    <caption class="visually-hidden">The dataset contract, column by column</caption>
+    <thead>
+      <tr>
+        <th scope="col">Column</th><th scope="col">Role</th><th scope="col">Type</th>
+        <th scope="col">Unit</th><th scope="col">Allowed</th><th class="num" scope="col">Nulls</th>
+        <th scope="col">What it is, and why the constraint</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in rows %}
+      <tr>
+        <th scope="row"><code>{{ r.name }}</code></th>
+        <td><span class="role role--{{ r.role }}">{{ r.role }}</span></td>
+        <td>{{ r.dtype }}</td>
+        <td>{{ r.unit }}</td>
+        <td>{{ r.constraint }}</td>
+        <td class="num">{{ r.nulls }}</td>
+        <td>{{ r.description }}{% if r.rationale %} <em>{{ r.rationale }}</em>{% endif %}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<section class="panel">
+  <h2>What the validator checks</h2>
+  <p>Nine checks run on every handoff, and all of them run every time: the file's hash, the column set,
+     each column's type, the allowed values, the numeric range, the null counts, the row count, the
+     primary key and target, and the features the modelling crew asked for. Every failure is reported at
+     once, because a partial answer sends someone back for a second round.</p>
+  <p><a href="{{ url_for('pages.artifact_file', filename='crew1/dataset_contract.json') }}">Read the raw contract</a>
+     · <a href="{{ url_for('pages.artifact_file', filename='crew1/clean_data.csv') }}">download the clean file</a></p>
+</section>
+{% else %}
+<section class="empty">
+  <h2>No contract published yet</h2>
+  <p>Run the analyst crew: <code>python -m crews.analyst.crew</code>.</p>
+</section>
+{% endif %}
+
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='app.js') }}" defer></script>{% endblock %}
