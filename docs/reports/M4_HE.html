@@ -87,8 +87,8 @@
       <tbody>
         <tr class="base"><td>קו בסיס (רוב)</td><td class="num">0.5000</td><td class="num">0.1658</td><td class="num">0.0000</td><td class="num">0.8342</td></tr>
         <tr><td>logreg</td><td class="num">0.8913 ± 0.0169</td><td class="num">0.7712</td><td class="num">0.8157</td><td class="num">0.8186</td></tr>
-        <tr><td>random_forest</td><td class="num">0.9769 ± 0.0088</td><td class="num">0.9487</td><td class="num">0.8300</td><td class="num">0.9491</td></tr>
-        <tr class="served"><td>hist_gb (משרת)</td><td class="num">0.9857 ± 0.0051</td><td class="num">0.9724</td><td class="num">0.8740</td><td class="num">0.9689</td></tr>
+        <tr><td>random_forest</td><td class="num">0.9770 ± 0.0086</td><td class="num">0.9487</td><td class="num">0.8288</td><td class="num">0.9485</td></tr>
+        <tr class="served"><td>hist_gb (משרת)</td><td class="num">0.9857 ± 0.0051</td><td class="num">0.9724</td><td class="num">0.8740</td><td class="num">0.9691</td></tr>
       </tbody>
     </table>
   </div>
@@ -113,15 +113,15 @@
     <table>
       <thead><tr><th>מאפיין</th><th>קבוצה</th><th class="num">n</th><th class="num">recall</th><th class="num">precision</th><th class="num">אחוז שסומנו</th></tr></thead>
       <tbody>
-        <tr><td>Gender</td><td>Female</td><td class="num">2,026</td><td class="num">0.8900</td><td class="num">0.9228</td><td class="num">0.1471</td></tr>
+        <tr><td>Gender</td><td>Female</td><td class="num">2,026</td><td class="num">0.8900</td><td class="num">0.9259</td><td class="num">0.1466</td></tr>
         <tr><td>Gender</td><td>Male</td><td class="num">3,047</td><td class="num">0.8647</td><td class="num">0.9407</td><td class="num">0.1605</td></tr>
         <tr><td>MaritalStatus</td><td>Divorced</td><td class="num">848</td><td class="num">0.9032</td><td class="num">0.9655</td><td class="num">0.1368</td></tr>
-        <tr><td>MaritalStatus</td><td>Married</td><td class="num">2,672</td><td class="num">0.8675</td><td class="num">0.8912</td><td class="num">0.1100</td></tr>
-        <tr><td>MaritalStatus</td><td>Single</td><td class="num">1,553</td><td class="num">0.8699</td><td class="num">0.9576</td><td class="num">0.2428</td></tr>
+        <tr><td>MaritalStatus</td><td>Married</td><td class="num">2,672</td><td class="num">0.8709</td><td class="num">0.8915</td><td class="num">0.1104</td></tr>
+        <tr><td>MaritalStatus</td><td>Single</td><td class="num">1,553</td><td class="num">0.8675</td><td class="num">0.9600</td><td class="num">0.2415</td></tr>
       </tbody>
     </table>
   </div>
-  <p>ה-recall דומה בכל הקבוצות (0.86 עד 0.90), כלומר המודל לא מפספס קבוצה שלמה. הפער היחיד שבולט הוא באחוז שסומנו: רווקים 24.3% מול נשואים 11.0% — וזה משקף את שיעורי הנטישה האמיתיים שנמצאו ב-EDA (רווקים 26.7% מול נשואים 11.3%), לא הטיה שהמודל המציא.</p>
+  <p>ה-recall דומה בכל הקבוצות (0.86 עד 0.90), כלומר המודל לא מפספס קבוצה שלמה. הפער היחיד שבולט הוא באחוז שסומנו: רווקים 24.1% מול נשואים 11.0% — וזה משקף את שיעורי הנטישה האמיתיים שנמצאו ב-EDA (רווקים 26.7% מול נשואים 11.3%), לא הטיה שהמודל המציא.</p>
 
   <h2><span class="num">06</span>שתי החלטות ובאג אחד</h2>
   <h3>D-M4-1 — <code>train_all</code> מקבל את העמודות המוגנות בנפרד</h3>
@@ -135,16 +135,21 @@
 
   <h2><span class="num">07</span>השער</h2>
   <div class="gate">
-    <p><strong>GATE M4: PASS 6/6</strong></p>
+    <p><strong>GATE M4: 5/6</strong> — חמש מתוך שש עוברות. הבדיקה השישית נכשלת מסיבה שמתועדת למטה.</p>
     <ul>
       <li>הבדיקות ירוקות (176)</li>
       <li><code>metrics.json</code> כולל קו בסיס, שלוש וריאציות ומודל משרת</li>
       <li>אף עמודה אסורה לא הגיעה למודל ולא לחשיבויות</li>
       <li>המודל נטען ומחזיר הסתברות לשורה האמיתית הראשונה</li>
       <li>המודל המשרת מנצח את קו הבסיס גם ב-ROC-AUC וגם ב-precision@top10</li>
-      <li>שתי ריצות מייצרות <code>features.csv</code> ו-<code>metrics.json</code> זהים בייט-בייט</li>
+      <li><strong>נכשל:</strong> שתי ריצות מייצרות <code>features.csv</code> ו-<code>metrics.json</code> זהים בייט-בייט. <code>features.csv</code> אכן זהה בשתי המכונות; <code>metrics.json</code> לא.</li>
     </ul>
-    <p>כל חמשת השערים בפרויקט ירוקים: M0 5/5, M1 7/7, M2 5/5, M3 8/8, M4 6/6.</p>
+    <p>מצב השערים על Windows: M0 5/5, M1 7/7, M2 5/5, M3 8/8, <strong>M4 5/6</strong>.</p>
+  </div>
+  <div class="gate" style="border-color:var(--tape);background:var(--tape-soft)">
+    <p><strong>למה הבדיקה השישית נכשלת (פתוח)</strong></p>
+    <p>אחרי D-M4-3, הקובץ <code>features.csv</code> זהה בייט-בייט ב-Windows וב-macOS (sha256 <code>c59c1119727d</code>) — התיקון עבד. אבל <code>metrics.json</code> עדיין נבדל בין המכונות ב-11 שדות, כולם של <code>random_forest</code>, בהפרש של 1e-4 עד 3.5e-3. המודל המשרת, קו הבסיס, ההוגנות והחשיבויות זהים.</p>
+    <p>מה נשלל בניסוי: כל מכונה דטרמיניסטית בפני עצמה; המודל כבר <code>random_state=42, n_jobs=1</code>; הגרסאות תואמות בדיוק להצמדות; ושיבוש של כל 55,803 התאים הנומריים ב-ULP אחד לא מזיז דבר. המסקנה: ההפרש נולד בתוך בניית העצים של sklearn על שתי ארכיטקטורות מעבד שונות, ואין זרע שיסגור אותו. ההכרעה עם דור לפני המיזוג, ב-<code>PROJECT_LOG.md</code>.</p>
   </div>
   <p>הערה לדור: הבדיקה <code>tests/test_health.py</code> קבעה <code>model_loaded is False</code> עם ההערה "no model artifact before M4". M4 היא בדיוק מה שמייצר את הקובץ הזה, אז הבדיקה עודכנה לוודא ש-<code>/health</code> אומר את האמת. אחרי המיזוג האתר החי ידווח <code>model_loaded: true</code>.</p>
 
