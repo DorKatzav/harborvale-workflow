@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>Two crews. One file between them.</h1>
+<p class="lede">
+  Harbor &amp; Vale's analysts re-cleaned a dataset and changed a money column from cents to dollars.
+  The churn model retrained without a single error and scored customers for five weeks before anyone
+  noticed. This is the thing that was missing: a contract the analysts write, and a checkpoint the
+  modelling crew cannot walk past.
+</p>
+
+{% if c1.available %}
+<section class="checkpoint" aria-label="The handoff checkpoint">
+  <article class="doc">
+    <h3>The goods</h3>
+    <p class="doc__file">artifacts/crew1/clean_data.csv</p>
+    <dl>
+      <dt>Rows</dt><dd>{{ "{:,}".format(c1.contract.dataset.row_count) }}</dd>
+      <dt>Columns</dt><dd>{{ c1.contract.columns | length }}</dd>
+      <dt>Churn rate</dt><dd>{{ "{:.2%}".format(c1.stats.churn_rate) }}</dd>
+      <dt>sha256</dt><dd>{{ c1.contract.dataset.sha256[:16] }}…</dd>
+    </dl>
+  </article>
+
+  <div class="gate">
+    <span class="stamp" id="stamp" data-verdict="accepted">Accepted</span>
+    <p class="gate__note">The published file agrees with the published contract on every check.</p>
+  </div>
+
+  <article class="doc">
+    <h3>The declaration</h3>
+    <p class="doc__file">artifacts/crew1/dataset_contract.json</p>
+    <dl>
+      <dt>Declares</dt><dd>{{ c1.contract.columns | length }} columns</dd>
+      <dt>Assumptions</dt><dd>{{ c1.contract.assumptions | length }}</dd>
+      <dt>Written by</dt><dd>{{ c1.contract.produced_by }}</dd>
+      <dt>Expects sha256</dt><dd>{{ c1.contract.dataset.sha256[:16] }}…</dd>
+    </dl>
+  </article>
+</section>
+
+{% include "_breakit.html" %}
+
+<section class="panel">
+  <h2>What happened on this run</h2>
+  <dl class="facts">
+    <div><dt>Analyst crew</dt><dd>3 agents</dd></div>
+    <div><dt>Model calls</dt><dd>{{ run.llm_calls or "—" }}</dd></div>
+    <div><dt>Cost</dt><dd>${{ "%.3f"|format(run.cost_usd or 0) }}</dd></div>
+    <div><dt>Duration</dt><dd>{{ run.duration_s or "—" }}s</dd></div>
+  </dl>
+  <p>
+    The agents orchestrate and write; every number they publish comes from a Python tool, which is why
+    the data files are identical byte for byte on a second run.
+    <a href="{{ url_for('pages.analyst') }}">See what the analyst crew produced</a>.
+  </p>
+</section>
+{% else %}
+<section class="empty">
+  <h2>Nothing published yet</h2>
+  <p>Run the analyst crew, then reload: <code>python -m crews.analyst.crew</code>.</p>
+</section>
+{% endif %}
+
+{% endblock %}
+
+{% block scripts %}<script src="{{ url_for('static', filename='app.js') }}" defer></script>{% endblock %}

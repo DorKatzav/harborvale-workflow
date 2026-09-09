@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HarborVale — דוח M6: האתר</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Suez+One&family=Assistant:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --paper:#eef1ef; --card:#fff; --ink:#1b2733; --ink-soft:#46545f; --wind:#0f5c6e; --wind-soft:#e3eef1; --tape:#c9560c; --tape-soft:#fbe9dc; --gate:#2f7d46; --gate-soft:#e7f2ea; --line:#c9d2cd;
+    --mono:"IBM Plex Mono",ui-monospace,monospace; --display:"Suez One","Arial Hebrew",serif; --body:"Assistant","Helvetica Neue",Arial,sans-serif; }
+  * { box-sizing:border-box; }
+  html { font-size:106%; }
+  body { margin:0; background:var(--paper); color:var(--ink); font-family:var(--body); font-size:1.08rem; line-height:1.7; text-align:start; }
+  main { max-width:58rem; margin-inline:auto; padding:2.5rem 1.25rem 5rem; }
+  code { font-family:var(--mono); font-size:.85em; direction:ltr; unicode-bidi:isolate; background:#f0ede6; border:1px solid #ddd8cc; border-radius:4px; padding:.05em .35em; white-space:nowrap; }
+  .eyebrow { font-family:var(--mono); font-size:.78rem; letter-spacing:.12em; color:var(--wind); border-block-end:2px solid var(--wind); display:inline-block; padding-block-end:.3rem; margin-block-end:1rem; }
+  h1 { font-family:var(--display); font-weight:400; font-size:clamp(2rem,5vw,2.8rem); line-height:1.15; margin:0 0 .75rem; }
+  .lede { color:var(--ink-soft); max-width:46rem; margin-block-end:1.5rem; }
+  h2 { font-family:var(--display); font-weight:400; font-size:1.6rem; margin:2.5rem 0 .8rem; }
+  h2 .num { font-family:var(--mono); font-size:.9rem; color:var(--tape); letter-spacing:.1em; margin-inline-end:.75rem; }
+  h3 { font-family:var(--display); font-weight:400; font-size:1.2rem; margin:1.5rem 0 .5rem; }
+  p { margin:.5rem 0 .9rem; } ul, ol { margin:.4rem 0 1rem; padding-inline-start:1.5rem; } li { margin-block-end:.35rem; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:1.25rem 1.5rem; margin-block:1rem; }
+  .gate { border:2px solid var(--gate); background:var(--gate-soft); border-radius:10px; padding:.9rem 1.1rem; margin-block:1.25rem; position:relative; }
+  .gate::before { content:"✓ שער בדיקה"; position:absolute; inset-block-start:-.85rem; inset-inline-end:1rem; background:var(--gate); color:#fff; font-family:var(--display); font-size:.85rem; padding:.1rem .7rem; border-radius:4px; transform:rotate(2deg); }
+  .notice { border-inline-start:5px solid var(--tape); background:var(--tape-soft); border-radius:8px; padding:1rem 1.25rem; margin-block:1.5rem; }
+  .info { border-inline-start:5px solid var(--wind); background:var(--wind-soft); border-radius:8px; padding:1rem 1.25rem; margin-block:1.5rem; }
+  .notice h3, .info h3 { margin:0 0 .4rem; font-size:1.1rem; }
+  .tablewrap { overflow-x:auto; margin-block:.75rem 1.25rem; }
+  table { border-collapse:collapse; width:100%; background:var(--card); border:1px solid var(--line); font-size:.97rem; }
+  th, td { border:1px solid var(--line); padding:.55rem .8rem; text-align:start; vertical-align:top; }
+  th { background:var(--wind); color:#fff; font-weight:600; }
+  td.num { font-family:var(--mono); direction:ltr; text-align:end; white-space:nowrap; }
+  td.ok { color:var(--gate); font-weight:700; white-space:nowrap; }
+  td.wait { color:var(--tape); font-weight:700; white-space:nowrap; }
+  figure { margin:1.5rem 0; } figure img { max-width:100%; border:1px solid var(--line); border-radius:8px; display:block; }
+  figcaption { color:var(--ink-soft); font-size:.9rem; margin-block-start:.4rem; }
+  footer { margin-block-start:3rem; color:var(--ink-soft); font-size:.85rem; border-block-start:1px solid var(--line); padding-block-start:1rem; }
+  a { color:var(--wind); }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <span class="eyebrow">HARBORVALE · דוח תחנה · M6 · 2026-09-09</span>
+    <h1>M6: האתר — נקודת ביקורת שאפשר לשבור</h1>
+    <p class="lede">עד עכשיו התפר בין הצוותים היה קובץ ובדיקות. בתחנה הזאת הוא הפך למשהו שאפשר להראות: חמישה דפים שנבנים מהתוצרים המקומטים, ולוח שבו לוחצים על תקלה ורואים את המאמת מסרב תוך שנייה. בלי מודל שפה, בלי חישוב בדפדפן.</p>
+  </header>
+
+  <h2><span class="num">01</span>מה נבנה</h2>
+  <div class="card">
+    <ul>
+      <li><b>דף הבית — נקודת הביקורת:</b> משמאל הסחורה (<code>clean_data.csv</code>: שורות, עמודות, שיעור נטישה, hash), מימין ההצהרה (<code>dataset_contract.json</code>), ובאמצע חותמת שאומרת <b>Accepted</b>. מתחת: לוח "שבור את זה".</li>
+      <li><b>דף החוזה:</b> כל 20 העמודות עם התפקיד, הטיפוס, היחידה, הערכים המותרים, מספר הריקים, והתיאור והנימוק שאחראי הדאטה כתב. מעליו שבע ההנחות שלו.</li>
+      <li><b>דף האנליסטים:</b> מספרי הניקוי, מסמך התובנות, ודוח ה-EDA מוטמע כ-iframe.</li>
+      <li><b>דף המודל:</b> טבלת השוואה, חשיבויות מדורגות, כרטיס המודל. כרגע הוא אומר בכנות "עוד לא פורסם", כי התוצרים של יורן עדיין לא ב-main.</li>
+      <li><b>דף הריצות:</b> כמה עלתה הריצה, כמה זמן, וקישור לכל תוצר.</li>
+      <li><b><code>POST /api/validate</code>:</b> שש תקלות מוכנות או קובץ CSV שאתה מעלה. מריץ את אותו <code>hv.contract.validate</code> של יורן על עותק מחובל בתיקייה זמנית; התוצרים המקומטים לא נגעים.</li>
+    </ul>
+  </div>
+
+  <figure>
+    <img src="img/m6_checkpoint_accepted.jpg" alt="דף הבית: שני מסמכים ובמרכזם חותמת ACCEPTED על קו מקווקו">
+    <figcaption>דף הבית. הסחורה, ההצהרה, והחותמת ביניהן. זה מצב המנוחה: הקובץ שפורסם מסכים עם החוזה שפורסם בכל בדיקה.</figcaption>
+  </figure>
+
+  <figure>
+    <img src="img/m6_break_it_refused.jpg" alt="לוח שבור את זה: התקלה 'מספר הופך לטקסט' נבחרה, והטבלה מראה שתי בדיקות שנכשלו">
+    <figcaption>אחרי לחיצה על "A number becomes text": 62 מתוך 64 בדיקות עברו, שתיים נכשלו — ה-hash כבר לא תואם, ו-<code>CityTier</code> הוצהר כמספר והתקבל כטקסט. ההודעה אומרת גם מה לעשות.</figcaption>
+  </figure>
+
+  <h2><span class="num">02</span>השפה העיצובית: נמל, לא דשבורד</h2>
+  <p>הברייף נותן שם לחברה — Harbor &amp; Vale — ותפקיד: מכס בין שני צוותים. משם נגזר הכל, במקום עוד דשבורד עם כרטיסים מעוגלים וגרדיאנט.</p>
+  <ul>
+    <li><b>הרעיון:</b> ביקורת מכס. מצד אחד הסחורה, מצד שני ההצהרה, ובאמצע פקח שחותם. הקו המקווקו הוא המחסום.</li>
+    <li><b>טיפוגרפיה:</b> כותרות ב-Barlow Condensed (שילוט תעשייתי), טקסט ב-Public Sans (הגופן של טפסים ממשלתיים — מתאים למסמך שהוא חוזה), מספרים ו-hash ב-IBM Plex Mono רק היכן שספרות צריכות להתיישר.</li>
+    <li><b>צבע:</b> בטון ופלדה של רציף. הצבעים הרוויים היחידים הם שני הפסקים: ירוק ים לאישור, אדום סימון לסירוב.</li>
+    <li><b>אומץ במקום אחד:</b> החותמת. היא גם האנימציה היחידה, היא זזה רק כשמישהו לוחץ, והיא מכובה כשהמשתמש ביקש פחות תנועה.</li>
+  </ul>
+
+  <div class="info">
+    <h3>מה שרק צילום מסך תפס</h3>
+    <p>הדפים נראו אפורים ושטוחים בבדיקה, למרות שהפלטה בקוד נכונה. הסיבה: מצב הכהות האוטומטי של כרום צובע מחדש דפים שלא מצהירים שהם מטפלים בזה בעצמם. הוספת <code>color-scheme: light dark</code> החזירה את הפלטה שלנו. קריאת ה-CSS לא הייתה מגלה את זה.</p>
+  </div>
+
+  <h2><span class="num">03</span>נגישות ואיכות</h2>
+  <ul>
+    <li>קישור דילוג לתוכן, פוקוס נראה בכל אלמנט אינטראקטיבי, ניווט מלא במקלדת.</li>
+    <li>טבלאות סמנטיות עם <code>scope</code>; אזור חי מנומס אחד שמכריז את הפסק לקורא מסך — הטבלה הנראית כבר נושאת את הפירוט, אז אין כפילות.</li>
+    <li>שדה העלאה עם תווית אמיתית; שגיאות אומרות מה קרה ומה לעשות (קובץ גדול מ-8MB, CSV שלא נקרא, פריסט לא מוכר).</li>
+    <li>מצב כהה ובהיר, יחידות יחסיות, טבלאות רחבות גוללות בתוך עצמן ולא דוחפות את הדף.</li>
+    <li>29 בדיקות חדשות (205 בסך הכל): כל דף, כל פריסט, העלאת קובץ תקין ושבור, קובץ גדול מדי, ניסיון לצאת מהתיקייה בנתיב.</li>
+  </ul>
+
+  <h2><span class="num">04</span>תוצאת השער</h2>
+  <div class="gate">
+    <div class="tablewrap"><table>
+      <thead><tr><th>בדיקה</th><th>תוצאה</th></tr></thead>
+      <tbody>
+        <tr><td>pytest ירוק (205 בדיקות)</td><td class="ok">PASS</td></tr>
+        <tr><td>ruff נקי</td><td class="ok">PASS</td></tr>
+        <tr><td>כל חמשת הדפים נבנים</td><td class="ok">PASS</td></tr>
+        <tr><td>לוח השבירה תופס את כל שש התקלות</td><td class="ok">PASS</td></tr>
+        <tr><td>צילומי מסך לדוח קיימים</td><td class="ok">PASS</td></tr>
+        <tr><td>כל הדפים מחזירים 200 ב-URL החי</td><td class="wait">FAIL — מכוון</td></tr>
+        <tr><td>לוח השבירה החי מסרב לקאשבק בסנטים</td><td class="wait">FAIL — מכוון</td></tr>
+      </tbody>
+    </table></div>
+    <p><code>GATE M6: FAIL 5/7</code>. שתי הבדיקות החיות נכשלות כי ב-Railway עדיין רץ השלד של M0, שאין בו דפים כאלה. השער אומר את האמת: האתר החי אינו האתר הזה. אחרי המיזוג Railway יפרוס מחדש, אריץ שוב ואדווח 7/7.</p>
+  </div>
+
+  <h2><span class="num">05</span>מה נשאר פתוח</h2>
+  <div class="notice">
+    <h3>שני דברים תלויים ב-M4 של יורן</h3>
+    <ul>
+      <li><b>דף המודל ריק בכוונה.</b> הוא נבנה מ-<code>artifacts/crew2/</code>, שקיים רק בענף של יורן. כשה-PR שלו ימוזג הדף יתמלא לבד — טבלת ההשוואה, החשיבויות וכרטיס המודל כבר כתובים ונבדקו מול מדדים סינתטיים.</li>
+      <li><b>שורה אחת למחיקה.</b> <code>app/routes.py</code> מייבא את <code>READ_CSV_KW</code> עם נפילה לערך זהה, כי התיקון חי בענף שלו. אחרי המיזוג מוחקים את הנפילה.</li>
+    </ul>
+  </div>
+  <p>לא נבדק: התנהגות ברוחב מובייל אמיתי. הפריסה בנויה לזה (עמודה אחת מתחת ל-60rem, טבלאות שגוללות בעצמן) ואין גלישה אופקית ברוחב שולחני, אבל שינוי גודל החלון בדפדפן לא נתפס בכלי הצילום, אז לא ראיתי את זה בעיניים. אבדוק אחרי הפריסה מול הטלפון.</p>
+
+  <h2><span class="num">06</span>מה אני צריך ממך</h2>
+  <div class="info">
+    <ol>
+      <li><b>סדר מיזוג:</b> קודם ה-PRים של יורן (#15 הקוד, #16 הדוחות), ואז <a href="https://github.com/DorKatzav/harborvale-workflow/pull/17">#17</a> של האתר. ככה דף המודל נולד מלא במקום ריק.</li>
+      <li><b>אישור מיזוג ל-#17</b> אחרי ש-CI ירוק.</li>
+    </ol>
+    <p>אחרי הפריסה: אריץ את השער החי, אצרף צילום מהאתר האמיתי, ואעדכן את הדוח הזה ל-7/7. הבא בתור: M7 (ריצה חיה מאחורי סיסמה) או M5 (ה-Flow) יחד עם יורן — ה-Flow הוא התחנה המשותפת.</p>
+  </div>
+
+  <footer>HarborVale Workflow · דוח M6 · 2026-09-09 · הקוד: <code>app/</code> · השער: <code>python scripts/gate.py --m 6</code></footer>
+</main>
+</body>
+</html>
