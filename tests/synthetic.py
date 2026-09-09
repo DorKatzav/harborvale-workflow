@@ -13,6 +13,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 
 from hv.config import CSV_KW
@@ -62,3 +63,51 @@ def write_frame(df: pd.DataFrame, path: Path) -> Path:
     path.parent.mkdir(parents=True, exist_ok=True)
     df.to_csv(path, **CSV_KW)
     return path
+
+
+def training_frame(n: int = 300, seed: int = 7) -> pd.DataFrame:
+    """A bigger frame with a churn signal in it, for the cross-validation and training tests.
+
+    Same 20 columns as `clean_frame`, but generated: tenure and complaints drive the label, so a
+    model can actually learn something and the tests can assert it beats the majority baseline.
+    Nulls are sprinkled through the columns that hold them in the real file.
+    """
+    rng = np.random.default_rng(seed)
+    tenure = rng.integers(0, 36, n).astype(float)
+    complain = rng.integers(0, 2, n)
+    orders = rng.integers(1, 15, n).astype(float)
+    risk = 1 / (1 + np.exp(-(0.9 - 0.16 * tenure + 1.1 * complain)))  # tuned for roughly the real churn rate
+    churn = (rng.random(n) < risk).astype(int)
+
+    df = pd.DataFrame(
+        {
+            "CustomerID": np.arange(60001, 60001 + n),
+            "Churn": churn,
+            "Tenure": tenure,
+            "PreferredLoginDevice": rng.choice(["Mobile Phone", "Computer"], n),
+            "CityTier": rng.integers(1, 4, n),
+            "WarehouseToHome": rng.integers(5, 35, n).astype(float),
+            "PreferredPaymentMode": rng.choice(
+                ["Credit Card", "Debit Card", "Cash on Delivery", "E wallet", "UPI"], n
+            ),
+            "Gender": rng.choice(["Male", "Female"], n),
+            "HourSpendOnApp": rng.integers(1, 5, n).astype(float),
+            "NumberOfDeviceRegistered": rng.integers(2, 7, n),
+            "PreferedOrderCat": rng.choice(
+                ["Mobile Phone", "Laptop & Accessory", "Fashion", "Grocery", "Others"], n
+            ),
+            "SatisfactionScore": rng.integers(1, 6, n),
+            "MaritalStatus": rng.choice(["Single", "Married", "Divorced"], n),
+            "NumberOfAddress": rng.integers(1, 10, n),
+            "Complain": complain,
+            "OrderAmountHikeFromlastYear": rng.integers(11, 26, n).astype(float),
+            "CouponUsed": rng.integers(0, 7, n).astype(float),
+            "OrderCount": orders,
+            "DaySinceLastOrder": rng.integers(0, 21, n).astype(float),
+            "CashbackAmount": np.round(rng.uniform(95.0, 320.0, n), 2),
+        }
+    )
+    for column in ("Tenure", "HourSpendOnApp", "CouponUsed", "OrderCount", "DaySinceLastOrder"):
+        holes = rng.choice(n, size=max(1, n // 25), replace=False)
+        df.loc[holes, column] = np.nan
+    return df

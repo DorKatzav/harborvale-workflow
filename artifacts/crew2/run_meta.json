@@ -1,0 +1,8 @@
+{
+  "clean_sha256": "ef1e1f758009fa575837a3b4b62384c1f3516297d775aa2c10ef796a449073a2",
+  "features_sha256": "c59c1119727d7bb39d791617f8b6f49d2ca293cae387b68a11f364cd4929b075",
+  "produced_by": "scripts/run_crew2_tools.py (M4; the scientist crew takes over in M5)",
+  "seconds": 16.7,
+  "served": "hist_gb",
+  "trained_at": "2026-09-09T14:16:25+00:00"
+}
