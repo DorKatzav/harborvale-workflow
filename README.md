@@ -16,9 +16,9 @@ The scenario (Harbor & Vale's churn model read dollars as cents for five weeks) 
 | M1 | Crew-1 tools: ingest, cleaning, EDA | done — gate 7/7, 5,073 clean rows (D-M1-1) |
 | M2 | The contract and the validator (+ six "break it" presets) | done - gate 5/5, 5,073 rows under contract |
 | M3 | Crew 1 in CrewAI | done — 3 agents / 4 tasks, gate 8/8, real run $0.037 / 177 s |
-| M4 | Crew-2 tools: features, training, evaluation, model card | in review - gate 5/6, hist_gb served (roc_auc 0.9857); metrics.json differs across CPU architectures, see D-M4-3 |
-| M5 | Crew 2 + the Flow end to end | |
-| M6 | Flask app with the break-it panel, deployed | |
+| M4 | Crew-2 tools: features, training, evaluation, model card | done — gate 7/7, hist_gb served (roc_auc 0.9857) |
+| M5 | Crew 2 + the Flow end to end | next — joint milestone (see issue #18) |
+| M6 | Flask app with the break-it panel, deployed | done — gate 7/7 live, all six faults refused |
 | M7 | Live run behind a password | |
 | M8 | Wrap-up, stranger test | |
 
