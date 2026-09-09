@@ -448,15 +448,62 @@ def check_served_beats_the_baseline() -> None:
     )
 
 
-def check_crew2_runs_are_identical() -> None:
+# Cross-machine tolerance for metrics.json (D-M4-4). Two runs on ONE machine must still be byte-identical;
+# the committed artifacts were built on someone's machine, and sklearn's tree building differs in the last
+# bits across CPU architectures, which flips a split and moves random_forest by up to ~3.5e-3.
+METRICS_TOLERANCE = 0.005
+
+
+def _run_crew2_into(tmp: str) -> None:
+    res = _run([PY, "scripts/run_crew2_tools.py", "--out", tmp])
+    assert res.returncode == 0, res.stdout.strip().splitlines()[-1] if res.stdout else "runner failed"
+
+
+def _numeric_deltas(a: dict, b: dict, path: str = "") -> list[tuple[str, float, float]]:
+    """Every leaf where two metrics documents disagree numerically, as (path, committed, fresh)."""
+    out: list[tuple[str, float, float]] = []
+    if isinstance(a, dict):
+        for key in sorted(set(a) | set(b or {})):
+            out += _numeric_deltas(a.get(key), (b or {}).get(key), f"{path}/{key}")
+    elif isinstance(a, int | float) and isinstance(b, int | float) and not isinstance(a, bool):
+        if a != b:
+            out.append((path, float(a), float(b)))
+    return out
+
+
+def check_crew2_two_runs_here_are_identical() -> None:
+    """Determinism, on this machine: the same code twice must produce the same bytes."""
+    if not METRICS_JSON.exists():
+        raise Skip("artifacts/crew2/ not built yet (M4 task 5)")
+    with tempfile.TemporaryDirectory() as one, tempfile.TemporaryDirectory() as two:
+        _run_crew2_into(one)
+        _run_crew2_into(two)
+        for name in ("features.csv", "metrics.json"):
+            a, b = (Path(one) / name).read_bytes(), (Path(two) / name).read_bytes()
+            assert a == b, f"{name} differs between two runs on this machine"
+
+
+def check_crew2_matches_the_committed_artifacts() -> None:
+    """Reproducibility, against what is published: bytes for the data, a tolerance for the model metrics."""
     if not METRICS_JSON.exists():
         raise Skip("artifacts/crew2/ not built yet (M4 task 5)")
     with tempfile.TemporaryDirectory() as tmp:
-        res = _run([PY, "scripts/run_crew2_tools.py", "--out", tmp])
-        assert res.returncode == 0, res.stdout.strip().splitlines()[-1] if res.stdout else "runner failed"
-        for name in ("features.csv", "metrics.json"):
-            fresh = (Path(tmp) / name).read_bytes()
-            assert (CREW2 / name).read_bytes() == fresh, f"{name} differs between runs"
+        _run_crew2_into(tmp)
+        fresh_features = (Path(tmp) / "features.csv").read_bytes()
+        assert (CREW2 / "features.csv").read_bytes() == fresh_features, (
+            "features.csv differs from the committed artifact - a reader is not using READ_CSV_KW (D-M4-3)"
+        )
+        committed = json.loads(METRICS_JSON.read_text())
+        fresh = json.loads((Path(tmp) / "metrics.json").read_text())
+        deltas = _numeric_deltas(committed, fresh)
+        worst = max(deltas, key=lambda d: abs(d[1] - d[2]), default=None)
+        over = [d for d in deltas if abs(d[1] - d[2]) > METRICS_TOLERANCE]
+        assert not over, "beyond tolerance: " + "; ".join(f"{p} {a} vs {b}" for p, a, b in over[:5])
+        if worst:
+            print(
+                f"       metrics.json: {len(deltas)} field(s) differ from the committed artifact, "
+                f"worst {worst[0]} {worst[1]} vs {worst[2]} (tolerance {METRICS_TOLERANCE})"
+            )
 
 
 M4: list[Check] = [
@@ -465,7 +512,8 @@ M4: list[Check] = [
     ("no id / target / protected column reached the model", check_no_leakage_in_features),
     ("the model loads and scores the first real row", check_model_predicts_a_real_row),
     ("the served model beats the majority baseline", check_served_beats_the_baseline),
-    ("two runs produce identical features.csv and metrics.json", check_crew2_runs_are_identical),
+    ("two runs on this machine are byte-identical", check_crew2_two_runs_here_are_identical),
+    ("matches the committed artifacts", check_crew2_matches_the_committed_artifacts),
 ]
 
 M6: list[Check] = [

@@ -22,3 +22,9 @@ jobs:
         run: ruff check .
       - name: Test
         run: pytest -q
+      - name: Milestone gates
+        # A third machine (ubuntu x86-64) runs the offline gates on every push: it is the only way we find
+        # out that an artifact only reproduces on the machine that built it (D-M4-3, D-M4-4). Checks that
+        # need the deployment skip themselves here, because LIVE_URL is unset.
+        run: |
+          for m in 1 2 3 4 6; do python scripts/gate.py --m $m; done
