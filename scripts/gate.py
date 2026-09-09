@@ -224,6 +224,64 @@ def check_real_run_recorded() -> None:
     assert "M3" in log and "cost" in log.lower(), "PROJECT_LOG.md has no M3 run record"
 
 
+# ---------------------------------------------------------------- M6 checks
+APP_PAGES = ["/", "/analyst", "/contract", "/scientist", "/runs"]
+
+
+def check_pages_render_locally() -> None:
+    sys.path.insert(0, str(ROOT))
+    from app.main import create_app
+
+    client = create_app().test_client()
+    for path in APP_PAGES:
+        res = client.get(path)
+        assert res.status_code == 200, f"{path} returned {res.status_code}"
+        assert b"HarborVale" in res.data, f"{path} rendered without the masthead"
+
+
+def check_break_it_panel_locally() -> None:
+    sys.path.insert(0, str(ROOT))
+    from app.main import create_app
+    from hv.contract import PRESETS
+
+    client = create_app().test_client()
+    for preset in PRESETS:
+        body = client.post("/api/validate", json={"preset": preset}).get_json()
+        assert body["passed"] is False, f"{preset} slipped through the live validator"
+        assert body["failed_names"], preset
+    hint = [
+        c["hint"]
+        for c in client.post("/api/validate", json={"preset": "unit_change"}).get_json()["checks"]
+        if not c["passed"] and c["hint"]
+    ]
+    assert any("100" in h for h in hint), "the unit-change hint is missing from the panel's answer"
+
+
+def check_live_pages() -> None:
+    url = _live_url()
+    for path in APP_PAGES:
+        with urllib.request.urlopen(f"{url}{path}", timeout=30) as res:  # noqa: S310 - our own URL
+            assert res.status == 200, f"{path} returned {res.status}"
+
+
+def check_live_break_it() -> None:
+    url = _live_url()
+    req = urllib.request.Request(
+        f"{url}/api/validate",
+        data=json.dumps({"preset": "unit_change"}).encode(),
+        headers={"Content-Type": "application/json"},
+    )
+    with urllib.request.urlopen(req, timeout=30) as res:  # noqa: S310 - our own URL
+        body = json.loads(res.read().decode())
+    assert body["passed"] is False, "the live panel accepted a file with cashback in cents"
+    assert "range" in body["failed_names"], body["failed_names"]
+
+
+def check_report_screenshots() -> None:
+    shots = sorted((ROOT / "docs" / "reports" / "img").glob("m6_*.jpg"))
+    assert shots, "no docs/reports/img/m6_*.jpg screenshots"
+
+
 M0: list[Check] = [
     ("pytest green", check_pytest),
     ("ruff clean", check_ruff),
@@ -410,8 +468,17 @@ M4: list[Check] = [
     ("two runs produce identical features.csv and metrics.json", check_crew2_runs_are_identical),
 ]
 
+M6: list[Check] = [
+    ("pytest green", check_pytest),
+    ("ruff clean", check_ruff),
+    ("every page renders", check_pages_render_locally),
+    ("the break-it panel catches all six presets", check_break_it_panel_locally),
+    ("every page answers 200 on the live URL", check_live_pages),
+    ("the live break-it panel refuses cashback in cents", check_live_break_it),
+    ("report screenshots present", check_report_screenshots),
+]
 
-GATES: dict[int, list[Check]] = {0: M0, 1: M1, 2: M2, 3: M3, 4: M4}
+GATES: dict[int, list[Check]] = {0: M0, 1: M1, 2: M2, 3: M3, 4: M4, 6: M6}
 
 
 def main() -> int:

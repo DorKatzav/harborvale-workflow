@@ -28,9 +28,17 @@ def current_commit() -> str:
         return "unknown"
 
 
+MAX_UPLOAD_BYTES = 8 * 1024 * 1024
+
+
 def create_app() -> Flask:
     app = Flask(__name__)
     app.config["COMMIT"] = current_commit()
+    app.config["MAX_CONTENT_LENGTH"] = MAX_UPLOAD_BYTES
+
+    from app.routes import bp
+
+    app.register_blueprint(bp)
 
     @app.get("/health")
     def health():
@@ -44,14 +52,9 @@ def create_app() -> Flask:
             }
         )
 
-    @app.get("/")
-    def index():
-        return (
-            "<h1>HarborVale Workflow</h1><p>Skeleton deployed (M0). The app pages arrive in M6.</p>"
-            f"<p>commit {app.config['COMMIT']}</p>",
-            200,
-            {"Content-Type": "text/html; charset=utf-8"},
-        )
+    @app.context_processor
+    def _commit():
+        return {"commit": app.config["COMMIT"], "version": __version__}
 
     return app
 

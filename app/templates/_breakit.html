@@ -1,0 +1,37 @@
+{# The break-it panel: six prepared faults, or your own CSV. Used on the home page and on /contract. #}
+<section class="breakit" aria-labelledby="breakit-title">
+  <h2 id="breakit-title">Break it on purpose</h2>
+  <p>Pick a fault. The validator runs against a tampered copy of the published file and answers in about a
+     second. Nothing here calls a language model, and the published artifacts are never touched.</p>
+
+  <div class="breakit__grid">
+    {% for name, label, story in presets %}
+    <button class="fault" type="button" data-preset="{{ name }}" aria-pressed="false">
+      <b>{{ label }}</b>
+      <span>{{ story }}</span>
+    </button>
+    {% endfor %}
+  </div>
+
+  <form class="upload" id="upload-form" enctype="multipart/form-data">
+    <label for="clean_data">Or check your own copy of the clean file</label>
+    <input type="file" id="clean_data" name="clean_data" accept=".csv,text/csv">
+    <button class="btn" type="submit">Check it</button>
+  </form>
+
+  <div class="verdict" id="verdict" hidden>
+    <div class="verdict__head">
+      <h3 id="verdict-title">Verdict</h3>
+      <span class="verdict__count" id="verdict-count"></span>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <caption class="visually-hidden">Checks that failed</caption>
+        <thead><tr><th scope="col">Check</th><th scope="col">Column</th><th scope="col">What is wrong</th><th scope="col">Hint</th></tr></thead>
+        <tbody id="verdict-rows"></tbody>
+      </table>
+    </div>
+  </div>
+  {# the table above carries the detail; this only speaks the verdict to a screen reader #}
+  <p class="visually-hidden" id="verdict-live" role="status" aria-live="polite"></p>
+</section>
