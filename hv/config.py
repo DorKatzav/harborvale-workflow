@@ -35,6 +35,10 @@ UNITS: dict[str, str] = {
 
 # byte-identical CSVs across platforms and runs
 CSV_KW: dict = {"index": False, "lineterminator": "\n"}
+# pandas' default C float parser is not correctly rounded on every platform (macOS reads "237.34" one ULP
+# off, Windows does not); round_trip parsing gives float(text) everywhere, so a CSV means the same numbers
+# on every machine (D-M4-3)
+READ_CSV_KW: dict = {"float_precision": "round_trip"}
 
 MODEL_NAME = "openai/gpt-5-mini"
 # published list prices, USD per 1M tokens (developers.openai.com/api/docs/pricing, 2026-09-08)

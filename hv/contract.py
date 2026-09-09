@@ -21,7 +21,7 @@ import pandas as pd
 import pandas.api.types as ptypes
 from pydantic import BaseModel
 
-from hv.config import PRIMARY_KEY, PROTECTED, SEED, TARGET, UNITS
+from hv.config import PRIMARY_KEY, PROTECTED, READ_CSV_KW, SEED, TARGET, UNITS
 
 HUMAN_FIELDS = {"description", "rationale"}  # + the top-level "assumptions"
 CONTRACT_VERSION = "1.0"
@@ -85,7 +85,8 @@ def classify_dtype(s: pd.Series) -> Dtype:
     """Map a pandas dtype onto the four contract dtypes.
 
     pandas 3 gives text columns the `str` dtype rather than `object`, so both are accepted here
-    (D-M2-1 in PROJECT_LOG.md); a categorical column is text as far as the contract cares.
+    and both map to `category` (D-M2-3 in PROJECT_LOG.md); a categorical column is text as far
+    as the contract cares.
     """
     d = s.dtype
     if ptypes.is_bool_dtype(d):
@@ -294,7 +295,7 @@ def validate(
         df, path, source = data, None, "<DataFrame>"
     else:
         path = Path(data)
-        df, source = pd.read_csv(path), str(path)
+        df, source = pd.read_csv(path, **READ_CSV_KW), str(path)
 
     checks: list[Check] = []
     add = checks.append
