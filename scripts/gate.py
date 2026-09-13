@@ -516,6 +516,104 @@ M4: list[Check] = [
     ("matches the committed artifacts", check_crew2_matches_the_committed_artifacts),
 ]
 
+# ---------------------------------------------------------------- M5 checks
+MANIFEST_JSON = ROOT / "artifacts" / "manifest.json"
+RUN_FLOW = ["scripts/run_flow.py", "--stub-crews", "--publish", "false"]
+
+
+def _scientist_stub_available() -> None:
+    """Crew 2's stub is the other half of M5 (issue #18): skip, don't fail, until it lands."""
+    sys.path.insert(0, str(ROOT))
+    from crews import stubs
+
+    if not hasattr(stubs, "run_scientist_stub"):
+        raise Skip("crews.stubs.run_scientist_stub not landed yet (crews/scientist, issue #18)")
+
+
+def _manifest() -> dict:
+    if not MANIFEST_JSON.exists():
+        raise Skip("artifacts/manifest.json not published yet (M5 task 6)")
+    return json.loads(MANIFEST_JSON.read_text(encoding="utf-8"))
+
+
+def check_manifest_hashes_match_the_files() -> None:
+    from flow.main import BRIEF_ARTIFACTS
+    from hv.contract import file_sha256
+
+    m = _manifest()
+    missing = [name for name in BRIEF_ARTIFACTS if name not in m["artifacts"]]
+    assert not missing, f"manifest does not list {missing}"
+    wrong = []
+    for name, entry in m["artifacts"].items():
+        path = ROOT / "artifacts" / entry["path"]
+        if not path.exists() or file_sha256(path) != entry["sha256"]:
+            wrong.append(name)
+    assert not wrong, f"sha256 in the manifest does not match the published file: {wrong}"
+
+
+def check_stub_flow_run_exits_0() -> None:
+    _scientist_stub_available()
+    with tempfile.TemporaryDirectory() as tmp:
+        res = _run([PY, *RUN_FLOW, "--runs-root", tmp])
+        tail = "\n".join(res.stdout.strip().splitlines()[-6:])
+        assert res.returncode == 0, f"exit {res.returncode}:\n{tail}"
+
+
+def check_tampered_flow_run_exits_2() -> None:
+    _real_artifacts()
+    with tempfile.TemporaryDirectory() as tmp:
+        res = _run([PY, *RUN_FLOW, "--skip-crew1", "--tamper", "unit_change", "--runs-root", tmp])
+        assert res.returncode == 2, f"expected exit 2, got {res.returncode}:\n{res.stdout[-600:]}"
+        failed = list(Path(tmp).glob("*/FAILED.md"))
+        assert failed, "no FAILED.md written"
+        text = failed[0].read_text(encoding="utf-8")
+        assert "CashbackAmount" in text, "FAILED.md does not name CashbackAmount"
+        assert "looks like a unit change" in text, "FAILED.md lacks the x100 ratio hint"
+        assert not any((failed[0].parent / "crew2").iterdir()), "crew2/ is not empty after a refused handoff"
+
+
+def check_sandbox_tests_green() -> None:
+    path = ROOT / "tests" / "test_sandbox.py"
+    if not path.exists():
+        raise Skip("tests/test_sandbox.py not landed yet (crews/scientist, issue #18)")
+    res = _run([PY, "-m", "pytest", "-q", str(path)])
+    tail = (res.stdout.strip().splitlines() or [res.stderr.strip()])[-1]
+    assert res.returncode == 0, tail
+
+
+def check_committed_run_equals_a_fresh_stub_run() -> None:
+    """The published data artifacts against a fresh stub run: bytes for the CSVs, D-M4-4 for metrics.json."""
+    _scientist_stub_available()
+    _manifest()
+    with tempfile.TemporaryDirectory() as tmp:
+        res = _run([PY, *RUN_FLOW, "--runs-root", tmp])
+        assert res.returncode == 0, f"stub run failed (exit {res.returncode}):\n{res.stdout[-600:]}"
+        run_dir = next(p for p in Path(tmp).iterdir() if p.is_dir())
+        for rel in ("crew1/clean_data.csv", "crew2/features.csv"):
+            assert (ROOT / "artifacts" / rel).read_bytes() == (run_dir / rel).read_bytes(), (
+                f"{rel} differs from the committed artifact"
+            )
+        committed = json.loads((ROOT / "artifacts" / "crew2" / "metrics.json").read_text())
+        fresh = json.loads((run_dir / "crew2" / "metrics.json").read_text())
+        deltas = _numeric_deltas(committed, fresh)
+        over = [d for d in deltas if abs(d[1] - d[2]) > METRICS_TOLERANCE]
+        detail = "; ".join(f"{p} {a} vs {b}" for p, a, b in over[:5])
+        assert not over, f"metrics.json beyond tolerance: {detail}"
+        if deltas:
+            path, a, b = max(deltas, key=lambda d: abs(d[1] - d[2]))
+            print(f"       metrics.json: {len(deltas)} field(s) differ, worst {path} {a} vs {b}")
+
+
+M5: list[Check] = [
+    ("pytest green with OPENAI_API_KEY unset", check_pytest_without_key),
+    ("ruff clean", check_ruff),
+    ("manifest lists the eight artifacts and their hashes match", check_manifest_hashes_match_the_files),
+    ("run_flow.py --stub-crews --publish false exits 0", check_stub_flow_run_exits_0),
+    ("a tampered handoff exits 2 with a readable FAILED.md", check_tampered_flow_run_exits_2),
+    ("sandbox tests green", check_sandbox_tests_green),
+    ("committed data artifacts equal a fresh stub run", check_committed_run_equals_a_fresh_stub_run),
+]
+
 M6: list[Check] = [
     ("pytest green", check_pytest),
     ("ruff clean", check_ruff),
@@ -526,7 +624,7 @@ M6: list[Check] = [
     ("report screenshots present", check_report_screenshots),
 ]
 
-GATES: dict[int, list[Check]] = {0: M0, 1: M1, 2: M2, 3: M3, 4: M4, 6: M6}
+GATES: dict[int, list[Check]] = {0: M0, 1: M1, 2: M2, 3: M3, 4: M4, 5: M5, 6: M6}
 
 
 def main() -> int:
