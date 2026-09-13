@@ -39,12 +39,13 @@ def new_run_dir(root: Path = RUNS_DIR, run_id: str | None = None) -> Path:
 class RunLogger:
     """Appends to `events.jsonl` and `flow.log` in the run directory; remembers step durations."""
 
-    def __init__(self, run_dir: Path) -> None:
+    def __init__(self, run_dir: Path, echo: bool = False) -> None:
         self.run_dir = Path(run_dir)
         self.run_dir.mkdir(parents=True, exist_ok=True)
         self.events_path = self.run_dir / "events.jsonl"
         self.log_path = self.run_dir / "flow.log"
         self.durations: dict[str, float] = {}
+        self.echo = echo  # also print each flow.log line (the CLI's progress display)
 
     def event(self, step: str, status: str, **fields) -> None:
         if status not in STATUSES:
@@ -53,8 +54,11 @@ class RunLogger:
         with self.events_path.open("a", encoding="utf-8", newline="\n") as fh:
             fh.write(json.dumps(record, sort_keys=False, default=str) + "\n")
         detail = " ".join(f"{k}={v}" for k, v in fields.items())
+        line = f"{record['ts']} {step:<18} {status:<5} {detail}".rstrip()
         with self.log_path.open("a", encoding="utf-8", newline="\n") as fh:
-            fh.write(f"{record['ts']} {step:<18} {status:<5} {detail}".rstrip() + "\n")
+            fh.write(line + "\n")
+        if self.echo:
+            print(line, flush=True)
 
     @contextmanager
     def step(self, name: str) -> Iterator[None]:

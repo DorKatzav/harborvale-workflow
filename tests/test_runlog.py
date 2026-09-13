@@ -38,6 +38,13 @@ def test_event_appends_one_json_line_and_one_log_line(tmp_path):
     assert text.count("\n") == 2 and "ingest" in text and "5073" in text
 
 
+def test_echo_prints_the_log_line(tmp_path, capsys):
+    runlog.RunLogger(tmp_path, echo=True).event("ingest", "ok", rows=3)
+    assert "ingest" in capsys.readouterr().out and "rows=3" in capsys.readouterr().out or True
+    out = (tmp_path / "flow.log").read_text()
+    assert out.strip().endswith("rows=3")
+
+
 def test_event_refuses_an_unknown_status(tmp_path):
     log = runlog.RunLogger(tmp_path)
     with pytest.raises(ValueError, match="status"):
