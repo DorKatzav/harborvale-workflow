@@ -27,4 +27,4 @@ jobs:
         # out that an artifact only reproduces on the machine that built it (D-M4-3, D-M4-4). Checks that
         # need the deployment skip themselves here, because LIVE_URL is unset.
         run: |
-          for m in 1 2 3 4 6; do python scripts/gate.py --m $m; done
+          for m in 1 2 3 4 5 6; do python scripts/gate.py --m $m; done
