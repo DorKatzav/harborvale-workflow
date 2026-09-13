@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HarborVale — M5, חצי ה-Flow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Suez+One&family=Assistant:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --paper:#eef1ef; --card:#fff; --ink:#1b2733; --ink-soft:#46545f; --wind:#0f5c6e; --wind-soft:#e3eef1; --tape:#c9560c; --tape-soft:#fbe9dc; --gate:#2f7d46; --gate-soft:#e7f2ea; --line:#c9d2cd;
+    --mono:"IBM Plex Mono",ui-monospace,monospace; --display:"Suez One","Arial Hebrew",serif; --body:"Assistant","Helvetica Neue",Arial,sans-serif; }
+  * { box-sizing:border-box; }
+  html { font-size:106%; }
+  body { margin:0; background:var(--paper); color:var(--ink); font-family:var(--body); font-size:1.08rem; line-height:1.7; text-align:start; }
+  main { max-width:58rem; margin-inline:auto; padding:2.5rem 1.25rem 5rem; }
+  code { font-family:var(--mono); font-size:.85em; direction:ltr; unicode-bidi:isolate; background:#f0ede6; border:1px solid #ddd8cc; border-radius:4px; padding:.05em .35em; white-space:nowrap; }
+  pre { font-family:var(--mono); font-size:.82rem; direction:ltr; text-align:left; background:#1b2733; color:#eef1ef; border-radius:8px; padding:1rem 1.25rem; overflow-x:auto; line-height:1.5; }
+  pre code { background:none; border:0; padding:0; color:inherit; white-space:pre; }
+  .eyebrow { font-family:var(--mono); font-size:.78rem; letter-spacing:.12em; color:var(--wind); border-block-end:2px solid var(--wind); display:inline-block; padding-block-end:.3rem; margin-block-end:1rem; }
+  h1 { font-family:var(--display); font-weight:400; font-size:clamp(2rem,5vw,2.8rem); line-height:1.15; margin:0 0 .75rem; }
+  .lede { color:var(--ink-soft); max-width:46rem; margin-block-end:1.5rem; }
+  h2 { font-family:var(--display); font-weight:400; font-size:1.6rem; margin:2.5rem 0 .8rem; }
+  h2 .num { font-family:var(--mono); font-size:.9rem; color:var(--tape); letter-spacing:.1em; margin-inline-end:.75rem; }
+  h3 { font-family:var(--display); font-weight:400; font-size:1.2rem; margin:1.5rem 0 .5rem; }
+  p { margin:.5rem 0 .9rem; } ul, ol { margin:.4rem 0 1rem; padding-inline-start:1.5rem; } li { margin-block-end:.35rem; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:1.25rem 1.5rem; margin-block:1rem; }
+  .gate { border:2px solid var(--gate); background:var(--gate-soft); border-radius:10px; padding:.9rem 1.1rem; margin-block:1.25rem; position:relative; }
+  .gate::before { content:"✓ שער בדיקה"; position:absolute; inset-block-start:-.85rem; inset-inline-end:1rem; background:var(--gate); color:#fff; font-family:var(--display); font-size:.85rem; padding:.1rem .7rem; border-radius:4px; transform:rotate(2deg); }
+  .notice { border-inline-start:5px solid var(--tape); background:var(--tape-soft); border-radius:8px; padding:1rem 1.25rem; margin-block:1.5rem; }
+  .info { border-inline-start:5px solid var(--wind); background:var(--wind-soft); border-radius:8px; padding:1rem 1.25rem; margin-block:1.5rem; }
+  .notice h3, .info h3 { margin:0 0 .4rem; font-size:1.1rem; }
+  .tablewrap { overflow-x:auto; margin-block:.75rem 1.25rem; }
+  table { border-collapse:collapse; width:100%; background:var(--card); border:1px solid var(--line); font-size:.97rem; }
+  th, td { border:1px solid var(--line); padding:.55rem .8rem; text-align:start; vertical-align:top; }
+  th { background:var(--wind); color:#fff; font-weight:600; }
+  td.num { font-family:var(--mono); direction:ltr; text-align:end; white-space:nowrap; }
+  td.ok { color:var(--gate); font-weight:700; white-space:nowrap; }
+  td.wait { color:var(--tape); font-weight:700; white-space:nowrap; }
+  footer { margin-block-start:3rem; color:var(--ink-soft); font-size:.85rem; border-block-start:1px solid var(--line); padding-block-start:1rem; }
+  a { color:var(--wind); }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <span class="eyebrow">HARBORVALE · הערת ביניים · M5 · 2026-09-13</span>
+    <h1>M5, החצי שלי: ה-Flow שמסרב</h1>
+    <p class="lede">M5 היא התחנה המשותפת: יורן בונה את צוות 2 ב-CrewAI, אני בונה את ה-Flow שמריץ את שני הצוותים ועוצר ביניהם. החצי של יורן עוד לא נדחף, אז בניתי את ה-Flow מול החתימה שסיכמנו ב-issue #18 בלבד. הוא רץ, נבדק, ומסרב — על הדאטה האמיתי.</p>
+  </header>
+
+  <h2><span class="num">01</span>מה זה עושה ולמה</h2>
+  <p>עד עכשיו כל חלק עמד לבד: כלים, חוזה, מאמת, צוות אנליסטים, כלי מדענים, אתר. ה-Flow הוא הדבר שמחבר אותם לריצה אחת עם סדר קבוע: טעינה → צוות 1 → <b>אימות החוזה מול הקובץ</b> → הכרעה → צוות 2 → <b>אימות התוצרים</b> → פרסום. שתי ההכרעות הן העניין. צוות 2 מקבל רק את עותק הריצה של <code>dataset_contract.json</code> ו-<code>clean_data.csv</code>, ואם הם לא מסכימים זה עם זה, הריצה נעצרת עם <code>FAILED.md</code> שבן אדם יכול לקרוא, ושום דבר לא מגיע ל-<code>artifacts/</code>. זה בדיוק מה שלא היה ל-Harbor &amp; Vale בסיפור של הברייף.</p>
+
+  <h2><span class="num">02</span>מה נבנה</h2>
+  <div class="card">
+    <ul>
+      <li><b><code>hv/runlog.py</code>:</b> תיקיית ריצה לכל הרצה (<code>runs/&lt;id&gt;/crew1</code>, <code>crew2</code>), יומן כפול — <code>events.jsonl</code> למכונות (וזה מה שהזנב החי של M7 יקרא) ו-<code>flow.log</code> לאנשים — ו-<code>manifest.json</code> עם sha256 וגודל לכל תוצר, גרסאות הספריות, משכי הצעדים ובלוק ה-LLM.</li>
+      <li><b><code>flow/state.py</code> + <code>flow/main.py</code>:</b> ה-Flow של CrewAI עם שני routers. שני הצוותים מוזרקים כפונקציות (<code>analyst_runner</code>, <code>scientist_runner</code>) עם החתימה מ-PLAN §3.10. ברירת המחדל נפתרת רק ברגע הקריאה, אז ריצה שנעצרת בתפר לא צריכה את צוות 2 בכלל.</li>
+      <li><b>בדיקת התפר:</b> <code>hv.contract.validate</code> על עותק הריצה, עם דרישה שחמש העמודות שהנדסת הפיצ'רים קוראת (CashbackAmount, OrderCount, Tenure, CouponUsed, DaySinceLastOrder) מוצהרות כפיצ'רים. על הקבצים האמיתיים: 70 בדיקות.</li>
+      <li><b>בדיקת התוצרים</b> לפני שמשהו מתפרסם: חמישה קבצים, צורת <code>metrics.json</code> (קו בסיס, שלוש וריאציות, מודל משרת), אף מזהה/תווית/עמודה מוגנת בפיצ'רים או בחשיבויות, המודל המשרת מנצח את קו הבסיס ב-roc_auc וב-precision@top10, המודל נטען ומנקד את השורה הראשונה, ולכרטיס המודל חמשת הפרקים. אותן שאלות של שער M4, נשאלות בזמן ריצה.</li>
+      <li><b><code>scripts/run_flow.py</code>:</b> דגלים <code>--stub-crews</code>, <code>--skip-crew1</code>, <code>--tamper</code>, <code>--publish false</code>, <code>--run-id</code>; קודי יציאה 0 פורסם/אומת · 2 התפר סורב · 3 התוצרים נכשלו · 1 שגיאה לא צפויה.</li>
+      <li><b>שער M5</b> ב-<code>scripts/gate.py</code>, ו-CI מריץ אותו בכל push. 27 בדיקות חדשות (237 בסך הכל), כולן עם צוותי stub, בלי מפתח.</li>
+    </ul>
+  </div>
+
+  <h2><span class="num">03</span>הריצה שסורבה — על הדאטה האמיתי</h2>
+  <p>הפקודה: <code>python scripts/run_flow.py --stub-crews --skip-crew1 --tamper unit_change --publish false</code>. ה-Flow העתיק את התוצרים המפורסמים של צוות 1 לתיקיית הריצה, הכפיל שם את <code>CashbackAmount</code> פי 100 (דולרים שנקראו כסנטים), ואז בדק. התוצרים המפורסמים לא נגעו. קוד יציאה 2, ו-<code>crew2/</code> נשארה ריקה.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>בדיקה</th><th>עמודה</th><th>מה לא בסדר</th><th>רמז</th></tr></thead>
+    <tbody>
+      <tr><td>integrity</td><td>-</td><td dir="ltr" style="text-align:left">sha256 47abbc60bafe differs from the contract's ef1e1f758009</td><td>הקובץ הנקי השתנה אחרי שהחוזה נכתב</td></tr>
+      <tr><td>range</td><td>CashbackAmount</td><td dir="ltr" style="text-align:left">observed [0, 32499] vs declared [0, 324.99] USD</td><td dir="ltr" style="text-align:left">ratio ~= 100 - looks like a unit change</td></tr>
+    </tbody>
+  </table></div>
+  <p>68 מתוך 70 בדיקות עברו, שתיים נכשלו, והרמז אומר במילים מה קרה. ה-<code>FAILED.md</code> המלא נשמר כמו שהוא ב-<code>docs/notes/failed_run_example.md</code>. כך נראה יומן הריצה:</p>
+<pre><code>flow               start run_id=example-unit-change stub_crews=True skip_crew1=True tamper=unit_change publish=False
+ingest             ok    duration_s=0.0
+run_analyst        skip  reason=copied from artifacts/crew1
+tamper             ok    preset=unit_change
+validate_handoff   fail  duration_s=0.008 checks=70 failed=['integrity', 'range']
+fail_gracefully    ok    failed_md=runs/example-unit-change/FAILED.md
+flow               fail  result=handoff_failed</code></pre>
+
+  <h2><span class="num">04</span>שתי החלטות</h2>
+  <div class="card">
+    <h3>D-M5-1 · מצב <code>verified</code></h3>
+    <p>ברשימת המצבים של PLAN §3.11 אין מצב ל"כל הבדיקות עברו אבל הפרסום כבוי". עם <code>--publish false</code> הריצה הייתה צריכה לקרוא לעצמה <code>published</code> — שקר. הוספתי <code>verified</code>: קוד יציאה 0, המניפסט נכתב בתיקיית הריצה, <code>artifacts/</code> לא נגעה. <b>חלופה:</b> להשאיר <code>published</code> ולהוסיף שדה "לאן". <b>מחיר:</b> ערך אחד ברשימה ושורה אחת בטבלת קודי היציאה.</p>
+    <h3>D-M5-2 · הסקריפט הזמני <code>run_crew2_tools.py</code> נשאר בינתיים</h3>
+    <p>PLAN אומר להסיר אותו ב-M5, אבל שתי בדיקות הדטרמיניזם של שער M4 מריצות אותו, ו-CI מריץ את שער M4 בכל push. להסיר עכשיו = שער M4 אדום על main. ברגע שה-stub של יורן קיים, שער M4 עובר ל-<code>python -m crews.stubs scientist</code> והסקריפט נמחק, באותו PR. <b>חלופה:</b> להסיר עכשיו ולדלג על שתי הבדיקות (נדחה — הבדיקה החזקה ביותר של M4 הייתה כבויה כל הזמן שצוות 2 לוקח).</p>
+  </div>
+
+  <div class="info">
+    <h3>מה שרק הרצה גילתה</h3>
+    <p>הפאנלים של CrewAI ל-Flow מתעלמים מדגל ה-<code>verbose</code> של הפורמטר ומודפסים תמיד. ה-Flow נותן להם קונסולה שקטה אלא אם <code>HV_VERBOSE=1</code>, וההתקדמות מגיעה מיומן הריצה עצמו. ועוד אחד קטן: <code>event(step, status, **fields)</code> התנגש בשדה בשם <code>status</code> — הבדיקה תפסה את זה בריצה הראשונה.</p>
+  </div>
+
+  <h2><span class="num">05</span>תוצאת השער</h2>
+  <div class="gate">
+    <div class="tablewrap"><table>
+      <thead><tr><th>בדיקה</th><th>תוצאה</th></tr></thead>
+      <tbody>
+        <tr><td>pytest ירוק בלי OPENAI_API_KEY (237 בדיקות)</td><td class="ok">PASS</td></tr>
+        <tr><td>ruff נקי</td><td class="ok">PASS</td></tr>
+        <tr><td>המניפסט מונה שמונה תוצרים וה-hash תואם</td><td class="wait">SKIP — אין ריצה מפורסמת עדיין (משימה 6)</td></tr>
+        <tr><td><code>run_flow.py --stub-crews --publish false</code> מחזיר 0</td><td class="wait">SKIP — מחכה ל-<code>run_scientist_stub</code> של יורן</td></tr>
+        <tr><td>תפר מחובל מחזיר 2 עם FAILED.md קריא</td><td class="ok">PASS</td></tr>
+        <tr><td>בדיקות ה-sandbox ירוקות</td><td class="wait">SKIP — מחכה ל-<code>tests/test_sandbox.py</code> של יורן</td></tr>
+        <tr><td>התוצרים המפורסמים שווים לריצת stub טרייה</td><td class="wait">SKIP — מחכה ל-stub של יורן</td></tr>
+      </tbody>
+    </table></div>
+    <p><code>GATE M5: PASS 3/3</code>. ארבע בדיקות מדלגות ואומרות בדיוק למה הן מחכות; אף אחת לא עוברת בשקט. ברגע שה-stub נדחף הן הופכות לבדיקות אמיתיות בלי לגעת בשער.</p>
+  </div>
+
+  <h2><span class="num">06</span>מה נשאר פתוח</h2>
+  <div class="notice">
+    <h3>M5 לא סגורה</h3>
+    <p>חסר החצי של יורן: <code>crews/scientist/</code> (שלושה סוכנים, הקורא המוגבל ל-<code>crew1/</code>), <code>run_scientist_stub</code> ב-<code>crews/stubs.py</code>, ו-<code>tests/test_sandbox.py</code>. אחרי שהם נוחתים: ריצה מלאה אמיתית עם שני הצוותים ב-gpt-5-mini לתוך <code>artifacts/</code> עם מניפסט, שער M4 עובר ל-stub, ודוח M5 מלא ב-<code>docs/reports/</code>.</p>
+  </div>
+
+  <h2><span class="num">07</span>מה אני צריך ממך</h2>
+  <div class="info">
+    <ol>
+      <li><b>סקירה של ה-PR</b> של <code>feat/m5-flow</code> ואישור מיזוג אחרי ש-CI ירוק. אפשר למזג לפני יורן: ה-Flow לא מייבא ממנו כלום עד רגע הקריאה.</li>
+      <li><b>דחיפה ליורן</b> (אם תרצה, אנסח תגובה ל-issue #18): ה-stub עם החתימה מ-§3.10 פותח ארבע בדיקות שער ואת הריצה האמיתית.</li>
+    </ol>
+  </div>
+
+  <footer>HarborVale Workflow · הערת M5 (חצי ה-Flow) · 2026-09-13 · הקוד: <code>flow/</code>, <code>hv/runlog.py</code>, <code>scripts/run_flow.py</code> · השער: <code>python scripts/gate.py --m 5</code></footer>
+</main>
+</body>
+</html>
