@@ -11,7 +11,7 @@
   :root { --paper:#eef1ef; --card:#fff; --ink:#1b2733; --ink-soft:#46545f; --wind:#0f5c6e; --wind-soft:#e3eef1; --tape:#c9560c; --tape-soft:#fbe9dc; --gate:#2f7d46; --gate-soft:#e7f2ea; --line:#c9d2cd;
     --mono:"IBM Plex Mono",ui-monospace,monospace; --display:"Suez One","Arial Hebrew",serif; --body:"Assistant","Helvetica Neue",Arial,sans-serif; }
   * { box-sizing:border-box; }
-  html { font-size:106%; }
+  html { font-size:106%; color-scheme:only light; } /* the paper palette is the design; keep Chrome's auto-dark off it */
   body { margin:0; background:var(--paper); color:var(--ink); font-family:var(--body); font-size:1.08rem; line-height:1.7; text-align:start; }
   main { max-width:58rem; margin-inline:auto; padding:2.5rem 1.25rem 5rem; }
   code { font-family:var(--mono); font-size:.85em; direction:ltr; unicode-bidi:isolate; background:#f0ede6; border:1px solid #ddd8cc; border-radius:4px; padding:.05em .35em; white-space:nowrap; }
@@ -46,7 +46,7 @@
   <header>
     <span class="eyebrow">HARBORVALE · הערת ביניים · M5 · 2026-09-13</span>
     <h1>M5, החצי שלי: ה-Flow שמסרב</h1>
-    <p class="lede">M5 היא התחנה המשותפת: יורן בונה את צוות 2 ב-CrewAI, אני בונה את ה-Flow שמריץ את שני הצוותים ועוצר ביניהם. החצי של יורן עוד לא נדחף, אז בניתי את ה-Flow מול החתימה שסיכמנו ב-issue #18 בלבד. הוא רץ, נבדק, ומסרב — על הדאטה האמיתי.</p>
+    <p class="lede">M5 היא התחנה המשותפת: יורן בונה את צוות 2 ב-CrewAI, אני בונה את ה-Flow שמריץ את שני הצוותים ועוצר ביניהם. החצי של יורן עוד לא נדחף, אז בניתי את ה-Flow מול החתימה שסיכמנו ב-<span dir="ltr">issue #18</span> בלבד. הוא רץ, נבדק, ומסרב — על הדאטה האמיתי.</p>
   </header>
 
   <h2><span class="num">01</span>מה זה עושה ולמה</h2>
@@ -122,7 +122,7 @@ flow               fail  result=handoff_failed</code></pre>
   <div class="info">
     <ol>
       <li><b>סקירה של ה-PR</b> של <code>feat/m5-flow</code> ואישור מיזוג אחרי ש-CI ירוק. אפשר למזג לפני יורן: ה-Flow לא מייבא ממנו כלום עד רגע הקריאה.</li>
-      <li><b>דחיפה ליורן</b> (אם תרצה, אנסח תגובה ל-issue #18): ה-stub עם החתימה מ-§3.10 פותח ארבע בדיקות שער ואת הריצה האמיתית.</li>
+      <li><b>דחיפה ליורן</b> (אם תרצה, אנסח תגובה ל-<span dir="ltr">issue #18</span>): ה-stub עם החתימה מ-§3.10 פותח ארבע בדיקות שער ואת הריצה האמיתית.</li>
     </ol>
   </div>
 
