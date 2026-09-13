@@ -34,6 +34,7 @@ from hv.config import (
     PROTECTED,
     RAW_PATH,
     READ_CSV_KW,
+    ROOT,
     RUNS_DIR,
     TARGET,
 )
@@ -60,6 +61,14 @@ Runner = Callable[..., Any]
 
 def _now() -> str:
     return datetime.now(UTC).replace(microsecond=0).isoformat()
+
+
+def display_path(path: Path) -> str:
+    """Paths in logs and FAILED.md: relative to the repo when inside it (`runs/<id>/...`), else absolute."""
+    try:
+        return Path(path).resolve().relative_to(ROOT.resolve()).as_posix()
+    except ValueError:
+        return str(path)
 
 
 class HarborValeFlow(Flow[FlowState]):
@@ -117,7 +126,7 @@ class HarborValeFlow(Flow[FlowState]):
             for name in [*CREW1_FILES, "run_meta.json"]:
                 if (source / name).exists():
                     shutil.copyfile(source / name, crew1 / name)
-            self.log.event("run_analyst", "skip", reason=f"copied from {source}")
+            self.log.event("run_analyst", "skip", reason=f"copied from {display_path(source)}")
         else:
             with self.log.step("run_analyst"):
                 result = self.analyst_runner(Path(self.state.raw_path), crew1)
@@ -147,6 +156,7 @@ class HarborValeFlow(Flow[FlowState]):
         t0 = time.perf_counter()
         # the columns Crew 2's feature engineering reads must be declared, and declared as features
         report = validate(clean_csv, contract_json, required_features=ENGINEERED_SOURCES)
+        report.source = display_path(clean_csv)
         self.handoff_report = report
         self.state.validation = report.to_dict()
         self.state.status = "handoff_ok" if report.passed else "handoff_failed"
@@ -245,7 +255,7 @@ class HarborValeFlow(Flow[FlowState]):
             ])  # fmt: skip
             next_step = "Nothing was published; `artifacts/` still holds the last good run."
         _write_failed(self.run_dir, self.state.run_id, self.state.status, stopped, body, next_step)
-        self.log.event("fail_gracefully", "ok", failed_md=str(self.run_dir / "FAILED.md"))
+        self.log.event("fail_gracefully", "ok", failed_md=display_path(self.run_dir / "FAILED.md"))
 
 
 # ---------------------------------------------------------------- outputs check
@@ -329,7 +339,7 @@ def _write_failed(run_dir: Path, run_id: str, status: str, stopped: str, body: s
             f"# Run {run_id} — {status}",
             "",
             f"**Stopped at:** `{stopped}`  ",
-            f"**Run directory:** `{run_dir}`",
+            f"**Run directory:** `{display_path(run_dir)}`",
             "",
             body.rstrip(),
             "",

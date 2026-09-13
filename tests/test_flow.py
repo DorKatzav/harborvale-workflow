@@ -262,5 +262,13 @@ def test_a_crashing_crew_is_logged_and_re_raised(raw_xlsx, tmp_path):
     assert "provider down" in (run_dir / "FAILED.md").read_text()
 
 
+def test_paths_are_shown_relative_to_the_repo_when_inside_it():
+    from flow.main import display_path
+    from hv.config import ROOT
+
+    assert display_path(ROOT / "runs" / "x" / "FAILED.md") == "runs/x/FAILED.md"
+    assert display_path(Path("/elsewhere/runs/x")) == "/elsewhere/runs/x"
+
+
 def test_exit_codes_follow_the_plan():
     assert EXIT_CODES == {"published": 0, "verified": 0, "handoff_failed": 2, "outputs_failed": 3}
