@@ -1,0 +1,12 @@
+2026-09-14T21:44:34+00:00 flow               start run_id=m5-real-run-2 stub_crews=False skip_crew1=False tamper=None publish=True
+2026-09-14T21:44:34+00:00 ingest             start
+2026-09-14T21:44:34+00:00 ingest             ok    duration_s=0.0
+2026-09-14T21:44:34+00:00 run_analyst        start
+2026-09-14T21:48:13+00:00 run_analyst        ok    duration_s=218.276
+2026-09-14T21:48:13+00:00 validate_handoff   ok    duration_s=0.016 checks=70 failed=[]
+2026-09-14T21:48:13+00:00 run_scientist      start
+2026-09-14T21:53:00+00:00 run_scientist      ok    duration_s=287.365
+2026-09-14T21:53:00+00:00 validate_outputs   ok    duration_s=0.041 checks=6 failed=[]
+2026-09-14T21:53:00+00:00 publish            start
+2026-09-14T21:53:00+00:00 publish            ok    duration_s=0.003
+2026-09-14T21:53:00+00:00 flow               ok    result=published llm_calls=21 cost_usd=0.0744
