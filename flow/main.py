@@ -68,7 +68,7 @@ def display_path(path: Path) -> str:
     try:
         return Path(path).resolve().relative_to(ROOT.resolve()).as_posix()
     except ValueError:
-        return str(path)
+        return Path(path).as_posix()
 
 
 class HarborValeFlow(Flow[FlowState]):
