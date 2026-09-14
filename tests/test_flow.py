@@ -270,5 +270,29 @@ def test_paths_are_shown_relative_to_the_repo_when_inside_it():
     assert display_path(Path("/elsewhere/runs/x")) == "/elsewhere/runs/x"
 
 
+def test_run_meta_paths_are_repo_relative():
+    """run_meta.json is committed with the artifacts; it must not carry one machine's home directory."""
+    from crews.analyst.crew import AnalystResult
+    from crews.scientist.crew import ScientistResult
+    from hv.config import ROOT
+
+    crew2 = ROOT / "runs" / "x" / "crew2"
+    res = ScientistResult(
+        features_csv=crew2 / "features.csv", metrics_json=crew2 / "metrics.json",
+        model_path=crew2 / "model.joblib", evaluation_md=crew2 / "evaluation_report.md",
+        model_card_md=crew2 / "model_card.md", llm_calls=1, prompt_tokens=1, cached_prompt_tokens=0,
+        completion_tokens=1, cost_usd=0.1, duration_s=1.0,
+    )  # fmt: skip
+    assert res.to_dict()["features_csv"] == "runs/x/crew2/features.csv"
+    crew1 = ROOT / "runs" / "x" / "crew1"
+    res1 = AnalystResult(
+        clean_csv=crew1 / "clean_data.csv", eda_html=crew1 / "eda_report.html",
+        stats_json=crew1 / "stats.json", insights_md=crew1 / "insights.md", contract_json=None,
+        llm_calls=1, prompt_tokens=1, cached_prompt_tokens=0, completion_tokens=1, cost_usd=0.1,
+        duration_s=1.0,
+    )  # fmt: skip
+    assert res1.to_dict()["clean_csv"] == "runs/x/crew1/clean_data.csv"
+
+
 def test_exit_codes_follow_the_plan():
     assert EXIT_CODES == {"published": 0, "verified": 0, "handoff_failed": 2, "outputs_failed": 3}
