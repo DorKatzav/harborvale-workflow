@@ -76,6 +76,15 @@ def test_the_agents_prose_reaches_the_page(contract):
     assert "flag customers worth calling" in card
 
 
+def test_a_heading_the_agent_writes_itself_is_dropped_not_doubled(contract):
+    """The real run wrote '# Purpose' at the top of the Purpose section: the tool owns the headings."""
+    prose = "# Purpose\n\nrank customers for outreach"
+    card = render_model_card(METRICS, contract, {**SECTIONS, "Purpose": prose})
+    assert card.count("Purpose") == 1 and "rank customers for outreach" in card
+    report = render_evaluation_report(METRICS, {"Reading": "## Reading\nhist_gb wins"})
+    assert report.count("Reading") == 1 and "hist_gb wins" in report
+
+
 def test_training_data_facts_come_from_the_contract_not_the_prose(contract):
     card = render_model_card(METRICS, contract, {**SECTIONS, "Training data": "about a million rows"})
     assert "about a million rows" in card  # the prose is kept
