@@ -4,8 +4,9 @@
 
 <h1>Runs</h1>
 <p class="lede">
-  Everything on this site comes from one published run, committed to the repository. A live run on the
-  server, behind a password, arrives with the next milestone.
+  Everything on this site comes from one published run, committed to the repository. Runs started on the
+  server from the <a href="{{ url_for('live.live_page') }}">live page</a> are listed below; they are scratch
+  work and are not committed.
 </p>
 
 <section class="panel">
@@ -43,6 +44,34 @@
       </tbody>
     </table>
   </div>
+</section>
+
+<section class="panel">
+  <h2>Server runs</h2>
+  <p>Started on this server, written to <code>runs/</code> and never published: the artifacts above stay the
+     committed ones. Server runs are not committed and disappear with the next deploy.</p>
+  {% if server_runs %}
+  <div class="tablewrap">
+    <table>
+      <caption class="visually-hidden">Runs started on this server</caption>
+      <thead><tr><th scope="col">Run</th><th scope="col">Started</th><th scope="col">Result</th><th scope="col" class="num">Duration</th><th scope="col" class="num">Calls</th><th scope="col" class="num">Cost</th></tr></thead>
+      <tbody>
+        {% for r in server_runs %}
+        <tr class="{% if r.result in ('published', 'verified') %}is-served{% elif r.result in ('handoff_failed', 'outputs_failed', 'error') %}is-failed{% endif %}">
+          <th scope="row"><code>{{ r.run_id }}</code></th>
+          <td class="mono">{{ r.started_at }}</td>
+          <td><span class="role">{{ r.result }}</span>{% if r.failed_md %} <span class="hint">FAILED.md</span>{% endif %}</td>
+          <td class="num">{{ r.duration_s if r.duration_s is not none else "—" }}s</td>
+          <td class="num">{{ r.llm_calls if r.llm_calls is not none else "—" }}</td>
+          <td class="num">{% if r.cost_usd is not none %}${{ "%.4f"|format(r.cost_usd) }}{% else %}—{% endif %}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p class="empty">No server runs on this deployment yet.</p>
+  {% endif %}
 </section>
 
 {% endblock %}

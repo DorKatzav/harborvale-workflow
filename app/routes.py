@@ -7,7 +7,16 @@ import tempfile
 from pathlib import Path
 
 import pandas as pd
-from flask import Blueprint, Response, abort, jsonify, render_template, request, send_from_directory
+from flask import (
+    Blueprint,
+    Response,
+    abort,
+    current_app,
+    jsonify,
+    render_template,
+    request,
+    send_from_directory,
+)
 from werkzeug.exceptions import RequestEntityTooLarge
 
 from app import artifacts as A
@@ -85,7 +94,10 @@ def scientist():
 @bp.get("/runs")
 def runs():
     c1, c2 = _crews()
-    return render_template("runs.html", c1=c1, c2=c2, run=A.load_run(), page="runs")
+    server_runs = A.list_server_runs(current_app.extensions["live"].runs_root)
+    return render_template(
+        "runs.html", c1=c1, c2=c2, run=A.load_run(), server_runs=server_runs, page="runs"
+    )
 
 
 @bp.get("/artifacts/<path:filename>")

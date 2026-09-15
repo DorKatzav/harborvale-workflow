@@ -24,6 +24,7 @@
     <a href="{{ url_for('pages.contract') }}" {% if page == 'contract' %}aria-current="page"{% endif %}>The contract</a>
     <a href="{{ url_for('pages.scientist') }}" {% if page == 'scientist' %}aria-current="page"{% endif %}>Model</a>
     <a href="{{ url_for('pages.runs') }}" {% if page == 'runs' %}aria-current="page"{% endif %}>Runs</a>
+    <a href="{{ url_for('live.live_page') }}" {% if page == 'live' %}aria-current="page"{% endif %}>Live run</a>
   </nav>
 </header>
 
