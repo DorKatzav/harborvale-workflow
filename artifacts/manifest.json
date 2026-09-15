@@ -1,0 +1,93 @@
+{
+  "run_id": "m5-real-run-2",
+  "created_at": "2026-09-14T21:53:00+00:00",
+  "artifacts": {
+    "clean_data.csv": {
+      "path": "crew1/clean_data.csv",
+      "sha256": "ef1e1f758009fa575837a3b4b62384c1f3516297d775aa2c10ef796a449073a2",
+      "bytes": 535685
+    },
+    "cleaning_report.json": {
+      "path": "crew1/cleaning_report.json",
+      "sha256": "14bcb7ecff1d5bd0839b23d15c11210175e0056088436f490d29481840c63fc0",
+      "bytes": 771
+    },
+    "stats.json": {
+      "path": "crew1/stats.json",
+      "sha256": "86ba426fe9c917bc25ba2d006888e0ff0e668434ffe29691f836226f09c17734",
+      "bytes": 3974
+    },
+    "eda_report.html": {
+      "path": "crew1/eda_report.html",
+      "sha256": "19dd894c3f3556101724a92141a1df779404b7a78cefc5ebb5625501532308cd",
+      "bytes": 298446
+    },
+    "insights.md": {
+      "path": "crew1/insights.md",
+      "sha256": "05e7a9d3e9b844632df820824599ad9335f1564a408f2bc9640001ebafcdfe0d",
+      "bytes": 2712
+    },
+    "dataset_contract.json": {
+      "path": "crew1/dataset_contract.json",
+      "sha256": "87e21b0b6140f44c2103342d527055d35939c58bf990f13b315325b4d9ed7140",
+      "bytes": 11895
+    },
+    "features.csv": {
+      "path": "crew2/features.csv",
+      "sha256": "c59c1119727d7bb39d791617f8b6f49d2ca293cae387b68a11f364cd4929b075",
+      "bytes": 617305
+    },
+    "metrics.json": {
+      "path": "crew2/metrics.json",
+      "sha256": "72f5936aadc209b4817afd6f4b4e515a29d7220a7b5f9e8a72565b962f94f3ad",
+      "bytes": 3904
+    },
+    "model.joblib": {
+      "path": "crew2/model.joblib",
+      "sha256": "72fd356028b40127919754fb6f4e607d31a8e5bb0f71231f2b6108ba842093d1",
+      "bytes": 1464754
+    },
+    "evaluation_report.md": {
+      "path": "crew2/evaluation_report.md",
+      "sha256": "5cc57ffc0684474d59d3c1443f866469fceaec6cbc8b2af36e1cb35d9e6a273e",
+      "bytes": 2243
+    },
+    "model_card.md": {
+      "path": "crew2/model_card.md",
+      "sha256": "4d3f52168d3a9bbe9555b6ad005afb6b20cf2412e6e5c9b201c1a750a5166713",
+      "bytes": 6438
+    },
+    "crew1/run_meta.json": {
+      "path": "crew1/run_meta.json",
+      "sha256": "3e2223e86e0a2b8ac90f7ba5732ba8cc2bae87ea4de45786f73ae8e883b22390",
+      "bytes": 452
+    },
+    "crew2/run_meta.json": {
+      "path": "crew2/run_meta.json",
+      "sha256": "a0f85f2940334d65fd992d41036deb2cd2c561ab5cd292a85d7fb20d7119144f",
+      "bytes": 460
+    }
+  },
+  "versions": {
+    "python": "3.11.16",
+    "pandas": "3.0.5",
+    "sklearn": "1.9.0",
+    "crewai": "1.15.20"
+  },
+  "durations_s": {
+    "ingest": 0.0,
+    "run_analyst": 218.276,
+    "validate_handoff": 0.016,
+    "run_scientist": 287.365,
+    "validate_outputs": 0.041
+  },
+  "llm": {
+    "model": "openai/gpt-5-mini",
+    "calls": 21,
+    "cost_usd": 0.0744
+  },
+  "raw_sha256": "db70f1e34bc5326887ea3fb3d2a0854e82c577d55ef3a76fdfb25328631bd44d",
+  "tamper": null,
+  "skip_crew1": false,
+  "started_at": "2026-09-14T21:44:34+00:00"
+}

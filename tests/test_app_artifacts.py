@@ -69,11 +69,15 @@ def test_crew2_when_published_exposes_metrics_and_documents(published):
     assert [name for name, _ in ranked] == ["Tenure", "Complain"]  # ranked, not alphabetical
 
 
-def test_run_summary_reads_run_meta(published):
+def test_run_summary_adds_both_crews_run_meta(published):
+    """The summary is the sum of the two published run_meta files - read, never typed (§6)."""
+    one = json.loads((published / "crew1" / "run_meta.json").read_text())
+    two = json.loads((published / "crew2" / "run_meta.json").read_text())
     run = A.load_run(published)
-    assert run["cost_usd"] == 0.037
-    assert run["llm_calls"] == 10
-    assert run["duration_s"] == 176.8
+    assert one["llm_calls"] > 0 and two["llm_calls"] > 0, "the published run must be a real one"
+    assert run["llm_calls"] == one["llm_calls"] + two["llm_calls"]
+    assert run["cost_usd"] == round(one["cost_usd"] + two["cost_usd"], 4)
+    assert run["duration_s"] == round(one["duration_s"] + two["duration_s"], 4)
 
 
 def test_contract_rows_are_display_ready(published):

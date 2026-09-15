@@ -12,6 +12,16 @@ DICT_SHEET = "Data Dict"
 ARTIFACTS_DIR = ROOT / "artifacts"
 RUNS_DIR = ROOT / "runs"
 
+
+def display_path(path: Path) -> str:
+    """Paths in logs, run_meta.json and FAILED.md: repo-relative when inside the repo (`runs/<id>/...`),
+    else the path as given - forward slashes on every platform (D-M5-3), never one machine's home."""
+    try:
+        return Path(path).resolve().relative_to(ROOT.resolve()).as_posix()
+    except ValueError:
+        return Path(path).as_posix()
+
+
 SEED = 42
 PRIMARY_KEY = "CustomerID"
 TARGET = "Churn"

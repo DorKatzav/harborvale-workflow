@@ -1,13 +1,13 @@
 {
-  "clean_csv": "runs/20260908-205214/crew1/clean_data.csv",
-  "eda_html": "runs/20260908-205214/crew1/eda_report.html",
-  "stats_json": "runs/20260908-205214/crew1/stats.json",
-  "insights_md": "runs/20260908-205214/crew1/insights.md",
-  "contract_json": "runs/20260908-205214/crew1/dataset_contract.json",
+  "clean_csv": "runs/m5-real-run-2/crew1/clean_data.csv",
+  "eda_html": "runs/m5-real-run-2/crew1/eda_report.html",
+  "stats_json": "runs/m5-real-run-2/crew1/stats.json",
+  "insights_md": "runs/m5-real-run-2/crew1/insights.md",
+  "contract_json": "runs/m5-real-run-2/crew1/dataset_contract.json",
   "llm_calls": 10,
-  "prompt_tokens": 27683,
-  "cached_prompt_tokens": 11776,
-  "completion_tokens": 16389,
-  "cost_usd": 0.037,
-  "duration_s": 176.8
+  "prompt_tokens": 24359,
+  "cached_prompt_tokens": 8704,
+  "completion_tokens": 14844,
+  "cost_usd": 0.0338,
+  "duration_s": 218.3
 }

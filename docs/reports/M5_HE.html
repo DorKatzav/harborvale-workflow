@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HarborVale — דוח M5: ה-Flow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Suez+One&family=Assistant:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --paper:#eef1ef; --card:#fff; --ink:#1b2733; --ink-soft:#46545f; --wind:#0f5c6e; --wind-soft:#e3eef1; --tape:#c9560c; --tape-soft:#fbe9dc; --gate:#2f7d46; --gate-soft:#e7f2ea; --line:#c9d2cd;
+    --mono:"IBM Plex Mono",ui-monospace,monospace; --display:"Suez One","Arial Hebrew",serif; --body:"Assistant","Helvetica Neue",Arial,sans-serif; }
+  * { box-sizing:border-box; }
+  html { font-size:106%; color-scheme:only light; }
+  body { margin:0; background:var(--paper); color:var(--ink); font-family:var(--body); font-size:1.08rem; line-height:1.7; text-align:start; }
+  main { max-width:58rem; margin-inline:auto; padding:2.5rem 1.25rem 5rem; }
+  code { font-family:var(--mono); font-size:.85em; direction:ltr; unicode-bidi:isolate; background:#f0ede6; border:1px solid #ddd8cc; border-radius:4px; padding:.05em .35em; white-space:nowrap; }
+  pre { font-family:var(--mono); font-size:.82rem; direction:ltr; text-align:left; background:#1b2733; color:#eef1ef; border-radius:8px; padding:1rem 1.25rem; overflow-x:auto; line-height:1.5; }
+  pre code { background:none; border:0; padding:0; color:inherit; white-space:pre; }
+  .eyebrow { font-family:var(--mono); font-size:.78rem; letter-spacing:.12em; color:var(--wind); border-block-end:2px solid var(--wind); display:inline-block; padding-block-end:.3rem; margin-block-end:1rem; }
+  h1 { font-family:var(--display); font-weight:400; font-size:clamp(2rem,5vw,2.8rem); line-height:1.15; margin:0 0 .75rem; }
+  .lede { color:var(--ink-soft); max-width:46rem; margin-block-end:1.5rem; }
+  h2 { font-family:var(--display); font-weight:400; font-size:1.6rem; margin:2.5rem 0 .8rem; }
+  h2 .num { font-family:var(--mono); font-size:.9rem; color:var(--tape); letter-spacing:.1em; margin-inline-end:.75rem; }
+  h3 { font-family:var(--display); font-weight:400; font-size:1.2rem; margin:1.5rem 0 .5rem; }
+  p { margin:.5rem 0 .9rem; } ul, ol { margin:.4rem 0 1rem; padding-inline-start:1.5rem; } li { margin-block-end:.35rem; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:1.25rem 1.5rem; margin-block:1rem; }
+  .gate { border:2px solid var(--gate); background:var(--gate-soft); border-radius:10px; padding:.9rem 1.1rem; margin-block:1.25rem; position:relative; }
+  .gate::before { content:"✓ שער בדיקה"; position:absolute; inset-block-start:-.85rem; inset-inline-end:1rem; background:var(--gate); color:#fff; font-family:var(--display); font-size:.85rem; padding:.1rem .7rem; border-radius:4px; transform:rotate(2deg); }
+  .notice { border-inline-start:5px solid var(--tape); background:var(--tape-soft); border-radius:8px; padding:1rem 1.25rem; margin-block:1.5rem; }
+  .info { border-inline-start:5px solid var(--wind); background:var(--wind-soft); border-radius:8px; padding:1rem 1.25rem; margin-block:1.5rem; }
+  .notice h3, .info h3 { margin:0 0 .4rem; font-size:1.1rem; }
+  .tablewrap { overflow-x:auto; margin-block:.75rem 1.25rem; }
+  table { border-collapse:collapse; width:100%; background:var(--card); border:1px solid var(--line); font-size:.97rem; }
+  th, td { border:1px solid var(--line); padding:.55rem .8rem; text-align:start; vertical-align:top; }
+  th { background:var(--wind); color:#fff; font-weight:600; }
+  td.num { font-family:var(--mono); direction:ltr; text-align:end; white-space:nowrap; }
+  td.ltr { direction:ltr; text-align:left; }
+  td.ok { color:var(--gate); font-weight:700; white-space:nowrap; }
+  td.wait { color:var(--tape); font-weight:700; white-space:nowrap; }
+  footer { margin-block-start:3rem; color:var(--ink-soft); font-size:.85rem; border-block-start:1px solid var(--line); padding-block-start:1rem; }
+  a { color:var(--wind); }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <span class="eyebrow">HARBORVALE · דוח תחנה · M5 · 2026-09-14</span>
+    <h1>M5: שני צוותים, Flow אחד, ותפר שמסרב</h1>
+    <p class="lede">התחנה המשותפת נסגרה. צוות 2 של יורן ב-CrewAI, ה-Flow שלי שמריץ את שני הצוותים ועוצר ביניהם, וריצת זהב אמיתית עם gpt-5-mini שפרסמה את כל התוצרים עם מניפסט. הדבר הכי חשוב שקרה: הסוכנים כתבו הרבה פרוזה, ואף מספר לא זז.</p>
+  </header>
+
+  <h2><span class="num">01</span>מה זה עושה ולמה</h2>
+  <p>עד M4 היו לנו כלים, חוזה, מאמת, צוות אנליסטים, כלי מדענים ואתר — כל אחד לבד. M5 מחברת אותם לריצה אחת עם סדר קבוע: טעינה → צוות 1 → <b>אימות החוזה מול הקובץ</b> → הכרעה → צוות 2 → <b>אימות התוצרים</b> → פרסום. צוות 2 מקבל רק את עותק הריצה של <code>dataset_contract.json</code> ו-<code>clean_data.csv</code>; הכלים שלו מסרבים בקוד לכל נתיב אחר. אם הקובץ והחוזה לא מסכימים, הריצה נעצרת עם <code>FAILED.md</code> קריא, <code>crew2/</code> נשארת ריקה ו-<code>artifacts/</code> לא נגעה. זה בדיוק מה שלא היה ל-Harbor &amp; Vale בסיפור של הברייף, כשדולרים נקראו כסנטים חמישה שבועות.</p>
+
+  <h2><span class="num">02</span>מה נבנה — שני חצאים</h2>
+  <div class="card">
+    <h3>החצי של יורן (PR #25): צוות 2</h3>
+    <ul>
+      <li><b><code>crews/scientist/tools.py</code>:</b> שבעה כלים מעל <code>hv/</code>, מאחורי <code>SandboxError</code> ו-<code>_guard</code>. כל כלי שקורא פותר את הנתיב ומסרב לפני שהוא פותח קובץ, אז נתיב מוברח נכשל בין אם הקובץ קיים ובין אם לא. 11 בדיקות sandbox: חוברת הגלם, בריחה עם <code>..</code>, נתיב מוחלט במקום אחר, קובץ שלא קיים.</li>
+      <li><b><code>crews/scientist/crew.py</code>:</b> מהנדס פיצ'רים, מהנדס ML, קצין ממשל מודלים; חמש משימות בסדר validate → engineer_features → train_compare → evaluation_report → model_card. אותה תבנית של צוות 1: סדרתי, <code>max_iter=8</code>, בלי temperature.</li>
+      <li><b><code>run_scientist_stub</code>:</b> אותן קריאות hv בלי סוכנים, ניתן להרצה כ-<code>python -m crews.stubs scientist</code>. על התוצרים האמיתיים הוא משחזר את <code>features.csv</code> בייט-בייט ואת <code>metrics.json</code> באפס הבדלים.</li>
+      <li>גם תיקון בקובץ שלי: <code>display_path</code> החזיר קווים נטויים הפוכים ב-Windows (D-M5-3). מילה אחת, שלוש פלטפורמות.</li>
+    </ul>
+    <h3>החצי שלי (PR #24 + הסגירה)</h3>
+    <ul>
+      <li><b><code>hv/runlog.py</code>:</b> תיקיית ריצה, <code>events.jsonl</code> + <code>flow.log</code>, <code>manifest.json</code> עם sha256 לכל תוצר.</li>
+      <li><b><code>flow/main.py</code>:</b> ה-Flow עם שני routers ו-<code>fail_gracefully</code>. הצוותים מוזרקים כפונקציות עם החתימה מ-PLAN §3.10 — ככה שני החצאים נבנו במקביל ונפגשו בחתימה.</li>
+      <li><b><code>scripts/run_flow.py</code>:</b> קודי יציאה 0 פורסם/אומת · 2 התפר סורב · 3 התוצרים נכשלו · 1 שגיאה. שער M5 עם שבע בדיקות; CI מריץ אותו.</li>
+      <li><b>הסגירה:</b> שער M4 עבר ל-stub של יורן והסקריפט הזמני <code>run_crew2_tools.py</code> נמחק (D-M5-2 נסגר); ריצת הזהב; שני תיקונים שרק ריצה אמיתית גילתה (סעיף 04).</li>
+    </ul>
+  </div>
+
+  <h2><span class="num">03</span>ריצת הזהב</h2>
+  <p><code>python scripts/run_flow.py --run-id m5-real-run-2</code>, שני הצוותים ב-gpt-5-mini. המספרים מ-<code>artifacts/manifest.json</code> ומשני קבצי <code>run_meta.json</code>:</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>שלב</th><th>קריאות LLM</th><th>עלות</th><th>משך</th><th>תוצאה</th></tr></thead>
+    <tbody>
+      <tr><td>צוות 1 — אנליסטים</td><td class="num">10</td><td class="num">$0.0338</td><td class="num">218 s</td><td>שישה קבצים, חוזה עם נימוק לכל עמודה</td></tr>
+      <tr><td>אימות התפר</td><td class="num">0</td><td class="num">$0</td><td class="num">0.016 s</td><td>70 בדיקות, 0 נכשלו</td></tr>
+      <tr><td>צוות 2 — מדענים</td><td class="num">11</td><td class="num">$0.0406</td><td class="num">287 s</td><td>חמישה קבצים, hist_gb משרת</td></tr>
+      <tr><td>אימות התוצרים</td><td class="num">0</td><td class="num">$0</td><td class="num">0.041 s</td><td>6 בדיקות, 0 נכשלו</td></tr>
+      <tr><td><b>סך הכל</b></td><td class="num"><b>21</b></td><td class="num"><b>$0.0744</b></td><td class="num"><b>506 s</b></td><td><code>published</code>, 13 קבצים במניפסט</td></tr>
+    </tbody>
+  </table></div>
+  <div class="info">
+    <h3>אף מספר לא זז</h3>
+    <p><code>clean_data.csv</code>, <code>stats.json</code>, <code>features.csv</code>, <code>metrics.json</code> ו-<code>model.joblib</code> יצאו מהריצה זהים בייט-בייט לקבצים המקומטים. מה שהשתנה ב-git: <code>insights.md</code>, <code>evaluation_report.md</code>, <code>model_card.md</code>, שדות האדם בחוזה (תיאור, נימוק), שני קבצי <code>run_meta.json</code>, והמניפסט החדש. הסוכנים תזמרו וכתבו; הכלים חישבו. זה כלל הברזל של הפרויקט, ועכשיו יש לו הוכחה מריצה אמיתית.</p>
+  </div>
+  <p>כרטיס המודל שקצין הממשל כתב אומר, בין השאר, ש-recall לפי מגדר הוא 0.8900 (נשים, n=2,026) מול 0.8647 (גברים, n=3,047) — מספרים שהוא העתיק מטבלת ההוגנות שהכלי ייצר — ושחשיבות פיצ'ר איננה סיבתיות. דוח ההערכה מצביע על Tenure, Complain ו-NumberOfAddress כאותות הדומיננטיים, אותם שלושה ש-EDA של M1 מצא לבד.</p>
+
+  <h2><span class="num">04</span>מה שרק ריצה אמיתית גילתה</h2>
+  <p>הריצה הראשונה (22 קריאות, $0.0921, 531 שניות) פורסמה גם היא, אבל חשפה שני דברים ששום ריצת stub לא הייתה מוצאת:</p>
+  <div class="card">
+    <h3>D-M5-4 · הרנדרר הוא הבעלים של הכותרות</h3>
+    <p>קצין הממשל כתב <code># Purpose</code> בראש הפרק שקיבל, והכלי הוסיף מעליו <code>## Purpose</code> משלו — שתי כותרות לכל פרק, וגם בדף המודל באתר. התיקון: <code>hv.model_card._body</code> משמיט כותרת שהסוכן כותב וחוזרת על שם הפרק, בשני המסמכים, עם בדיקה שמאכילה אותו כותרת כפולה; המשימה גם אומרת לו לא לעשות את זה. <b>חלופה:</b> פרומפט בלבד (נדחה — פרומפט הוא עצה, רנדרר הוא כלל).</p>
+    <h3>נתיבים של המכונה שלי בקבצים מקומטים</h3>
+    <p><code>run_meta.json</code> יצא עם נתיבים מוחלטים, כי ה-Flow מעביר תיקיות ריצה מוחלטות. <code>display_path</code> עברה ל-<code>hv.config</code> ושני ה-<code>to_dict</code> משתמשים בה, אז הקבצים אומרים <code>runs/&lt;id&gt;/crew2/features.csv</code> בכל מכונה. בדרך נמצא ש-<code>tests/test_app_artifacts.py</code> הקליד את המספרים של M3 (10 קריאות, $0.037) לתוך assert — בדיוק מה ש-§6 אוסר; עכשיו הוא קורא את שני קבצי ה-run_meta ובודק את הסכום.</p>
+    <p>אחרי שני התיקונים הרצתי את ה-Flow כולו מחדש במקום לתקן תוצרים ביד. זה עלה עוד $0.07 ותשע דקות, וזה המחיר של "מספרים מיוצרים, לא מוקלדים".</p>
+  </div>
+
+  <h2><span class="num">05</span>הריצה שסורבה</h2>
+  <p>על התוצרים המפורסמים: <code>python scripts/run_flow.py --stub-crews --skip-crew1 --tamper unit_change --publish false</code>. ה-Flow הכפיל את <code>CashbackAmount</code> פי 100 בעותק הריצה בלבד, ובדק:</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>בדיקה</th><th>עמודה</th><th>מה לא בסדר</th><th>רמז</th></tr></thead>
+    <tbody>
+      <tr><td>integrity</td><td>-</td><td class="ltr">sha256 47abbc60bafe differs from the contract's ef1e1f758009</td><td>הקובץ הנקי השתנה אחרי שהחוזה נכתב</td></tr>
+      <tr><td>range</td><td>CashbackAmount</td><td class="ltr">observed [0, 32499] vs declared [0, 324.99] USD</td><td class="ltr">ratio ~= 100 - looks like a unit change</td></tr>
+    </tbody>
+  </table></div>
+  <p>68 מתוך 70 עברו, קוד יציאה 2, <code>crew2/</code> ריקה, שום דבר לא פורסם. ה-<code>FAILED.md</code> שמור כמו שהוא ב-<code>docs/notes/failed_run_example.md</code>. בבדיקות, כל שש התקלות המוכנות עוצרות את ה-Flow באותה דרך.</p>
+
+  <h2><span class="num">06</span>החלטות</h2>
+  <ul>
+    <li><b>D-M5-1</b> · מצב <code>verified</code> לריצה שעברה הכל עם <code>--publish false</code> — לקרוא לה <code>published</code> היה שקר.</li>
+    <li><b>D-M5-2</b> · הסקריפט הזמני של M4 נשאר עד שה-stub של יורן הגיע, כי שער M4 הריץ אותו ב-CI. נסגר: שער M4 עבר ל-<code>python -m crews.stubs scientist</code> והסקריפט נמחק.</li>
+    <li><b>D-M5-3</b> (יורן) · <code>display_path</code> כותב קו נטוי קדמי בכל פלטפורמה. אותה משפחה כמו D-M4-3: קובץ אחד, משמעות אחת, בכל מכונה.</li>
+    <li><b>D-M5-4</b> · הרנדרר הוא הבעלים של הכותרות (סעיף 04).</li>
+    <li>מיורן, לא ממוספר: ה-sandbox הוא מצב של המודול (<code>set_crew1_dir()</code> לפני kickoff) ולא ארגומנט של כלי — ארגומנט <code>allowed_dir</code> היה שם את הגבול בידי הסוכן, שזה בדיוק מה שהוא קיים למנוע.</li>
+  </ul>
+
+  <h2><span class="num">07</span>תוצאת השער</h2>
+  <div class="gate">
+    <div class="tablewrap"><table>
+      <thead><tr><th>בדיקה</th><th>תוצאה</th></tr></thead>
+      <tbody>
+        <tr><td>pytest ירוק בלי OPENAI_API_KEY (259 בדיקות)</td><td class="ok">PASS</td></tr>
+        <tr><td>ruff נקי</td><td class="ok">PASS</td></tr>
+        <tr><td>המניפסט מונה את שמונת התוצרים וה-hash של כל קובץ תואם</td><td class="ok">PASS</td></tr>
+        <tr><td><code>run_flow.py --stub-crews --publish false</code> מחזיר 0</td><td class="ok">PASS</td></tr>
+        <tr><td>תפר מחובל מחזיר 2 עם FAILED.md קריא</td><td class="ok">PASS</td></tr>
+        <tr><td>בדיקות ה-sandbox ירוקות</td><td class="ok">PASS</td></tr>
+        <tr><td>תוצרי הדאטה המפורסמים שווים לריצת stub טרייה</td><td class="ok">PASS</td></tr>
+      </tbody>
+    </table></div>
+    <p><code>GATE M5: PASS 7/7</code>. שערים M3, M4 ו-M6 רצו מחדש על התוצרים החדשים וירוקים; M4 עכשיו דרך ה-stub של יורן.</p>
+  </div>
+
+  <h2><span class="num">08</span>מה נשאר פתוח</h2>
+  <div class="notice">
+    <h3>גבולות ידועים, לא תוקנו</h3>
+    <ul>
+      <li>הפרוזה של הסוכנים שונה בין ריצות (זה מתועד, לא מוסתר): שתי הריצות האמיתיות כתבו כרטיסים שונים על אותם מספרים. מה שמובטח זה שהמספרים לא זזים ושחמשת הפרקים קיימים.</li>
+      <li>ה-stub של צוות 2 קורא ל-<code>hv</code> ישירות ולא דרך הכלים (הוא נולד לפניהם). שווה להמיר, לא דחוף.</li>
+      <li>הריצה האמיתית אינה דטרמיניסטית בזמן ובעלות (218 מול 250 שניות לצוות 1 בשתי הריצות); רק התוצרים כן.</li>
+    </ul>
+  </div>
+
+  <h2><span class="num">09</span>מה אני צריך ממך</h2>
+  <div class="info">
+    <ol>
+      <li><b>אישור מיזוג</b> ל-PR של <code>feat/m5-close</code> אחרי ש-CI ירוק. אחרי המיזוג Railway יציג את כרטיס המודל החדש ואת המניפסט בדף הריצות.</li>
+      <li><b>שני משתנים ב-Railway</b> ל-M7 של יורן (PLAN §7): <code>APP_PASSWORD</code> ו-<code>OPENAI_API_KEY</code>. רק אתה יכול.</li>
+    </ol>
+  </div>
+
+  <footer>HarborVale Workflow · דוח M5 · 2026-09-14 · הקוד: <code>flow/</code>, <code>crews/scientist/</code>, <code>hv/runlog.py</code> · השער: <code>python scripts/gate.py --m 5</code></footer>
+</main>
+</body>
+</html>

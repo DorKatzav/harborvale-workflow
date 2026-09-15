@@ -62,6 +62,17 @@ def _importance_table(metrics: dict, top: int = 10) -> list[str]:
     return lines
 
 
+def _body(text: str, heading: str) -> str:
+    """The agent's prose without a heading of its own: the renderer owns the headings.
+
+    The first real run put `# Purpose` at the top of the Purpose section (D-M5-4); rendered under the
+    tool's `## Purpose` it read as two headings for one section."""
+    lines = text.strip().splitlines()
+    while lines and lines[0].lstrip("#").strip().lower() == heading.lower() and lines[0].startswith("#"):
+        lines = lines[1:]
+    return "\n".join(lines).strip()
+
+
 def render_evaluation_report(metrics: dict, narrative: dict[str, str]) -> str:
     """The comparison document: every variant against the baseline, plus the agent's reading of it."""
     served = metrics["served"]
@@ -85,7 +96,7 @@ def render_evaluation_report(metrics: dict, narrative: dict[str, str]) -> str:
         "",
     ]
     for heading, text in narrative.items():
-        lines += [f"## {heading}", "", text.strip(), ""]
+        lines += [f"## {heading}", "", _body(text, heading), ""]
     return "\n".join(lines).rstrip() + "\n"
 
 
@@ -101,11 +112,11 @@ def render_model_card(metrics: dict, c: Contract, sections: dict[str, str]) -> s
         "",
         "## Purpose",
         "",
-        sections["Purpose"].strip(),
+        _body(sections["Purpose"], "Purpose"),
         "",
         "## Training data",
         "",
-        sections["Training data"].strip(),
+        _body(sections["Training data"], "Training data"),
         "",
         f"- Source: `{c.source}`",
         f"- Rows: {c.dataset.row_count}; columns declared in the contract: {len(c.columns)}",
@@ -119,7 +130,7 @@ def render_model_card(metrics: dict, c: Contract, sections: dict[str, str]) -> s
         "",
         "## Metrics",
         "",
-        sections["Metrics"].strip(),
+        _body(sections["Metrics"], "Metrics"),
         "",
         *_variant_table(metrics),
         "",
@@ -132,11 +143,11 @@ def render_model_card(metrics: dict, c: Contract, sections: dict[str, str]) -> s
         "",
         "## Limitations",
         "",
-        sections["Limitations"].strip(),
+        _body(sections["Limitations"], "Limitations"),
         "",
         "## Ethical considerations",
         "",
-        sections["Ethical considerations"].strip(),
+        _body(sections["Ethical considerations"], "Ethical considerations"),
         "",
     ]
     return "\n".join(lines).rstrip() + "\n"

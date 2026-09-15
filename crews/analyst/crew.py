@@ -25,7 +25,7 @@ from crews.analyst.tools import (
     write_contract_human_fields,
     write_insights,
 )
-from hv.config import RAW_PATH, estimate_cost_usd, get_llm
+from hv.config import RAW_PATH, display_path, estimate_cost_usd, get_llm
 
 VERBOSE = os.getenv("HV_VERBOSE", "0") == "1"
 MAX_ITER = 8
@@ -111,7 +111,7 @@ class AnalystResult:
 
     def to_dict(self) -> dict:
         d = asdict(self)
-        return {k: (str(v) if isinstance(v, Path) else v) for k, v in d.items()}
+        return {k: (display_path(v) if isinstance(v, Path) else v) for k, v in d.items()}
 
 
 EXPECTED_FILES = [

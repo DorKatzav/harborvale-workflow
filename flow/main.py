@@ -34,9 +34,9 @@ from hv.config import (
     PROTECTED,
     RAW_PATH,
     READ_CSV_KW,
-    ROOT,
     RUNS_DIR,
     TARGET,
+    display_path,
 )
 from hv.contract import PRESETS, ValidationReport, file_sha256, load_contract, save_contract, tamper, validate
 from hv.features import ENGINEERED_SOURCES
@@ -61,14 +61,6 @@ Runner = Callable[..., Any]
 
 def _now() -> str:
     return datetime.now(UTC).replace(microsecond=0).isoformat()
-
-
-def display_path(path: Path) -> str:
-    """Paths in logs and FAILED.md: relative to the repo when inside it (`runs/<id>/...`), else absolute."""
-    try:
-        return Path(path).resolve().relative_to(ROOT.resolve()).as_posix()
-    except ValueError:
-        return Path(path).as_posix()
 
 
 class HarborValeFlow(Flow[FlowState]):

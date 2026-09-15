@@ -455,7 +455,8 @@ METRICS_TOLERANCE = 0.005
 
 
 def _run_crew2_into(tmp: str) -> None:
-    res = _run([PY, "scripts/run_crew2_tools.py", "--out", tmp])
+    """Crew 2 without the agents: the hv calls the real crew makes (replaces run_crew2_tools.py, D-M5-2)."""
+    res = _run([PY, "-m", "crews.stubs", "scientist", "--out", tmp])
     assert res.returncode == 0, res.stdout.strip().splitlines()[-1] if res.stdout else "runner failed"
 
 

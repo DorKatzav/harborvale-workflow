@@ -30,7 +30,7 @@ from crews.scientist.tools import (
     write_evaluation_report,
     write_model_card,
 )
-from hv.config import ARTIFACTS_DIR, estimate_cost_usd, get_llm
+from hv.config import ARTIFACTS_DIR, display_path, estimate_cost_usd, get_llm
 
 VERBOSE = os.getenv("HV_VERBOSE", "0") == "1"
 MAX_ITER = 8
@@ -62,7 +62,7 @@ class ScientistResult:
 
     def to_dict(self) -> dict:
         d = asdict(self)
-        return {k: (str(v) if isinstance(v, Path) else v) for k, v in d.items()}
+        return {k: (display_path(v) if isinstance(v, Path) else v) for k, v in d.items()}
 
 
 @CrewBase

@@ -416,7 +416,7 @@ Every milestone follows §5. Gate = `python scripts/gate.py --m N` → `GATE M<N
   2. `hv/evaluate.py` (§3.7) + `tests/test_evaluate.py`: majority baseline on `[0,0,0,1]`; `precision_at_top` on a hand-made ranking; `fairness_by_group` on two groups; `cv_scores` returns all keys on a 200-row synthetic set.
   3. `hv/train.py` (§3.7) + `tests/test_train.py` (synthetic 300 rows: three variants trained, `served` set, `model.joblib` loads and `predict_one` returns a probability in [0,1] for a contract-shaped row; `metrics.json` identical across two runs).
   4. `hv/model_card.py` (§3.8) + `tests/test_model_card.py` (missing section raises; headings present; fairness table rendered).
-  5. `scripts/run_crew2_tools.py` (temporary, removed in M5): real run on `artifacts/crew1/` into `artifacts/crew2/`; record metrics in PROJECT_LOG (baseline, three variants, served, top importances, fairness by gender/marital status).
+  5. `scripts/run_crew2_tools.py` (temporary, removed in M5 — replaced by `python -m crews.stubs scientist`, D-M5-2): real run on `artifacts/crew1/` into `artifacts/crew2/`; record metrics in PROJECT_LOG (baseline, three variants, served, top importances, fairness by gender/marital status).
 - **Gate (--m 4):** (1) tests green (2) `metrics.json` has `baseline` + ≥3 variants + `served` (3) leakage test: no id/target/protected column in `metrics.features` (4) model loads and predicts on the first row of `clean_data.csv` (5) two runs → identical `features.csv` and `metrics.json` (6) served ROC-AUC > baseline.
 - **Failure signals:** ROC-AUC ≈ 1.0 → something leaks (check engineered features against Churn); HistGB nondeterminism → set `OMP_NUM_THREADS=1` in `hv/config.py` before sklearn import and re-check.
 
