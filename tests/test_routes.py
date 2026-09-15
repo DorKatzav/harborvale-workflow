@@ -66,6 +66,21 @@ def test_validate_names_the_unit_change(client):
     assert any(c["hint"] and "100" in c["hint"] for c in failures)
 
 
+def test_validate_refuses_an_absurdly_wide_csv_before_parsing_it(client):
+    """M8 audit (B2): a header of a million columns under the 8 MB cap held the worker for ~35 s."""
+    import time
+
+    header = ",".join(f"c{i}" for i in range(200_000)) + "\n1\n"
+    t0 = time.perf_counter()
+    res = client.post(
+        "/api/validate", data={"clean_data": (io.BytesIO(header.encode()), "wide.csv")},
+        content_type="multipart/form-data",
+    )  # fmt: skip
+    assert res.status_code == 400
+    assert "columns" in res.get_json()["error"]
+    assert time.perf_counter() - t0 < 5
+
+
 def test_validate_rejects_an_unknown_preset(client):
     res = client.post("/api/validate", json={"preset": "definitely_not_a_preset"})
     assert res.status_code == 400

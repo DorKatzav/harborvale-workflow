@@ -10,9 +10,26 @@ from pathlib import Path
 
 from crewai.tools import tool
 
+from crews.sandbox import guard_write
 from hv import cleaning, eda, ingest, insights
 from hv import contract as hvc
 from hv.config import RAW_SHEET, READ_CSV_KW
+
+_RUN_DIR: Path | None = None
+
+
+def set_run_dir(path: Path | str) -> Path:
+    """The directory this crew may write into; the crew runner and the stub set it before any tool runs."""
+    global _RUN_DIR
+    _RUN_DIR = Path(path).resolve()
+    return _RUN_DIR
+
+
+def _out(out_dir: str) -> Path:
+    """The only place a tool may write (M8 audit, A1): inside the announced run directory."""
+    out = guard_write(out_dir, _RUN_DIR)
+    out.mkdir(parents=True, exist_ok=True)
+    return out
 
 
 @tool("profile_raw_data")
@@ -29,7 +46,7 @@ def clean_dataset(raw_path: str, out_dir: str) -> str:
     """Clean the raw workbook deterministically (strip whitespace, unify spellings, drop duplicate
     rows / ids / records, cast integer columns, keep missing values) and write <out_dir>/clean_data.csv
     and <out_dir>/cleaning_report.json. Returns JSON {"clean_csv", "sha256", "report"}."""
-    out = Path(out_dir)
+    out = _out(out_dir)
     out.mkdir(parents=True, exist_ok=True)
     df = ingest.load_raw(Path(raw_path))
     clean_df, rep = cleaning.clean(df)
@@ -47,7 +64,7 @@ def run_eda(clean_csv: str, out_dir: str) -> str:
     self-contained <out_dir>/eda_report.html with charts. Returns JSON {"stats", "stats_json", "eda_html"}."""
     import pandas as pd
 
-    out = Path(out_dir)
+    out = _out(out_dir)
     out.mkdir(parents=True, exist_ok=True)
     df = pd.read_csv(clean_csv, **READ_CSV_KW)
     s = eda.stats(df)
@@ -64,7 +81,7 @@ def write_insights(out_dir: str, sections_json: str) -> str:
     cleaning_report.json; you supply the prose. sections_json must be a JSON object with exactly these
     keys, each a non-empty Markdown string: "Overview", "Cleaning", "Who churns", "Drivers",
     "Recommendations". Returns the file path, or "ERROR: ..." describing what to fix."""
-    out = Path(out_dir)
+    out = _out(out_dir)
     try:
         sections = json.loads(sections_json)
         if not isinstance(sections, dict):
@@ -107,7 +124,7 @@ def build_contract_measured(clean_csv: str, out_dir: str, raw_path: str) -> str:
     "columns": [{name, dtype, role, unit, nullable, null_count, allowed_values, min, max, description}]}."""
     import pandas as pd
 
-    out = Path(out_dir)
+    out = _out(out_dir)
     out.mkdir(parents=True, exist_ok=True)
     df = pd.read_csv(clean_csv, **READ_CSV_KW)
     dictionary = ingest.load_data_dictionary(Path(raw_path)) if Path(raw_path).exists() else {}

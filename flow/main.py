@@ -38,7 +38,16 @@ from hv.config import (
     TARGET,
     display_path,
 )
-from hv.contract import PRESETS, ValidationReport, file_sha256, load_contract, save_contract, tamper, validate
+from hv.contract import (
+    PRESETS,
+    Check,
+    ValidationReport,
+    file_sha256,
+    load_contract,
+    save_contract,
+    tamper,
+    validate,
+)
 from hv.features import ENGINEERED_SOURCES
 from hv.model_card import REQUIRED_SECTIONS
 from hv.runlog import RunLogger, new_run_dir, write_manifest
@@ -148,6 +157,8 @@ class HarborValeFlow(Flow[FlowState]):
         t0 = time.perf_counter()
         # the columns Crew 2's feature engineering reads must be declared, and declared as features
         report = validate(clean_csv, contract_json, required_features=ENGINEERED_SOURCES)
+        report.checks += _measured_fields_checks(clean_csv, contract_json)
+        report.passed = all(ch.passed for ch in report.checks)
         report.source = display_path(clean_csv)
         self.handoff_report = report
         self.state.validation = report.to_dict()
@@ -248,6 +259,42 @@ class HarborValeFlow(Flow[FlowState]):
             next_step = "Nothing was published; `artifacts/` still holds the last good run."
         _write_failed(self.run_dir, self.state.run_id, self.state.status, stopped, body, next_step)
         self.log.event("fail_gracefully", "ok", failed_md=display_path(self.run_dir / "FAILED.md"))
+
+
+# ---------------------------------------------------------------- the contract against a fresh measurement
+def _measured_fields_checks(clean_csv: Path, contract_json: Path) -> list[Check]:
+    """A contract edited to fit the data (a widened range, a raised null count) passes validate(); the
+    measured half of the contract must equal what `build_contract` measures on the clean file right now.
+    This is gate M3's check, run at the seam (M8 audit)."""
+    import pandas as pd
+
+    from crews.analyst.tools import measured_fields
+    from hv.contract import build_contract
+
+    declared = load_contract(contract_json)
+    fresh = build_contract(pd.read_csv(clean_csv, **READ_CSV_KW), source="flow", clean_csv=clean_csv)
+    a, b = measured_fields(declared), measured_fields(fresh)
+    checks: list[Check] = []
+    for key in sorted(set(a["dataset"]) | set(b["dataset"])):
+        if a["dataset"].get(key) != b["dataset"].get(key):
+            checks.append(Check("measured", key, False,
+                                f"contract says {key}={a['dataset'].get(key)!r}, "
+                                f"a fresh measurement says {b['dataset'].get(key)!r}"))  # fmt: skip
+    fresh_cols = {col["name"]: col for col in b["columns"]}
+    for col in a["columns"]:
+        other = fresh_cols.get(col["name"])
+        if other is None:
+            continue  # the columns check already reports it
+        for field in sorted(set(col) | set(other)):
+            if col.get(field) != other.get(field):
+                checks.append(Check(
+                    "measured", col["name"], False,
+                    f"contract says {field}={col.get(field)!r}, fresh measurement {other.get(field)!r}",
+                    "measured fields come from the tool, not from an edit (PLAN §6)",
+                ))  # fmt: skip
+    if not checks:
+        checks.append(Check("measured", None, True, "every measured field equals a fresh measurement"))
+    return checks
 
 
 # ---------------------------------------------------------------- outputs check

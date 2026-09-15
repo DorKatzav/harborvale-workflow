@@ -134,11 +134,25 @@ def _validate_preset(preset: str) -> dict:
     return _report_payload(report, preset, PRESET_LABELS.get(preset, preset))
 
 
+MAX_UPLOAD_COLUMNS = 64  # the clean file has 20; a million-column header under 8 MB held the worker 35 s
+
+
+def _refuse_absurd_width(path: Path) -> None:
+    with open(path, "rb") as fh:
+        header = fh.readline(1_000_000)
+    columns = header.count(b",") + 1
+    if columns > MAX_UPLOAD_COLUMNS:
+        raise ValueError(
+            f"{columns:,} columns in the header; the clean file has 20 (limit {MAX_UPLOAD_COLUMNS})"
+        )
+
+
 def _validate_upload(storage) -> dict:
     contract = load_contract(ARTIFACTS_DIR / "crew1" / "dataset_contract.json")
     with tempfile.TemporaryDirectory(prefix="harborvale_upload_") as tmp:
         path = Path(tmp) / "clean_data.csv"
         storage.save(path)
+        _refuse_absurd_width(path)
         report = validate(path, contract)
     return _report_payload(report, None, storage.filename or "your file")
 

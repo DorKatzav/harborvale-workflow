@@ -318,6 +318,16 @@ def validate(
     # columns - declared vs present, in both directions
     declared = [col.name for col in c.columns]
     observed_cols = list(df.columns)
+    for n in sorted({n for n in declared if declared.count(n) > 1}):
+        add(
+            Check(
+                "columns",
+                n,
+                False,
+                f"column {n!r} is declared twice in the contract",
+                "one spec per column; Crew 2 cannot tell which one to trust (M8 audit)",
+            )
+        )
     missing = [n for n in declared if n not in observed_cols]
     unexpected = [n for n in observed_cols if n not in declared]
     for n in missing:
@@ -366,7 +376,17 @@ def validate(
             )
         )
 
-        if spec.dtype == "category" and spec.allowed_values is not None:
+        if spec.dtype == "category" and spec.allowed_values is None:
+            add(
+                Check(
+                    "values",
+                    spec.name,
+                    False,
+                    "the contract declares no allowed values for a category column",
+                    "a category column must list its allowed spellings; nulling them disarms the check",
+                )
+            )
+        elif spec.dtype == "category":
             values = s.dropna().astype(str)
             offending = values[~values.isin(spec.allowed_values)]
             ok = offending.empty
@@ -382,7 +402,17 @@ def validate(
                 )
             )
 
-        if spec.dtype in ("int", "float") and spec.min is not None and spec.max is not None:
+        if spec.dtype in ("int", "float") and (spec.min is None or spec.max is None):
+            add(
+                Check(
+                    "range",
+                    spec.name,
+                    False,
+                    "the contract declares no range for a numeric column",
+                    "a numeric column must carry min and max; nulling them disarms the check",
+                )
+            )
+        elif spec.dtype in ("int", "float"):
             numeric = pd.to_numeric(s, errors="coerce")
             if numeric.notna().any():
                 obs_min, obs_max = float(numeric.min()), float(numeric.max())
@@ -468,6 +498,21 @@ def validate(
                 None if ok else "the target must be binary 0/1 with no nulls",
             )
         )
+        # the rate is only meaningful on the same rows: a row loss is the rows check's finding, and a
+        # label column that was swapped or gutted keeps the row count and moves the rate (M8 audit)
+        if ok and len(df) == c.dataset.row_count:
+            observed_rate = float(pd.to_numeric(df[target]).mean())
+            declared_rate = c.dataset.target_positive_rate
+            ok = math.isclose(observed_rate, declared_rate, abs_tol=5e-5)  # the contract stores 4 decimals
+            add(
+                Check(
+                    "key",
+                    target,
+                    ok,
+                    f"positive rate {observed_rate:.4f}, contract declares {declared_rate:.4f}",
+                    None if ok else "the label column is not the one the contract measured (M8 audit)",
+                )
+            )
 
     # features - everything Crew 2 asked for is declared, and declared as a feature
     for name in required_features or []:

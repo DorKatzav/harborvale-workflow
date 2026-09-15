@@ -130,6 +130,7 @@ def app(tmp_path, monkeypatch):
 
     application = create_app()
     application.config["TESTING"] = True
+    L._failures.clear()  # the login lockout is per process; one test's wrong guesses must not lock the next
     gate = threading.Event()
     application.extensions["live"] = L.LiveRunner(run=_fake_run(gate), runs_root=tmp_path)
     application.extensions["live_gate"] = gate  # so a test can finish the fake run
@@ -227,6 +228,41 @@ def test_events_route_accepts_the_current_run_before_its_directory_exists(client
     assert res.status_code == 200
     app.extensions["live_gate"].set()
     res.close()
+
+
+# ---------------------------------------------------------------- M8 audit findings (B1, B3, B4)
+@pytest.mark.parametrize("run_id", ["/etc", "/tmp/somewhere", "..%2Fx", "a/b", "20260914-100000/"])
+def test_events_refuses_run_ids_that_are_not_plain_names(client, run_id):
+    _login(client)
+    assert client.get(f"/live/events?run_id={run_id}").status_code == 404
+
+
+def test_a_crash_in_the_run_does_not_leak_this_machines_paths(client, app):
+    from hv.config import ROOT
+
+    def crash(**kw):
+        raise FileNotFoundError(f"{ROOT}/secret/place/missing.csv")
+
+    app.extensions["live"]._run = crash
+    _login(client)
+    client.post("/live/start")
+    assert _wait(lambda: client.get("/live/status").get_json()["status"] == "failed")
+    error = client.get("/live/status").get_json()["error"]
+    assert "secret/place/missing.csv" in error and str(ROOT) not in error
+
+
+def test_wrong_passwords_lock_the_login_for_a_while(client, monkeypatch):
+    monkeypatch.setattr(L, "LOGIN_SLEEP_S", 0.0)
+    for _ in range(L.LOGIN_MAX_FAILURES):
+        assert _login(client, "nope").status_code == 401
+    locked = _login(client)  # even the right password is refused during the lockout
+    assert locked.status_code == 429
+    assert b"try again" in locked.data.lower()
+    assert client.get("/live").status_code == 401
+
+
+def test_the_session_is_not_permanent(app):
+    assert app.config["PERMANENT_SESSION_LIFETIME"].total_seconds() <= 12 * 3600
 
 
 def test_events_for_an_unknown_run_is_404(client):

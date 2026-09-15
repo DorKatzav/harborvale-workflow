@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HarborVale — דוח M8: ביקורת וסגירה</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Suez+One&family=Assistant:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --paper:#eef1ef; --card:#fff; --ink:#1b2733; --ink-soft:#46545f; --wind:#0f5c6e; --wind-soft:#e3eef1; --tape:#c9560c; --tape-soft:#fbe9dc; --gate:#2f7d46; --gate-soft:#e7f2ea; --line:#c9d2cd;
+    --mono:"IBM Plex Mono",ui-monospace,monospace; --display:"Suez One","Arial Hebrew",serif; --body:"Assistant","Helvetica Neue",Arial,sans-serif; }
+  * { box-sizing:border-box; }
+  html { font-size:106%; color-scheme:only light; }
+  body { margin:0; background:var(--paper); color:var(--ink); font-family:var(--body); font-size:1.08rem; line-height:1.7; text-align:start; }
+  main { max-width:58rem; margin-inline:auto; padding:2.5rem 1.25rem 5rem; }
+  code { font-family:var(--mono); font-size:.85em; direction:ltr; unicode-bidi:isolate; background:#f0ede6; border:1px solid #ddd8cc; border-radius:4px; padding:.05em .35em; white-space:nowrap; }
+  pre { font-family:var(--mono); font-size:.82rem; direction:ltr; text-align:left; background:#1b2733; color:#eef1ef; border-radius:8px; padding:1rem 1.25rem; overflow-x:auto; line-height:1.5; }
+  pre code { background:none; border:0; padding:0; color:inherit; white-space:pre; }
+  .eyebrow { font-family:var(--mono); font-size:.78rem; letter-spacing:.12em; color:var(--wind); border-block-end:2px solid var(--wind); display:inline-block; padding-block-end:.3rem; margin-block-end:1rem; }
+  h1 { font-family:var(--display); font-weight:400; font-size:clamp(2rem,5vw,2.8rem); line-height:1.15; margin:0 0 .75rem; }
+  .lede { color:var(--ink-soft); max-width:46rem; margin-block-end:1.5rem; }
+  h2 { font-family:var(--display); font-weight:400; font-size:1.6rem; margin:2.5rem 0 .8rem; }
+  h2 .num { font-family:var(--mono); font-size:.9rem; color:var(--tape); letter-spacing:.1em; margin-inline-end:.75rem; }
+  h3 { font-family:var(--display); font-weight:400; font-size:1.2rem; margin:1.5rem 0 .5rem; }
+  p { margin:.5rem 0 .9rem; } ul, ol { margin:.4rem 0 1rem; padding-inline-start:1.5rem; } li { margin-block-end:.35rem; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:1.25rem 1.5rem; margin-block:1rem; }
+  .gate { border:2px solid var(--gate); background:var(--gate-soft); border-radius:10px; padding:.9rem 1.1rem; margin-block:1.25rem; position:relative; }
+  .gate::before { content:"✓ שער בדיקה"; position:absolute; inset-block-start:-.85rem; inset-inline-end:1rem; background:var(--gate); color:#fff; font-family:var(--display); font-size:.85rem; padding:.1rem .7rem; border-radius:4px; transform:rotate(2deg); }
+  .notice { border-inline-start:5px solid var(--tape); background:var(--tape-soft); border-radius:8px; padding:1rem 1.25rem; margin-block:1.5rem; }
+  .info { border-inline-start:5px solid var(--wind); background:var(--wind-soft); border-radius:8px; padding:1rem 1.25rem; margin-block:1.5rem; }
+  .notice h3, .info h3 { margin:0 0 .4rem; font-size:1.1rem; }
+  .tablewrap { overflow-x:auto; margin-block:.75rem 1.25rem; }
+  table { border-collapse:collapse; width:100%; background:var(--card); border:1px solid var(--line); font-size:.97rem; }
+  th, td { border:1px solid var(--line); padding:.55rem .8rem; text-align:start; vertical-align:top; }
+  th { background:var(--wind); color:#fff; font-weight:600; }
+  td.num { font-family:var(--mono); direction:ltr; text-align:end; white-space:nowrap; }
+  td.ok { color:var(--gate); font-weight:700; white-space:nowrap; }
+  td.fix { color:var(--tape); font-weight:700; white-space:nowrap; }
+  td.wait { color:var(--tape); font-weight:700; white-space:nowrap; }
+  footer { margin-block-start:3rem; color:var(--ink-soft); font-size:.85rem; border-block-start:1px solid var(--line); padding-block-start:1rem; }
+  a { color:var(--wind); }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <span class="eyebrow">HARBORVALE · דוח תחנה · M8 · 2026-09-15</span>
+    <h1>M8: לנסות לשבור, ואז לתת לזר להריץ</h1>
+    <p class="lede">התחנה האחרונה לא בונה פיצ'ר. היא שואלת מה השערים פספסו: שלושה סוכני ביקורת ניסו לעקוף את המאמת, לברוח מה-sandbox ולמצוא אי-דטרמיניזם, במקביל, על main. תשעה ממצאים תוקנו עם בדיקה שנכשלת קודם; השאר התקבלו עם סיבה. אחר כך אדם שלא ראה את הריפו — או לפחות שכפול טרי — הריץ את הכל בלי מפתח.</p>
+  </header>
+
+  <h2><span class="num">01</span>מה זה עושה ולמה</h2>
+  <p>CLAUDE.md אומר: בדיקה שמעולם לא נראתה נכשלת היא קוד לא בדוק, ולפני סגירה עושים מעבר אדברסרי. השערים בדקו שהדברים שתכננו עובדים; הביקורת מחפשת את מה שלא תכננו. הכלל היה פשוט: כל ממצא מאושר מקבל או תיקון עם בדיקה שנכשלת לפני התיקון, או שורה של "מתקבל" עם הסבר למה. שום דבר לא נסגר בשקט.</p>
+
+  <h2><span class="num">02</span>הביקורת — שלושה כיוונים</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>#</th><th>ממצא</th><th>חומרה</th><th>מה נעשה</th></tr></thead>
+    <tbody>
+      <tr><td>A1</td><td><code>out_dir</code> לא היה מוגן באף כלי של שני הצוותים — כלי שקיבל <code>artifacts/crew2</code> היה דורס את התוצרים המפורסמים בריצת שרת, הדרך היחידה סביב D-M7-1</td><td>בינונית</td><td class="fix">תוקן: <code>crews/sandbox.py</code> משותף, כל כלי כותב רק בתיקיית הריצה שהוכרזה; 8 בדיקות</td></tr>
+      <tr><td>B2</td><td>כותרת CSV של מיליון עמודות ב-7MB (מתחת לתקרת 8MB) תפסה את ה-worker היחיד 35 שניות לבקשה, בלי סיסמה</td><td>בינונית-נמוכה</td><td class="fix">תוקן: שורת הכותרת נקראת קודם, מעל 64 עמודות = 400 לפני pandas</td></tr>
+      <tr><td>B3</td><td><code>/live/events?run_id=/etc</code> יצא מתיקיית הריצות (אחרי התחברות)</td><td>נמוכה</td><td class="fix">תוקן: מזהה ריצה הוא שם פשוט בלבד</td></tr>
+      <tr><td>B4</td><td>הודעת שגיאה חשפה את נתיב המכונה שלי דרך <code>/live/status</code></td><td>נמוכה</td><td class="fix">תוקן: הטקסט מנוקה משורש הריפו</td></tr>
+      <tr><td>B1</td><td>סוד ה-session נגזר מהסיסמה (D-M7-2) — עוגייה מזויפת מאפשרת ניחוש סיסמאות בלי ה-0.5 שניות לניסיון</td><td>בינונית</td><td class="fix">מותן: 5 טעויות = נעילה לדקה, session של 12 שעות במקום 31 יום; <code>FLASK_SECRET_KEY</code> ב-Railway מומלץ</td></tr>
+      <tr><td>—</td><td>CSRF על <code>POST /live/start</code>; sandbox שניתן לכוון מחדש; TOCTOU בין resolve ל-open</td><td>—</td><td>מתקבל: SameSite=Lax + POST בלבד; רק ה-Flow מכוון את ה-sandbox; אף אחד לא כותב בזמן ריצה</td></tr>
+      <tr><td>D1</td><td>השוואת <code>metrics.json</code> בשער הייתה מספרית בלבד: מפתח שנמחק, <code>served</code> שהתהפך, בלוק הוגנות שרוקן, מחרוזת במקום מספר — אפס הבדלים, PASS</td><td>בינונית</td><td class="fix">תוקן: <code>metrics_diff</code> רואה כל סוג של שינוי, רק מספרים מקבלים סבילות; 9 בדיקות; גם שדה ה-bytes במניפסט נבדק עכשיו</td></tr>
+      <tr><td>D2</td><td><code>model.joblib</code> משתנה עם מספר threads של OpenMP — שדה bookkeeping בלבד; 400 העצים וכל תחזית זהים לביט</td><td>—</td><td>מתקבל: מעולם לא נטען זהה; נרשם</td></tr>
+      <tr><td>D3</td><td>early_stopping="auto" ב-HGB היה נדלק לבד מעל 10,000 שורות; bottleneck/numexpr לא מוצמדים</td><td>נמוכה</td><td class="fix">תוקן: מפורש False (המדדים לא זזו); המאיצים כבויים ב-hv.config</td></tr>
+      <tr><td>V1</td><td><code>target_positive_rate</code> נמדד ומעולם לא הושווה: תווית שהוחלפה ב-Complain עברה ומודל עם AUC 0.92 על הדבר הלא נכון נשלח</td><td>בינונית</td><td class="fix">תוקן: מושווה כשמספר השורות תואם</td></tr>
+      <tr><td>V2</td><td>עמודה שהוצהרה פעמיים בחוזה: אימות ירוק, צוות 2 קורס אחר כך</td><td>נמוכה</td><td class="fix">תוקן: נכשל ב-columns</td></tr>
+      <tr><td>V3</td><td>חוזה שמאפס <code>min</code>/<code>max</code> או <code>allowed_values</code> משבית את הבדיקה שלו במקום להיכשל</td><td>בינונית</td><td class="fix">תוקן: נכשל ב-range / values</td></tr>
+      <tr><td>V4</td><td>חוזה "שנערך להתאים" (טווח מורחב, ריקים מוגדלים) עובר את המאמת אם ה-hash נחתם מחדש</td><td>בינונית</td><td class="fix">תוקן: ה-Flow משווה את השדות הנמדדים לבנייה טרייה מהקובץ (בדיקת <code>measured</code>)</td></tr>
+      <tr><td>V5</td><td>אחרי חתימה מחדש, בדיקות פר-עמודה לא תופסות ערבוב שורות, החלפת שתי עמודות 0/1, או שינוי יחידה שנחתך לטווח</td><td>עיצובי</td><td>מתקבל — <b>D-M8-1</b> (סעיף 04)</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="info">
+    <h3>מה המאמת כן תפס, 43 פעמים</h3>
+    <p>כל שינוי בייט בקובץ בלי חוזה תואם נכשל ב-<code>integrity</code>. אותיות קטנות, אות קירילית דומה, רווח מוביל, עמודה נוספת, עמודה חסרה, מזהה כפול, שינוי טיפוס, ערך מחוץ לטווח, מזהה 99999, Churn=2 — כולם סורבו. CRLF, BOM, סדר עמודות, מספרים מצוטטים ו-‎−0.0 עברו ונתנו בייטים זהים במורד הזרם. הביקורת אישרה שהמאמת עושה את מה שהברייף ביקש; מה שהיא מצאה נמצא מעבר לסף של "מישהו חתם מחדש על החוזה".</p>
+  </div>
+
+  <h2><span class="num">03</span>מבחן הזר</h2>
+  <p>בוצע משכפול טרי של הריפו ו-virtualenv טרי, בלי מפתח, על המכונה הזאת: <code>pip install -r requirements.txt</code> (קוד 0) → ריצה אחת עם צוותי stub: <code>verified</code>, 70 + 6 בדיקות, קוד 0 → שבירה (<code>--tamper unit_change</code>): <code>handoff_failed</code>, קוד 2, FAILED.md עם CashbackAmount והרמז → <code>GATE M5: PASS 7/7</code> בתוך השכפול, כולל "התוצרים המפורסמים שווים לריצת stub טרייה" → בדיקות ירוקות. התמליל המלא: <code>docs/notes/stranger_test_run.txt</code>; ההוראות עם הפלט הצפוי: <code>docs/STRANGER_TEST.md</code>; README נכתב מחדש בשביל אותו זר — מה זה, עשר דקות, איך זה עובד, המודל במספרים (כולם נקראו מהתוצרים, לא הוקלדו).</p>
+
+  <h2><span class="num">04</span>החלטה</h2>
+  <div class="card">
+    <h3>D-M8-1 · המאמת בודק שוליים פר-עמודה; שכתוב ברמת השורה אחרי חתימה מחדש הוא גבול עיצובי</h3>
+    <p>תפקיד החוזה הוא לתפוס שינוי במעלה הזרם שאיש לא חתם עליו מחדש — דולרים שנקראו כסנטים, עמודה ששונה לה השם, שורות שאבדו — וזה עובד. יריב שעורך גם את הדאטה וגם את החוזה, ומשאיר כל עמודה בתוך השוליים המוצהרים שלה, לא נתפס בבדיקות פר-עמודה; לתפוס אותו דורש hash של התוכן לפי סדר שורות או סטטיסטיקות משותפות בין עמודות, וזה עיצוב אחר. <b>מה כן נסגר:</b> שיעור החיובי מושווה, עמודה כפולה נכשלת, חוזה לא יכול לאפס את הבדיקות של עצמו, וה-Flow משווה כל שדה נמדד לבנייה טרייה מהקובץ. <b>מחיר:</b> אפס מספרים בתוצרים זזו; ארבע בדיקות נוספות בכל אימות (70 → 72 על הקובץ האמיתי, כולל שיעור החיובי ו-<code>measured</code>).</p>
+  </div>
+
+  <h2><span class="num">05</span>תוצאת השער</h2>
+  <div class="gate">
+    <div class="tablewrap"><table>
+      <thead><tr><th>בדיקה</th><th>תוצאה</th></tr></thead>
+      <tbody>
+        <tr><td>כל שער M0–M7 ירוק בריצה טרייה (כולל ריצה חיה אמיתית ב-M7)</td><td class="ok">PASS — M0 5/5 · M1 7/7 · M2 5/5 · M3 8/8 · M4 7/7 · M5 7/7 · M6 7/7 · M7 6/6</td></tr>
+        <tr><td>מבחן הזר בוצע משכפול טרי (תמליל עם קודי יציאה)</td><td class="ok">PASS</td></tr>
+        <tr><td>קישורי README נפתרים (קבצים קיימים, URL-ים עונים)</td><td class="ok">PASS</td></tr>
+      </tbody>
+    </table></div>
+    <p><code>GATE M8: PASS 3/3</code>. שמונת השערים רצו מחדש בזה אחר זה, כל אחד כתהליך משלו, כולל ריצה חיה אמיתית של ה-Flow על Railway ב-M7 — כולם ירוקים אחרי כל תיקוני הביקורת. 305 בדיקות, ruff נקי, CI ירוק.</p>
+  </div>
+
+  <h2><span class="num">06</span>מה נשאר פתוח — גבולות ידועים</h2>
+  <div class="notice">
+    <ul>
+      <li>D-M8-1: שכתוב ברמת השורה אחרי חתימה מחדש של החוזה.</li>
+      <li>עמודות nullable עוברות עם פחות ריקים מהמוצהר (החלפה ב-sentinel); ה-hash הוא השומר על "אותו קובץ".</li>
+      <li>שורות משוכפלות עם מזהים ממוחזרים מנפחות cross-validation — אותו גבול כמו 242 שורות הפיצ'רים הכפולות מ-M4.</li>
+      <li><code>FLASK_SECRET_KEY</code> ב-Railway מומלץ ולא נדרש: הסיסמה מגנה על ריצה יקרה, לא על נתוני לקוחות.</li>
+      <li><code>model.joblib</code> תלוי במספר threads; <code>dataset_contract.json</code> נושא <code>created_at</code> — שניהם לא נטענים כזהים.</li>
+    </ul>
+  </div>
+
+  <h2><span class="num">07</span>מה אני צריך ממך</h2>
+  <div class="info">
+    <ol>
+      <li><b>לקרוא את שני הדוחות:</b> הזה, ו-<code>docs/reports/FINAL_HE.html</code> — הדוח המסכם של הפרויקט כולו.</li>
+      <li><b>אישור מיזוג</b> ל-PR #29 של <code>feat/m8-wrapup</code> — CI ירוק, שער M8 עבר. זה המיזוג האחרון.</li>
+      <li>אופציונלי: <code>FLASK_SECRET_KEY</code> (מחרוזת אקראית) כמשתנה ב-Railway.</li>
+    </ol>
+  </div>
+
+  <footer>HarborVale Workflow · דוח M8 · 2026-09-15 · השער: <code>python scripts/gate.py --m 8</code> · הביקורת: שלושה סוכנים, ~2.5 שעות, אפס שינויים בריפו מצדם</footer>
+</main>
+</body>
+</html>

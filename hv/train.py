@@ -43,7 +43,11 @@ VARIANTS = {
         n_estimators=400, min_samples_leaf=2, class_weight="balanced_subsample",
         random_state=SEED, n_jobs=1,
     ),
-    "hist_gb": HistGradientBoostingClassifier(learning_rate=0.05, max_iter=400, random_state=SEED),
+    # early_stopping="auto" switches itself on above 10,000 rows; explicit, so a bigger dataset
+    # revision cannot change the model's behaviour without a code change (M8 audit)
+    "hist_gb": HistGradientBoostingClassifier(
+        learning_rate=0.05, max_iter=400, random_state=SEED, early_stopping=False
+    ),
 }
 
 MODEL_FILE = "model.joblib"

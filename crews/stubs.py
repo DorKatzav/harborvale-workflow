@@ -16,6 +16,7 @@ from crews.analyst.tools import (
     build_contract_measured,
     clean_dataset,
     run_eda,
+    set_run_dir,
     write_contract_human_fields,
     write_insights,
 )
@@ -101,6 +102,7 @@ def _steward_step(clean_csv: str, out_dir: Path, raw_path: Path) -> Path:
 def run_analyst_stub(raw_path: Path = RAW_PATH, out_dir: Path | None = None) -> AnalystResult:
     out_dir = Path(out_dir or Path("runs") / time.strftime("%Y%m%d-%H%M%S") / "crew1")
     out_dir.mkdir(parents=True, exist_ok=True)
+    set_run_dir(out_dir)
     t0 = time.perf_counter()
     cleaned = json.loads(clean_dataset.func(str(raw_path), str(out_dir)))
     explored = json.loads(run_eda.func(cleaned["clean_csv"], str(out_dir)))

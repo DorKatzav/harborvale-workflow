@@ -36,6 +36,52 @@ def test_a_passing_report_reads_as_passed(built):
     assert "PASSED" in md and "agrees with the contract" in md
 
 
+# ---------------------------------------------------------------- M8 audit: the contract cannot disarm itself
+def test_a_swapped_target_moves_the_positive_rate_and_is_caught(built):
+    """Audit case 04: Churn and Complain swapped keeps every marginal but the positive rate (measured,
+    and until M8 never compared)."""
+    df, csv, contract = built
+    swapped = df.copy()
+    swapped["Churn"], swapped["Complain"] = df["Complain"].to_numpy(), df["Churn"].to_numpy()
+    write_frame(swapped, csv)
+    report = validate(csv, contract, check_hash=False)
+    assert "key" in report.failed_names
+    msg = next(c.message for c in report.failures if c.name == "key" and c.column == "Churn")
+    assert "positive rate" in msg
+
+
+def test_a_contract_that_declares_a_column_twice_is_refused(built):
+    """Audit case 23: pydantic accepted a duplicated column spec and Crew 2 crashed later."""
+    _, csv, contract = built
+    doubled = contract.model_copy(deep=True)
+    doubled.columns.append(doubled.columns[2].model_copy())
+    report = validate(csv, doubled, check_hash=False)
+    assert "columns" in report.failed_names
+    assert any("twice" in c.message for c in report.failures if c.name == "columns")
+
+
+def test_a_numeric_column_without_a_declared_range_is_refused(built):
+    """Audit case 31: nulling min/max used to skip the range check instead of failing it."""
+    _, csv, contract = built
+    weakened = contract.model_copy(deep=True)
+    spec = weakened.column("CashbackAmount")
+    spec.min, spec.max = None, None
+    report = validate(csv, weakened, check_hash=False)
+    assert "range" in report.failed_names
+    assert any(c.column == "CashbackAmount" and "declares no range" in c.message for c in report.failures)
+
+
+def test_a_category_column_without_allowed_values_is_refused(built):
+    """Audit case 30: nulling allowed_values used to skip the values check instead of failing it."""
+    _, csv, contract = built
+    weakened = contract.model_copy(deep=True)
+    weakened.column("PreferredPaymentMode").allowed_values = None
+    report = validate(csv, weakened, check_hash=False)
+    assert "values" in report.failed_names
+    assert any(c.column == "PreferredPaymentMode" and "declares no allowed values" in c.message
+               for c in report.failures)  # fmt: skip
+
+
 # ---------------------------------------------------------------- one failing test per check
 def test_integrity_fails_when_the_file_changed_after_the_contract(built):
     df, csv, contract = built

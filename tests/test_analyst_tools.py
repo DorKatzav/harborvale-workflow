@@ -7,6 +7,12 @@ import pytest
 from crews.analyst import tools
 
 
+@pytest.fixture(autouse=True)
+def run_dir(tmp_path):
+    """Every tool may write only inside the run directory it is told about (M8 audit, A1)."""
+    tools.set_run_dir(tmp_path)
+
+
 @pytest.fixture
 def raw_xlsx(raw_frame, tmp_path):
     path = tmp_path / "raw.xlsx"

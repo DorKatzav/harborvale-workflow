@@ -36,12 +36,15 @@ def create_app() -> Flask:
     app.config["COMMIT"] = current_commit()
     app.config["MAX_CONTENT_LENGTH"] = MAX_UPLOAD_BYTES
 
-    from app.live import LiveRunner, live_bp, secret_key
+    from datetime import timedelta
+
+    from app.live import SESSION_HOURS, LiveRunner, live_bp, secret_key
     from app.routes import bp
 
     app.config["SECRET_KEY"] = secret_key()
     app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
     app.config["SESSION_COOKIE_HTTPONLY"] = True
+    app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(hours=SESSION_HOURS)
     app.extensions["live"] = LiveRunner()
     app.register_blueprint(bp)
     app.register_blueprint(live_bp)

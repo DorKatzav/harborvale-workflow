@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HarborVale — דוח מסכם</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Suez+One&family=Assistant:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --paper:#eef1ef; --card:#fff; --ink:#1b2733; --ink-soft:#46545f; --wind:#0f5c6e; --wind-soft:#e3eef1; --tape:#c9560c; --tape-soft:#fbe9dc; --gate:#2f7d46; --gate-soft:#e7f2ea; --line:#c9d2cd;
+    --mono:"IBM Plex Mono",ui-monospace,monospace; --display:"Suez One","Arial Hebrew",serif; --body:"Assistant","Helvetica Neue",Arial,sans-serif; }
+  * { box-sizing:border-box; }
+  html { font-size:106%; color-scheme:only light; }
+  body { margin:0; background:var(--paper); color:var(--ink); font-family:var(--body); font-size:1.08rem; line-height:1.7; text-align:start; }
+  main { max-width:58rem; margin-inline:auto; padding:2.5rem 1.25rem 5rem; }
+  code { font-family:var(--mono); font-size:.85em; direction:ltr; unicode-bidi:isolate; background:#f0ede6; border:1px solid #ddd8cc; border-radius:4px; padding:.05em .35em; white-space:nowrap; }
+  pre { font-family:var(--mono); font-size:.82rem; direction:ltr; text-align:left; background:#1b2733; color:#eef1ef; border-radius:8px; padding:1rem 1.25rem; overflow-x:auto; line-height:1.5; }
+  pre code { background:none; border:0; padding:0; color:inherit; white-space:pre; }
+  .eyebrow { font-family:var(--mono); font-size:.78rem; letter-spacing:.12em; color:var(--wind); border-block-end:2px solid var(--wind); display:inline-block; padding-block-end:.3rem; margin-block-end:1rem; }
+  h1 { font-family:var(--display); font-weight:400; font-size:clamp(2rem,5vw,2.8rem); line-height:1.15; margin:0 0 .75rem; }
+  .lede { color:var(--ink-soft); max-width:46rem; margin-block-end:1.5rem; }
+  h2 { font-family:var(--display); font-weight:400; font-size:1.6rem; margin:2.5rem 0 .8rem; }
+  h2 .num { font-family:var(--mono); font-size:.9rem; color:var(--tape); letter-spacing:.1em; margin-inline-end:.75rem; }
+  h3 { font-family:var(--display); font-weight:400; font-size:1.2rem; margin:1.5rem 0 .5rem; }
+  p { margin:.5rem 0 .9rem; } ul, ol { margin:.4rem 0 1rem; padding-inline-start:1.5rem; } li { margin-block-end:.35rem; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:1.25rem 1.5rem; margin-block:1rem; }
+  .gate { border:2px solid var(--gate); background:var(--gate-soft); border-radius:10px; padding:.9rem 1.1rem; margin-block:1.25rem; position:relative; }
+  .gate::before { content:"✓ שערים"; position:absolute; inset-block-start:-.85rem; inset-inline-end:1rem; background:var(--gate); color:#fff; font-family:var(--display); font-size:.85rem; padding:.1rem .7rem; border-radius:4px; transform:rotate(2deg); }
+  .notice { border-inline-start:5px solid var(--tape); background:var(--tape-soft); border-radius:8px; padding:1rem 1.25rem; margin-block:1.5rem; }
+  .info { border-inline-start:5px solid var(--wind); background:var(--wind-soft); border-radius:8px; padding:1rem 1.25rem; margin-block:1.5rem; }
+  .notice h3, .info h3 { margin:0 0 .4rem; font-size:1.1rem; }
+  .tablewrap { overflow-x:auto; margin-block:.75rem 1.25rem; }
+  table { border-collapse:collapse; width:100%; background:var(--card); border:1px solid var(--line); font-size:.97rem; }
+  th, td { border:1px solid var(--line); padding:.55rem .8rem; text-align:start; vertical-align:top; }
+  th { background:var(--wind); color:#fff; font-weight:600; }
+  td.num { font-family:var(--mono); direction:ltr; text-align:end; white-space:nowrap; }
+  td.ok { color:var(--gate); font-weight:700; white-space:nowrap; }
+  footer { margin-block-start:3rem; color:var(--ink-soft); font-size:.85rem; border-block-start:1px solid var(--line); padding-block-start:1rem; }
+  a { color:var(--wind); }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <span class="eyebrow">HARBORVALE · דוח מסכם · 2026-09-15</span>
+    <h1>HarborVale Workflow: שני צוותים, חוזה אחד, ותפר שמסרב</h1>
+    <p class="lede">שמונה תחנות, 27 ימים לוח שנה ושבוע של עבודה בפועל, שני אנשים וסוכן. התוצאה: Flow של CrewAI שמריץ צוות אנליסטים וצוות מדעני נתונים, עם קובץ חוזה ביניהם שמכונה אוכפת — ומסרב, בקוד, כשהדאטה והחוזה לא מסכימים. הדוח הזה מסכם מה נבנה, מה המספרים אומרים, מה הוחלט בדרך ומה למדנו.</p>
+  </header>
+
+  <h2><span class="num">01</span>הסיפור והבעיה</h2>
+  <p>הברייף מספר על Harbor &amp; Vale: מודל נטישה שקרא דולרים כסנטים במשך חמישה שבועות, כי בין הצוות שניקה את הדאטה לצוות שאימן עליה לא היה שום דבר מלבד שיחות. הפרויקט מציע תשובה אחת: <b>החוזה הוא קובץ, לא שיחה.</b> צוות 1 מפרסם <code>dataset_contract.json</code> עם שדות נמדדים (טיפוס, תפקיד, טווח, ערכים מותרים, ריקים, sha256 של הקובץ הנקי) ושדות אדם (תיאור, נימוק, הנחות). צוות 2 רשאי לקרוא רק את החוזה ואת הקובץ שהוא מצביע עליו — הכלים שלו מסרבים לכל נתיב אחר — וה-Flow מאמת את השניים זה מול זה לפני שצוות 2 מתחיל, ואת התוצרים לפני שמשהו מתפרסם.</p>
+
+  <h2><span class="num">02</span>מה נבנה</h2>
+  <div class="card">
+    <ul>
+      <li><b><code>hv/</code> — הכלים:</b> טעינה, ניקוי דטרמיניסטי, EDA, החוזה והמאמת (תשע משפחות בדיקה, שש תקלות מוכנות), פיצ'רים, אימון והערכה, כרטיס מודל, יומן ריצה ומניפסט. חבילת Python נבדקת; אף notebook.</li>
+      <li><b><code>crews/</code> — הסוכנים:</b> צוות 1 (מהנדס איכות דאטה, אנליסט עסקי, אחראי דאטה; ארבע משימות) וצוות 2 (מהנדס פיצ'רים, מהנדס ML, קצין ממשל מודלים; חמש משימות), כולם ב-gpt-5-mini. כל מספר בתוצרים מגיע מכלי; הסוכנים מתזמרים וכותבים פרוזה. צוותי stub עם אותם כלים ובלי LLM משרתים את הבדיקות, את CI ואת מבחן הזר.</li>
+      <li><b><code>flow/</code> — ה-Flow:</b> ingest → צוות 1 → אימות התפר → router → צוות 2 → אימות התוצרים → router → פרסום, או <code>FAILED.md</code> קריא עם קוד יציאה 2 או 3. הצוותים מוזרקים כפונקציות, וזה מה שאפשר לבנות את שני החצאים במקביל ולהיפגש בחתימה.</li>
+      <li><b><code>app/</code> — האתר:</b> חמישה דפים מהתוצרים המקומטים, לוח "שבור את זה" שמריץ את המאמת על עותק מחובל תוך שנייה, וריצה חיה של ה-Flow כולו מאחורי סיסמה, מוזרמת לדפדפן.</li>
+      <li><b><code>scripts/gate.py</code> — השערים:</b> שער לכל תחנה, 3 עד 8 בדיקות, וגם ב-CI על ubuntu בכל push. בדיקה שמעולם לא נראתה נכשלת היא קוד לא בדוק, אז כל בדיקת מאמת מגיעה עם בדיקה שמפילה אותה.</li>
+    </ul>
+  </div>
+
+  <h2><span class="num">03</span>המספרים</h2>
+  <p>הכל מ-<code>artifacts/</code> — ריצת הזהב של M5, שני הצוותים האמיתיים דרך ה-Flow: 21 קריאות מודל, $0.0744, 506 שניות.</p>
+  <h3>הדאטה (צוות 1)</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th>מדד</th><th>ערך</th><th>מקור</th></tr></thead>
+    <tbody>
+      <tr><td>שורות גלם → נקיות</td><td class="num">5,630 → 5,073</td><td>557 רשומות כפולות במזהה שונה הוסרו (D-M1-1)</td></tr>
+      <tr><td>שיעור נטישה</td><td class="num">16.58%</td><td>841 לקוחות</td></tr>
+      <tr><td>נטישה בחודש הראשון (tenure 0–1)</td><td class="num">51.3%</td><td>n = 1,076</td></tr>
+      <tr><td>נטישה אחרי תלונה / בלי תלונה</td><td class="num">31.3% / 10.8%</td><td>stats.json</td></tr>
+      <tr><td>עמודות עם ריקים שנשמרו</td><td class="num">7 (1,675 ערכים)</td><td>ההשלמה בתוך ה-Pipeline של צוות 2 (D7)</td></tr>
+      <tr><td>בדיקות החוזה על הקובץ האמיתי</td><td class="num">70 / 70</td><td>validate_handoff</td></tr>
+    </tbody>
+  </table></div>
+  <h3>המודל (צוות 2)</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th>מודל</th><th>ROC-AUC (ממוצע ± סטייה, 5 קפלים)</th><th>precision@top10</th></tr></thead>
+    <tbody>
+      <tr><td>קו בסיס (רוב)</td><td class="num">0.5000</td><td class="num">0.1658</td></tr>
+      <tr><td>logreg</td><td class="num">0.8913 ± 0.0169</td><td class="num">0.7712</td></tr>
+      <tr><td>random_forest</td><td class="num">0.9770 ± 0.0086</td><td class="num">0.9487</td></tr>
+      <tr><td><b>hist_gb — משרת</b></td><td class="num"><b>0.9857 ± 0.0051</b></td><td class="num"><b>0.9724</b></td></tr>
+    </tbody>
+  </table></div>
+  <p>מתוך 507 הלקוחות שהמודל מדרג הכי גבוה, 97.2% באמת נטשו, לעומת 16.6% במקרה. המניעים: Tenure (חשיבות 0.089), Complain (0.021), NumberOfAddress (0.009) — אותם שלושה ש-EDA של צוות 1 מצא לבד. בדיקת דליפה: אף פיצ'ר לא מתואם עם התווית מעל 0.38.</p>
+  <h3>הוגנות (מגדר ומצב משפחתי אינם קלט; נמדדים בכל זאת)</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th>מאפיין</th><th>קבוצה</th><th>n</th><th>recall</th><th>שיעור סימון</th></tr></thead>
+    <tbody>
+      <tr><td>Gender</td><td>Female</td><td class="num">2,026</td><td class="num">0.8900</td><td class="num">0.1466</td></tr>
+      <tr><td>Gender</td><td>Male</td><td class="num">3,047</td><td class="num">0.8647</td><td class="num">0.1605</td></tr>
+      <tr><td>MaritalStatus</td><td>Divorced</td><td class="num">848</td><td class="num">0.9032</td><td class="num">0.1368</td></tr>
+      <tr><td>MaritalStatus</td><td>Married</td><td class="num">2,672</td><td class="num">0.8709</td><td class="num">0.1104</td></tr>
+      <tr><td>MaritalStatus</td><td>Single</td><td class="num">1,553</td><td class="num">0.8675</td><td class="num">0.2415</td></tr>
+    </tbody>
+  </table></div>
+  <p>הפער הנראה היחיד הוא שיעור הסימון — רווקים 24.2% מול נשואים 11.0% — והוא עוקב אחרי שיעורי הנטישה האמיתיים שצוות 1 מדד (26.7% מול 11.3%), לא הטיה שהמודל המציא.</p>
+
+  <h2><span class="num">04</span>התפר עובד — ההוכחה</h2>
+  <div class="info">
+    <h3>שתי ריצות אמיתיות, פרוזה שונה, אפס מספרים שזזו</h3>
+    <p>ריצת הזהב רצה פעמיים עם הצוותים האמיתיים. הסוכנים כתבו כרטיסי מודל ודוחות תובנות שונים; <code>clean_data.csv</code>, <code>stats.json</code>, <code>features.csv</code>, <code>metrics.json</code> ו-<code>model.joblib</code> יצאו זהים בייט-בייט, גם למה שהיה מקומט מ-M4. ביקורת M8 חזרה על זה ב-11 וריאציות סביבה (threads, hash seed, locale, אזור זמן, תיקיית עבודה): אותם hashes.</p>
+  </div>
+  <p>ואילו כשהתפר נשבר — <code>--tamper unit_change</code>, דולרים שהוכפלו פי 100 בעותק הריצה — המאמת עוצר: 68 מתוך 70 בדיקות עוברות, <code>integrity</code> ו-<code>range</code> נכשלות, עם הרמז <code>ratio ~= 100 - looks like a unit change</code>, קוד יציאה 2, <code>crew2/</code> ריקה, שום דבר לא פורסם. כל שש התקלות המוכנות נתפסות בבדיקות, ב-CLI, בלוח באתר החי ודרך ה-Flow. ו-<b>שינוי תיאור בחוזה אינו משנה את הפסק</b> — יש לזה בדיקה ושער.</p>
+
+  <h2><span class="num">05</span>שערים, שלוש מכונות</h2>
+  <div class="gate">
+    <div class="tablewrap"><table>
+      <thead><tr><th>תחנה</th><th>מה</th><th>שער</th></tr></thead>
+      <tbody>
+        <tr><td>M0</td><td>שלד פרוס, CI, /health</td><td class="ok">5/5, חי</td></tr>
+        <tr><td>M1</td><td>כלי צוות 1</td><td class="ok">7/7</td></tr>
+        <tr><td>M2</td><td>החוזה, המאמת, שש תקלות</td><td class="ok">5/5</td></tr>
+        <tr><td>M3</td><td>צוות 1 ב-CrewAI (ריצה $0.037)</td><td class="ok">8/8</td></tr>
+        <tr><td>M4</td><td>כלי צוות 2, hist_gb</td><td class="ok">7/7 על macOS, Windows, ubuntu</td></tr>
+        <tr><td>M5</td><td>צוות 2 + ה-Flow, ריצת הזהב</td><td class="ok">7/7</td></tr>
+        <tr><td>M6</td><td>האתר ולוח השבירה</td><td class="ok">7/7 חי</td></tr>
+        <tr><td>M7</td><td>ריצה חיה מאחורי סיסמה (ריצה אמיתית על Railway, 503 s)</td><td class="ok">6/6 חי</td></tr>
+        <tr><td>M8</td><td>ביקורת אדברסרית, מבחן הזר, דוח מסכם</td><td class="ok">ראה דוח M8</td></tr>
+      </tbody>
+    </table></div>
+    <p>CI מריץ את השערים 1–6 על ubuntu x86-64 בכל push. זה מה שהכריע את שאלת הארכיטקטורה ב-M4: שתי מכונות x86-64 מסכימות ביניהן וחולקות על Apple Silicon ב-<code>random_forest</code> (עד 0.0035), ומכאן D-M4-4 — זהות בייטים בתוך מכונה, סבילות 0.005 בין מכונות.</p>
+  </div>
+
+  <h2><span class="num">06</span>מבחן הזר</h2>
+  <p>בוצע משכפול טרי ו-virtualenv טרי, בלי מפתח: <code>pip install</code>, ריצה אחת (<code>verified</code>, קוד 0), שבירה (<code>handoff_failed</code>, קוד 2, FAILED.md עם CashbackAmount והרמז), <code>GATE M5: PASS 7/7</code> — כולל "התוצרים המפורסמים שווים לריצת stub טרייה" — ובדיקות ירוקות. התמליל: <code>docs/notes/stranger_test_run.txt</code>; ההוראות: <code>docs/STRANGER_TEST.md</code>; README נכתב מחדש בשביל אותו זר.</p>
+
+  <h2><span class="num">07</span>החלטות — האינדקס</h2>
+  <div class="card">
+    <p><b>תכנון (D1–D12, אושרו 2026-09-08):</b> דאטה E-commerce Churn; סביבת conda נקייה ומוצמדת; שדות נמדדים מכלי ופרוזה מסוכן; ריקים נשמרים ומושלמים ב-Pipeline (D7); מגדר ומצב משפחתי לא פיצ'רים אבל נמדדים (D8); הקורא של צוות 2 מוגבל בקוד (D9); gpt-5-mini ו-stub ב-CI (D10); Flask אחד ב-Railway, סיסמה מ-M7 (D11); תחנות M0–M8 עם פרוטוקול (D12).</p>
+    <p><b>בזמן ביצוע:</b></p>
+    <ul>
+      <li><b>D-M1-1</b> רשומות זהות במזהה שונה מוסרות (5,630 → 5,073).</li>
+      <li><b>D-M2-1</b> LF בכל הריפו (CRLF שינה hash); <b>D-M2-2</b> תקלת dtype כותבת תוויות; <b>D-M2-3</b> סבילות dtype של pandas 3.</li>
+      <li><b>D-M4-1</b> עמודות מוגנות מגיעות בנפרד להוגנות; <b>D-M4-2</b> בלי חותמת זמן ב-metrics.json; <b>D-M4-3</b> קריאת CSV עם round_trip בכל מקום; <b>D-M4-4</b> בייטים בתוך מכונה, סבילות בין מכונות.</li>
+      <li><b>D-M5-1</b> מצב verified; <b>D-M5-2</b> הסקריפט הזמני עד ה-stub; <b>D-M5-3</b> קווים נטויים קדמיים בכל פלטפורמה; <b>D-M5-4</b> הרנדרר בעלים של הכותרות.</li>
+      <li><b>D-M6-1</b> האתר כנקודת ביקורת מכס, לא דשבורד.</li>
+      <li><b>D-M7-1</b> ריצת שרת לא מפרסמת; <b>D-M7-2</b> סוד session מהסיסמה; <b>D-M7-3</b> gunicorn worker אחד, timeout 120 (הוכח על 503 שניות).</li>
+      <li><b>M8</b> — ממצאי הביקורת ותיקוניהם: בדוח M8.</li>
+    </ul>
+  </div>
+
+  <h2><span class="num">08</span>מה למדנו</h2>
+  <ul>
+    <li><b>מה שרק ריצה גילתה.</b> pandas שקרא מספר אחרת על macOS (D-M4-3); sklearn שפיצל אחרת על CPU אחר (D-M4-4); סוכן שכתב כותרת משלו (D-M5-4); דפדפן שנרשם לזרם לפני שהתיקייה קיימת (M7). אף אחד מהם לא נראה בקריאת קוד. שערים שרצים על שלוש מכונות ולחיצה על כפתור אמיתי תפסו את כולם.</li>
+    <li><b>מספרים מיוצרים, לא מוקלדים.</b> הכלל תפס פעמיים גם אותנו: בדיקה שהקלידה מספרי ריצה, וסיכום שאמר "המספרים לא זזו" בלי לקרוא את הקובץ. שניהם תוקנו על ידי קריאה מהקבצים.</li>
+    <li><b>חתימה מוסכמת = עבודה במקביל.</b> ה-Flow נבנה מול <code>run_scientist_stub(contract_json, clean_csv, out_dir)</code> לפני שהפונקציה הייתה קיימת, ושני החצאים נפגשו בלי מיזוג כואב. זה גם הרעיון של הפרויקט עצמו.</li>
+    <li><b>פרומפט הוא עצה, רנדרר הוא כלל.</b> כל מה שחשוב באמת — הגבול של הקורא, הכותרות, המספרים — נאכף בקוד ונבדק, לא מובטח בהנחיה לסוכן.</li>
+    <li><b>לדווח כמו שזה.</b> ROC-AUC של 0.986 היה חשוד, ונבדק; הפרוזה שונה בין ריצות, וזה כתוב; model.joblib אינו זהה בין מכונות, וזה לא נטען.</li>
+  </ul>
+
+  <h2><span class="num">09</span>גבולות ידועים</h2>
+  <div class="notice">
+    <ul>
+      <li>הערכה על צילום מצב אחד, בלי חלוקה לפי זמן; 242 שורות פיצ'רים כפולות (4.8%) נשארו אחרי הניקוי (M4).</li>
+      <li>הפרוזה של הסוכנים אינה דטרמיניסטית ואינה מבוקרת מעבר לחמשת הפרקים והמספרים המיוצרים.</li>
+      <li><code>model.joblib</code> תלוי במספר threads של OpenMP (שדה bookkeeping בלבד; העצים והתחזיות זהים) — לא נטען כזהה.</li>
+      <li>ריצות שרת נעלמות עם הפריסה הבאה; הסיסמה היא הגנה מפני ריצה יקרה, לא מערכת הרשאות.</li>
+    </ul>
+  </div>
+
+  <footer>HarborVale Workflow · דוח מסכם · 2026-09-15 · דור קצב ויורן, עם Claude · ריפו: <code>github.com/DorKatzav/harborvale-workflow</code> · חי: <code>web-production-82f247.up.railway.app</code></footer>
+</main>
+</body>
+</html>
