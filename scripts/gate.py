@@ -625,7 +625,129 @@ M6: list[Check] = [
     ("report screenshots present", check_report_screenshots),
 ]
 
-GATES: dict[int, list[Check]] = {0: M0, 1: M1, 2: M2, 3: M3, 4: M4, 5: M5, 6: M6}
+# ---------------------------------------------------------------- M7 checks
+LIVE_RUN_TIMEOUT_S = 20 * 60  # a real run takes about nine minutes on Railway
+
+
+def _password() -> str:
+    pw = os.getenv("APP_PASSWORD", "").strip()
+    if not pw:
+        raise Skip("APP_PASSWORD not set in .env (the same value as on Railway)")
+    return pw
+
+
+class _Session:
+    """A cookie jar for the live checks: log in once, then call the run endpoints."""
+
+    def __init__(self, base: str) -> None:
+        import http.cookiejar
+
+        self.base = base
+        jar = http.cookiejar.CookieJar()
+        self.opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(jar))
+
+    def call(self, path: str, data: bytes | None = None, timeout: int = 60) -> tuple[int, bytes]:
+        method = "POST" if data is not None else "GET"
+        req = urllib.request.Request(f"{self.base}{path}", data=data, method=method)
+        if data is not None and path.endswith("/login"):
+            req.add_header("Content-Type", "application/x-www-form-urlencoded")
+        try:
+            with self.opener.open(req, timeout=timeout) as res:  # noqa: S310 - our own URL
+                return res.status, res.read()
+        except urllib.error.HTTPError as e:
+            return e.code, e.read()
+
+    def login(self) -> None:
+        import urllib.parse
+
+        code, _ = self.call("/live/login", urllib.parse.urlencode({"password": _password()}).encode())
+        assert code in (200, 302, 303), f"login answered {code}"
+        code, body = self.call("/live/status")
+        assert code == 200, f"/live/status after login answered {code}: {body[:200]!r}"
+
+
+def check_live_page_locked_locally() -> None:
+    """Without a password nothing is enabled; with one, the page and the run endpoints demand a login."""
+    sys.path.insert(0, str(ROOT))
+    from app.main import create_app
+
+    saved = os.environ.pop("APP_PASSWORD", None)
+    try:
+        assert create_app().test_client().get("/live").status_code == 503, "no password should mean 503"
+        os.environ["APP_PASSWORD"] = "gate-check"
+        client = create_app().test_client()
+        assert client.get("/live").status_code == 401, "/live must be locked"
+        assert client.post("/live/start").status_code == 401, "/live/start must be locked"
+        assert client.get("/live/events").status_code == 401, "/live/events must be locked"
+    finally:
+        os.environ.pop("APP_PASSWORD", None)
+        if saved is not None:
+            os.environ["APP_PASSWORD"] = saved
+
+
+def check_live_page_locked() -> None:
+    url = _live_url()
+    req = urllib.request.Request(f"{url}/live")
+    try:
+        with urllib.request.urlopen(req, timeout=30) as res:  # noqa: S310 - our own URL
+            code = res.status
+    except urllib.error.HTTPError as e:
+        code = e.code
+    assert code in (401, 302, 303), f"/live without a password answered {code}"
+
+
+def check_live_run_completes() -> None:
+    """Start a real run with the password, refuse a second start, and see its events in the stream."""
+    import time
+
+    session = _Session(_live_url())
+    session.login()
+    code, body = session.call("/live/start", b"")
+    if code == 409:
+        run_id = json.loads(body)["run_id"]
+        print(f"       a run is already in progress on the server ({run_id}); following it")
+    else:
+        assert code == 202, f"/live/start answered {code}: {body[:200]!r}"
+        run_id = json.loads(body)["run_id"]
+        code, _ = session.call("/live/start", b"")
+        assert code == 409, f"a second start during the run answered {code}, not 409"
+    deadline = time.time() + LIVE_RUN_TIMEOUT_S
+    snap: dict = {}
+    while time.time() < deadline:
+        code, body = session.call("/live/status")
+        snap = json.loads(body)
+        if snap.get("status") in ("done", "failed"):
+            break
+        time.sleep(15)
+    assert snap.get("status") == "done", f"the live run ended as {snap.get('status')}: {snap.get('error')}"
+    assert snap.get("result") in ("verified", "published"), f"the run finished as {snap.get('result')}"
+    code, stream = session.call(f"/live/events?run_id={run_id}", timeout=60)
+    assert code == 200, f"/live/events answered {code}"
+    text = stream.decode("utf-8", "replace")
+    assert '"step": "flow"' in text and '"status": "ok"' in text, "the stream lacks the flow's final event"
+    assert "event: end" in text, "the stream did not end"
+    print(f"       live run {run_id}: {snap.get('result')} in {snap.get('duration_s')}s, "
+          f"{snap.get('llm_calls')} calls, ${snap.get('cost_usd')}")  # fmt: skip
+
+
+def check_no_key_in_history() -> None:
+    """OPENAI_API_KEY may live on Railway from M7 on; it must never have been committed, in any revision."""
+    pattern = r"sk-[A-Za-z0-9_-]{20,}"
+    revs = _run(["git", "rev-list", "--all"]).stdout.split()
+    res = _run(["git", "grep", "-nIE", pattern, *revs, "--", ".", ":!scripts/gate.py"])
+    assert res.returncode == 1, f"key material found in history:\n{res.stdout[:400]}"
+
+
+M7: list[Check] = [
+    ("pytest green", check_pytest),
+    ("ruff clean", check_ruff),
+    ("live page locked locally: 503 without a password, 401 without a login", check_live_page_locked_locally),
+    ("live /live without the password is refused", check_live_page_locked),
+    ("live run completes with the password; second start 409; events streamed", check_live_run_completes),
+    ("no OpenAI key anywhere in git history", check_no_key_in_history),
+]
+
+GATES: dict[int, list[Check]] = {0: M0, 1: M1, 2: M2, 3: M3, 4: M4, 5: M5, 6: M6, 7: M7}
 
 
 def main() -> int:

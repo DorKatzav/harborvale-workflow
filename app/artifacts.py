@@ -8,11 +8,12 @@ from __future__ import annotations
 
 import json
 from dataclasses import dataclass, field
+from datetime import datetime
 from pathlib import Path
 
 import markdown as md
 
-from hv.config import ARTIFACTS_DIR
+from hv.config import ARTIFACTS_DIR, RUNS_DIR
 from hv.contract import Contract, load_contract
 
 MD_EXTENSIONS = ["tables", "sane_lists"]
@@ -94,6 +95,48 @@ def load_run(root: Path = ARTIFACTS_DIR) -> dict:
             merged[key] = round(merged.get(key, 0) + two[key], 4)
     merged["crew1"], merged["crew2"] = one, two
     return merged
+
+
+def list_server_runs(root: Path = RUNS_DIR) -> list[dict]:
+    """Every run directory under `runs/` with an events.jsonl, newest first: what happened and how long."""
+    rows = []
+    for run_dir in sorted(Path(root).glob("*"), reverse=True):
+        events_path = run_dir / "events.jsonl"
+        if not run_dir.is_dir() or not events_path.exists():
+            continue
+        events = []
+        for line in events_path.read_text(encoding="utf-8").splitlines():
+            try:
+                events.append(json.loads(line))
+            except json.JSONDecodeError:
+                continue
+        if not events:
+            continue
+        first, last = events[0], events[-1]
+        ended = last.get("step") == "flow" and last.get("status") in ("ok", "fail")
+        if ended:
+            result = last.get("result")
+        else:
+            result = "error" if last.get("status") == "fail" else "running"
+        try:
+            t0 = datetime.fromisoformat(first["ts"])
+            t1 = datetime.fromisoformat(last["ts"])
+            duration = round((t1 - t0).total_seconds(), 1)
+        except (KeyError, ValueError):
+            duration = None
+        rows.append(
+            {
+                "run_id": run_dir.name,
+                "started_at": first.get("ts", ""),
+                "result": result,
+                "duration_s": duration,
+                "llm_calls": last.get("llm_calls"),
+                "cost_usd": last.get("cost_usd"),
+                "failed_md": (run_dir / "FAILED.md").exists(),
+                "manifest": (run_dir / "manifest.json").exists(),
+            }
+        )
+    return rows
 
 
 # ---------------------------------------------------------------- display helpers

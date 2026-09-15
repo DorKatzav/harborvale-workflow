@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Live run — HarborVale Workflow{% endblock %}
+{% block content %}
+
+<h1>Live run</h1>
+
+{% if state == "disabled" %}
+<section class="panel empty">
+  <h2>Not enabled on this server</h2>
+  <p>A live run needs <code>APP_PASSWORD</code> and <code>OPENAI_API_KEY</code> set on the server. Neither is
+     set here, so the Flow can only be watched through the <a href="{{ url_for('pages.runs') }}">published run</a>.</p>
+</section>
+
+{% elif state == "locked" %}
+<p class="lede">Start the whole Flow on this server — both crews, the contract check between them, the outputs
+   check after — and watch it happen. It costs real model calls, so it sits behind a password.</p>
+<section class="panel">
+  <form method="post" action="{{ url_for('live.login') }}" class="login">
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" autocomplete="current-password" required>
+    <button class="btn" type="submit">Open</button>
+    {% if error %}<p class="hint" role="alert">{{ error }}</p>{% endif %}
+  </form>
+</section>
+
+{% else %}
+<p class="lede">One run at a time. The run writes to <code>runs/</code> on the server and never publishes:
+   the pages of this site keep showing the committed run. Real crews, real model calls — about nine minutes
+   and a few cents.</p>
+
+<section class="panel" id="live" data-status="{{ run.status }}" data-run-id="{{ run.run_id or '' }}">
+  <div class="verdict__head">
+    <h2>Runner</h2>
+    <span class="status-pill" id="live-status" data-status="{{ run.status }}">{{ run.status }}</span>
+  </div>
+  <dl class="facts facts--small" id="live-facts">
+    <div><dt>Run</dt><dd id="fact-run">{{ run.run_id or "—" }}</dd></div>
+    <div><dt>Started</dt><dd id="fact-started">{{ run.started_at or "—" }}</dd></div>
+    <div><dt>Result</dt><dd id="fact-result">{{ run.result or run.error or "—" }}</dd></div>
+    <div><dt>Cost</dt><dd id="fact-cost">{% if run.cost_usd is not none %}${{ "%.4f"|format(run.cost_usd) }}{% else %}—{% endif %}</dd></div>
+  </dl>
+  <div class="upload">
+    <button class="btn" type="button" id="live-start" {% if run.status == "running" %}disabled{% endif %}>Start a run</button>
+    <form method="post" action="{{ url_for('live.logout') }}"><button class="btn btn--quiet" type="submit">Sign out</button></form>
+    <span class="verdict__count" id="live-note"></span>
+  </div>
+  <h3>Events</h3>
+  <p class="verdict__count">The Flow's own <code>events.jsonl</code>, line by line, as it is written.</p>
+  <pre class="log" id="live-log" aria-live="polite" aria-label="Run events"></pre>
+</section>
+<script src="{{ url_for('static', filename='live.js') }}" defer></script>
+{% endif %}
+
+{% endblock %}
