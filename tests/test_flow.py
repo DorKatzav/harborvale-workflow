@@ -191,6 +191,29 @@ def test_tamper_touches_the_run_copy_never_the_source(raw_xlsx, tmp_path, traine
     assert tampered != before["clean_data.csv"]
 
 
+def test_a_contract_whose_measured_fields_were_edited_is_refused(raw_xlsx, tmp_path):
+    """M8 audit: raising null_count or widening a range keeps validate() happy; the Flow also compares the
+    contract's measured fields with a fresh build of the clean file (what gate M3 checks after the fact)."""
+    from crews.stubs import run_analyst_stub
+    from hv.contract import load_contract, save_contract
+
+    def analyst_then_tamper(raw_path, out_dir):
+        res = run_analyst_stub(raw_path, out_dir)
+        c = load_contract(res.contract_json)
+        c.column("CashbackAmount").max = 99999.0  # a contract "edited to fit" whatever comes next
+        c.dataset.sha256 = c.dataset.sha256  # untouched: integrity still passes
+        save_contract(c, res.contract_json)
+        return res
+
+    state = run_flow(
+        raw_path=raw_xlsx, publish=False, runs_root=tmp_path / "runs",
+        analyst_runner=analyst_then_tamper, scientist_runner=_never_called,
+    )  # fmt: skip
+    assert state.status == "handoff_failed"
+    failed = (Path(state.run_dir) / "FAILED.md").read_text(encoding="utf-8")
+    assert "measured" in failed and "CashbackAmount" in failed
+
+
 def test_skip_crew1_copies_the_published_crew1_files(raw_xlsx, tmp_path, trained_crew2):
     artifacts = tmp_path / "artifacts"
     first = run_flow(
