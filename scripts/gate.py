@@ -804,8 +804,10 @@ def check_stranger_test_executed() -> None:
     assert "status:  verified" in text, "the first run did not end verified"
     assert "handoff_failed" in text and "looks like a unit change" in text, "the tampered run was not refused"
     assert "GATE M5: PASS" in text, "gate M5 did not pass in the clone"
+    tamper_part = text.split("--tamper unit_change")[-1].split("$ ")[0]
+    assert "exit code: 2" in tamper_part, "the tampered run did not exit 2"
     pytest_tail = text.split("pytest -q")[-1]
-    assert " passed" in pytest_tail and "failed" not in pytest_tail, "pytest was not green in the clone"
+    assert "[100%]" in pytest_tail and "exit code: 0" in pytest_tail, "pytest was not green in the clone"
 
 
 def check_readme_links_resolve() -> None:
