@@ -198,6 +198,37 @@ def test_events_endpoint_streams_the_run(client, app):
     assert '"step": "flow"' in body and "event: end" in body
 
 
+def test_events_for_the_current_run_work_before_its_directory_exists(tmp_path):
+    """The browser subscribes the instant /live/start answers; the Flow creates runs/<id>/ a moment later."""
+    gate = threading.Event()
+    slow = _fake_run(gate)
+
+    def late_dir(**kw):
+        time.sleep(0.3)  # the thread has not created the directory yet when the client connects
+        return slow(**kw)
+
+    runner = L.LiveRunner(run=late_dir, runs_root=tmp_path)
+    run_id = runner.start(stub_crews=True)
+    gate.set()
+    chunks = list(L.tail_events(runner, run_id, poll_s=0.02, keepalive_s=0.1))
+    assert any('"step": "flow"' in c for c in chunks) and chunks[-1].startswith("event: end")
+
+
+def test_events_route_accepts_the_current_run_before_its_directory_exists(client, app):
+    _login(client)
+
+    def hold(**kw):  # never creates the directory during the test
+        app.extensions["live_gate"].wait(timeout=10)
+        return FlowState(run_id=kw["run_id"], run_dir=str(kw["runs_root"] / kw["run_id"]), status="verified")
+
+    app.extensions["live"]._run = hold
+    run_id = client.post("/live/start").get_json()["run_id"]
+    res = client.get(f"/live/events?run_id={run_id}", buffered=False)
+    assert res.status_code == 200
+    app.extensions["live_gate"].set()
+    res.close()
+
+
 def test_events_for_an_unknown_run_is_404(client):
     _login(client)
     assert client.get("/live/events?run_id=nope").status_code == 404

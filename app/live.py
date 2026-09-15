@@ -34,7 +34,7 @@ from flask import (
     url_for,
 )
 
-from hv.config import RUNS_DIR
+from hv.config import RUNS_DIR, display_path
 
 live_bp = Blueprint("live", __name__, url_prefix="/live")
 
@@ -83,7 +83,10 @@ class LiveRunner:
 
     def snapshot(self) -> dict[str, Any]:
         with self._lock:
-            return dict(self._state)
+            state = dict(self._state)
+        if state["run_dir"]:
+            state["run_dir"] = display_path(Path(state["run_dir"]))
+        return state
 
     def is_running(self, run_id: str | None = None) -> bool:
         with self._lock:
@@ -247,7 +250,10 @@ def events():
         return denied
     runner: LiveRunner = current_app.extensions["live"]
     run_id = request.args.get("run_id") or runner.snapshot()["run_id"]
-    if not run_id or ".." in run_id or not (runner.runs_root / run_id).is_dir():
+    # the run in progress may not have created its directory yet (the browser subscribes the instant
+    # /live/start answers); tail_events waits for the file, so only a finished-and-absent run is a 404
+    exists = bool(run_id) and (runner.runs_root / run_id).is_dir()
+    if not run_id or ".." in run_id or not (exists or runner.is_running(run_id)):
         return jsonify({"error": "no such run"}), 404
     return Response(
         tail_events(runner, run_id),
