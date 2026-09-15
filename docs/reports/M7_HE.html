@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HarborVale — דוח M7: ריצה חיה</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Suez+One&family=Assistant:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --paper:#eef1ef; --card:#fff; --ink:#1b2733; --ink-soft:#46545f; --wind:#0f5c6e; --wind-soft:#e3eef1; --tape:#c9560c; --tape-soft:#fbe9dc; --gate:#2f7d46; --gate-soft:#e7f2ea; --line:#c9d2cd;
+    --mono:"IBM Plex Mono",ui-monospace,monospace; --display:"Suez One","Arial Hebrew",serif; --body:"Assistant","Helvetica Neue",Arial,sans-serif; }
+  * { box-sizing:border-box; }
+  html { font-size:106%; color-scheme:only light; }
+  body { margin:0; background:var(--paper); color:var(--ink); font-family:var(--body); font-size:1.08rem; line-height:1.7; text-align:start; }
+  main { max-width:58rem; margin-inline:auto; padding:2.5rem 1.25rem 5rem; }
+  code { font-family:var(--mono); font-size:.85em; direction:ltr; unicode-bidi:isolate; background:#f0ede6; border:1px solid #ddd8cc; border-radius:4px; padding:.05em .35em; white-space:nowrap; }
+  pre { font-family:var(--mono); font-size:.82rem; direction:ltr; text-align:left; background:#1b2733; color:#eef1ef; border-radius:8px; padding:1rem 1.25rem; overflow-x:auto; line-height:1.5; }
+  pre code { background:none; border:0; padding:0; color:inherit; white-space:pre; }
+  .eyebrow { font-family:var(--mono); font-size:.78rem; letter-spacing:.12em; color:var(--wind); border-block-end:2px solid var(--wind); display:inline-block; padding-block-end:.3rem; margin-block-end:1rem; }
+  h1 { font-family:var(--display); font-weight:400; font-size:clamp(2rem,5vw,2.8rem); line-height:1.15; margin:0 0 .75rem; }
+  .lede { color:var(--ink-soft); max-width:46rem; margin-block-end:1.5rem; }
+  h2 { font-family:var(--display); font-weight:400; font-size:1.6rem; margin:2.5rem 0 .8rem; }
+  h2 .num { font-family:var(--mono); font-size:.9rem; color:var(--tape); letter-spacing:.1em; margin-inline-end:.75rem; }
+  h3 { font-family:var(--display); font-weight:400; font-size:1.2rem; margin:1.5rem 0 .5rem; }
+  p { margin:.5rem 0 .9rem; } ul, ol { margin:.4rem 0 1rem; padding-inline-start:1.5rem; } li { margin-block-end:.35rem; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:1.25rem 1.5rem; margin-block:1rem; }
+  .gate { border:2px solid var(--gate); background:var(--gate-soft); border-radius:10px; padding:.9rem 1.1rem; margin-block:1.25rem; position:relative; }
+  .gate::before { content:"✓ שער בדיקה"; position:absolute; inset-block-start:-.85rem; inset-inline-end:1rem; background:var(--gate); color:#fff; font-family:var(--display); font-size:.85rem; padding:.1rem .7rem; border-radius:4px; transform:rotate(2deg); }
+  .notice { border-inline-start:5px solid var(--tape); background:var(--tape-soft); border-radius:8px; padding:1rem 1.25rem; margin-block:1.5rem; }
+  .info { border-inline-start:5px solid var(--wind); background:var(--wind-soft); border-radius:8px; padding:1rem 1.25rem; margin-block:1.5rem; }
+  .notice h3, .info h3 { margin:0 0 .4rem; font-size:1.1rem; }
+  .tablewrap { overflow-x:auto; margin-block:.75rem 1.25rem; }
+  table { border-collapse:collapse; width:100%; background:var(--card); border:1px solid var(--line); font-size:.97rem; }
+  th, td { border:1px solid var(--line); padding:.55rem .8rem; text-align:start; vertical-align:top; }
+  th { background:var(--wind); color:#fff; font-weight:600; }
+  td.num { font-family:var(--mono); direction:ltr; text-align:end; white-space:nowrap; }
+  td.ok { color:var(--gate); font-weight:700; white-space:nowrap; }
+  td.wait { color:var(--tape); font-weight:700; white-space:nowrap; }
+  figure { margin:1.5rem 0; } figure img { max-width:100%; border:1px solid var(--line); border-radius:8px; display:block; }
+  figcaption { color:var(--ink-soft); font-size:.9rem; margin-block-start:.4rem; }
+  footer { margin-block-start:3rem; color:var(--ink-soft); font-size:.85rem; border-block-start:1px solid var(--line); padding-block-start:1rem; }
+  a { color:var(--wind); }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <span class="eyebrow">HARBORVALE · דוח תחנה · M7 · 2026-09-15</span>
+    <h1>M7: ריצה חיה מאחורי סיסמה</h1>
+    <p class="lede">עד עכשיו האתר הראה ריצה אחת — זו שמקומטת בריפו. M7 מוסיפה דף שבו מי שיש לו את הסיסמה מפעיל את ה-Flow כולו על השרת ורואה אותו קורה, שורה אחר שורה מאותו <code>events.jsonl</code> שה-Flow כותב. ריצות שרת הן טיוטה: הן לא מפרסמות, והדפים ממשיכים להראות את הריצה המקומטת.</p>
+  </header>
+
+  <h2><span class="num">01</span>מה זה עושה ולמה</h2>
+  <p>הברייף מבקש Flow שרץ מקצה לקצה עם עצירה אכיפה בתפר. עד M5 אפשר היה להריץ אותו רק מהטרמינל. עכשיו הוא רץ גם על Railway, מאחורי סיסמה, ומי שצופה רואה בדיוק מה שה-Flow רושם: צוות 1 מתחיל, אימות התפר עובר או נכשל, צוות 2, אימות התוצרים. זה עולה קריאות מודל אמיתיות — בערך תשע דקות וכמה סנטים — ולכן הסיסמה. בלי <code>APP_PASSWORD</code> על השרת הדף אומר "לא מופעל" (503), כך שפריסה בלי המשתנה היא פריסה בלי הפיצ'ר, לא פיצ'ר פתוח.</p>
+
+  <h2><span class="num">02</span>מה נבנה</h2>
+  <div class="card">
+    <ul>
+      <li><b><code>app/live.py</code> — <code>LiveRunner</code>:</b> אחד לתהליך. נעילה, thread רקע אחד, ומצב שהדפים שואלים: <code>idle | running | done | failed</code>, ועם הסיום גם התוצאה של ה-Flow, מספר הקריאות והעלות. ריצה אחת בכל פעם: <code>POST /live/start</code> מחזיר 202 עם מזהה הריצה, ו-409 כל עוד ריצה בעיצומה.</li>
+      <li><b>הזרם:</b> <code>GET /live/events</code> הוא server-sent events — כל שורה של <code>events.jsonl</code> כ-<code>data:</code>, הערת keepalive כל 15 שניות כשלא נכתב כלום, ו-<code>event: end</code> כשהריצה נגמרה והקובץ נקרא עד סופו. הדפדפן לא מחשב כלום; הוא מציג את מה שה-Flow כתב.</li>
+      <li><b>הסיסמה:</b> <code>hmac.compare_digest</code> מול <code>APP_PASSWORD</code>, נשמרת ב-session cookie חתום; ניחוש שגוי עולה חצי שנייה. <code>/live</code>, <code>/live/start</code>, <code>/live/status</code> ו-<code>/live/events</code> כולם מסרבים (401) בלי התחברות.</li>
+      <li><b>דף הריצות:</b> טבלת "ריצות שרת" מ-<code>runs/</code> — תוצאה, משך, קריאות, עלות, וסימון FAILED.md — עם המשפט שהן לא מקומטות ונעלמות בפריסה הבאה.</li>
+      <li><b>שער M7</b> עם שש בדיקות; 16 בדיקות חדשות (275 בסך הכל), כולן מול ריצה מזויפת שכותבת שורות אמיתיות דרך <code>RunLogger</code> ונחסמת על Event, כך שאפשר לבחון ריצה "בעיצומה".</li>
+    </ul>
+  </div>
+
+  <figure>
+    <img src="img/m7_live_locked.jpg" alt="דף הריצה החיה נעול: הסבר קצר וטופס סיסמה">
+    <figcaption>הדף נעול (401). טופס סיסמה אחד, ומשפט שאומר מה זה עולה ולמה יש סיסמה.</figcaption>
+  </figure>
+  <figure>
+    <img src="img/m7_live_done.jpg" alt="דף הריצה החיה אחרי ריצה: סטטוס done, תוצאה verified, ותחילת יומן האירועים">
+    <figcaption>אחרי ריצה על שרת מקומי עם צוותי stub: הסטטוס <code>done</code>, התוצאה <code>verified</code>, והיומן שהגיע בזרם — מ-<code>flow start</code> ועד <code>flow ok</code>.</figcaption>
+  </figure>
+  <figure>
+    <img src="img/m7_runs.jpg" alt="דף הריצות: הריצה המפורסמת, התוצרים, וטבלת ריצות השרת">
+    <figcaption>דף הריצות: הריצה המפורסמת למעלה, ומתחת ריצות השרת — כולל ריצת הזהב של M5, הריצה המסורבת, ושתי ריצות stub חיות.</figcaption>
+  </figure>
+
+  <h2><span class="num">03</span>החלטות</h2>
+  <div class="card">
+    <h3>D-M7-1 · ריצת שרת לעולם לא מפרסמת</h3>
+    <p>ה-runner קורא ל-<code>run_flow</code> עם <code>publish=False</code>: הריצה חיה ב-<code>runs/</code> על השרת, ו-<code>artifacts/</code> נשאר מה ש-git אומר. <b>חלופה:</b> לפרסם גם על השרת (נדחה — האתר היה מראה תוצרים שאינם בריפו, על דיסק ש-Railway זורק בפריסה הבאה, וריצת הזהב הייתה מפסיקה להיות ניתנת לשחזור משכפול). <b>מחיר:</b> ריצה חיה מוכיחה את הצינור מקצה לקצה אבל לא משנה את הדפים; דף הריצות מציג אותה ואומר את זה.</p>
+    <h3>D-M7-2 · סוד ה-session נגזר מהסיסמה</h3>
+    <p>sha256 של קידומת קבועה + <code>APP_PASSWORD</code>, אלא אם <code>FLASK_SECRET_KEY</code> מוגדר. <b>חלופה:</b> סוד אקראי בכל עלייה (נדחה — כל פריסה הייתה מנתקת את כולם, בלי רווח עם worker אחד). <b>מחיר:</b> החלפת סיסמה מבטלת את כל ה-sessions, וזה בדיוק מה שהחלפת סיסמה צריכה לעשות.</p>
+    <h3>D-M7-3 · gunicorn נשאר <code>--workers 1 --threads 4 --timeout 120</code></h3>
+    <p>worker אחד כי מצב ה-runner חי בתהליך (הפקודה כבר כזו מ-M0). ה-timeout לא הועלה בשביל SSE: ב-worker מסוג gthread פעימת הלב של ה-arbiter לא תלויה באורך הבקשה, והזרם שולח keepalive כל 15 שניות בשביל כל proxy בדרך. אומת מקומית רק על ריצת stub של 16 שניות; ריצת תשע הדקות של השער החי היא המבחן האמיתי, ואם הזרם ייפול התיקון הוא מספר אחד בשלושה קבצים.</p>
+  </div>
+
+  <div class="info">
+    <h3>מה שרק דפדפן אמיתי תפס</h3>
+    <p>הדפדפן נרשם ל-<code>/live/events</code> ברגע ש-<code>/live/start</code> עונה, וה-Flow יוצר את <code>runs/&lt;id&gt;/</code> רגע אחר כך ב-thread שלו — ההרשמה הראשונה קיבלה 404. הנתיב מקבל עכשיו את הריצה שבעיצומה גם לפני שהתיקייה קיימת (<code>tail_events</code> ממילא חיכה לקובץ), ושתי בדיקות משחזרות את המרוץ. 16 הבדיקות שנכתבו לפני לא מצאו את זה; הלחיצה על הכפתור כן.</p>
+  </div>
+
+  <h2><span class="num">04</span>תוצאת השער</h2>
+  <div class="gate">
+    <p>מול gunicorn מקומי (<code>LIVE_URL=http://127.0.0.1:5077</code>, צוותי stub, סיסמת בדיקה):</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>בדיקה</th><th>תוצאה</th></tr></thead>
+      <tbody>
+        <tr><td>pytest ירוק (275 בדיקות)</td><td class="ok">PASS</td></tr>
+        <tr><td>ruff נקי</td><td class="ok">PASS</td></tr>
+        <tr><td>הדף נעול מקומית: 503 בלי סיסמה, 401 בלי התחברות</td><td class="ok">PASS</td></tr>
+        <tr><td><code>/live</code> בשרת מסרב בלי סיסמה</td><td class="ok">PASS</td></tr>
+        <tr><td>ריצה עם הסיסמה מסתיימת; התחלה שנייה 409; האירועים בזרם</td><td class="ok">PASS — <code>verified</code> ב-15.7 שניות</td></tr>
+        <tr><td>אין מפתח OpenAI באף revision ב-git</td><td class="ok">PASS</td></tr>
+      </tbody>
+    </table></div>
+    <p><code>GATE M7: PASS 6/6</code> מקומית. שתי הבדיקות החיות ירוצו שוב מול Railway אחרי המיזוג והפריסה — עם הצוותים האמיתיים, תשע דקות, כמה סנטים — והדוח יתעדכן במספרים.</p>
+  </div>
+
+  <h2><span class="num">05</span>מה נשאר פתוח</h2>
+  <div class="notice">
+    <h3>לא הוכח עדיין</h3>
+    <ul>
+      <li>זרם SSE של תשע דקות דרך ה-proxy של Railway (D-M7-3). נבדק רק על 16 שניות מקומית.</li>
+      <li>זיכרון בזמן אימון על Railway: <code>n_jobs=1</code> כבר מוגדר; אם יהיה OOM, PLAN מציע להוריד את <code>max_iter</code> של hist_gb על השרת בלבד, כהחלטה מתועדת.</li>
+      <li>ריצות שרת נעלמות עם הפריסה הבאה — מכוון, אבל כדאי לדעת.</li>
+    </ul>
+  </div>
+
+  <h2><span class="num">06</span>מה אני צריך ממך</h2>
+  <div class="info">
+    <ol>
+      <li><b>שני משתנים ב-Railway</b> (PLAN §7): <code>APP_PASSWORD</code> ו-<code>OPENAI_API_KEY</code>. המפתח עולה לשרת רק עכשיו, כמו שתוכנן.</li>
+      <li><b>אותו <code>APP_PASSWORD</code> גם ב-<code>.env</code></b> המקומי, כדי שהשער יוכל להתחבר.</li>
+      <li><b>אישור מיזוג</b> ל-PR של <code>feat/m7-live-run</code> אחרי ש-CI ירוק. אחרי הפריסה: <code>python scripts/gate.py --m 7</code> מריץ ריצה אמיתית על השרת, ואני מעדכן את הדוח.</li>
+    </ol>
+  </div>
+
+  <footer>HarborVale Workflow · דוח M7 · 2026-09-15 · הקוד: <code>app/live.py</code> · השער: <code>python scripts/gate.py --m 7</code></footer>
+</main>
+</body>
+</html>
