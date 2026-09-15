@@ -747,7 +747,68 @@ M7: list[Check] = [
     ("no OpenAI key anywhere in git history", check_no_key_in_history),
 ]
 
-GATES: dict[int, list[Check]] = {0: M0, 1: M1, 2: M2, 3: M3, 4: M4, 5: M5, 6: M6, 7: M7}
+# ---------------------------------------------------------------- M8 checks
+STRANGER_TRANSCRIPT = ROOT / "docs" / "notes" / "stranger_test_run.txt"
+
+
+def check_every_gate_green() -> None:
+    """M0-M7 in a fresh run of this script, each as its own process. The live checks run for real."""
+    failed = []
+    for m in range(8):
+        res = _run([PY, "scripts/gate.py", "--m", str(m)])
+        verdict = next((ln for ln in res.stdout.splitlines() if ln.startswith(f"GATE M{m}:")), "no verdict")
+        print(f"       {verdict}")
+        if res.returncode != 0:
+            failed.append(verdict)
+    assert not failed, "; ".join(failed)
+
+
+def check_stranger_test_executed() -> None:
+    """The transcript of the stranger test, run from a fresh clone and a fresh virtualenv (M8 task)."""
+    assert STRANGER_TRANSCRIPT.exists(), "docs/notes/stranger_test_run.txt missing - run the stranger test"
+    text = STRANGER_TRANSCRIPT.read_text(encoding="utf-8")
+    assert "git clone" in text and "requirements.txt" in text, "the transcript does not start from a clone"
+    assert "status:  verified" in text, "the first run did not end verified"
+    assert "handoff_failed" in text and "looks like a unit change" in text, "the tampered run was not refused"
+    assert "GATE M5: PASS" in text, "gate M5 did not pass in the clone"
+    pytest_tail = text.split("pytest -q")[-1]
+    assert " passed" in pytest_tail and "failed" not in pytest_tail, "pytest was not green in the clone"
+
+
+def check_readme_links_resolve() -> None:
+    import re
+
+    text = (ROOT / "README.md").read_text(encoding="utf-8")
+    links = re.findall(r"\]\(([^)\s]+)\)", text)
+    assert links, "README has no links"
+    broken = []
+    for link in links:
+        target = link.split("#")[0]
+        if not target:
+            continue
+        if target.startswith(("http://", "https://")):
+            req = urllib.request.Request(target, method="HEAD", headers={"User-Agent": "harborvale-gate"})
+            try:
+                with urllib.request.urlopen(req, timeout=20) as res:  # noqa: S310 - links we wrote
+                    ok = res.status < 400
+            except urllib.error.HTTPError as e:
+                ok = e.code < 400 or e.code == 405
+            except OSError:
+                ok = False
+            if not ok:
+                broken.append(link)
+        elif not (ROOT / target).exists():
+            broken.append(link)
+    assert not broken, f"broken README links: {broken}"
+
+
+M8: list[Check] = [
+    ("every gate M0-M7 green in a fresh run", check_every_gate_green),
+    ("stranger test executed from a fresh clone (transcript)", check_stranger_test_executed),
+    ("README links resolve", check_readme_links_resolve),
+]
+
+GATES: dict[int, list[Check]] = {0: M0, 1: M1, 2: M2, 3: M3, 4: M4, 5: M5, 6: M6, 7: M7, 8: M8}
 
 
 def main() -> int:
