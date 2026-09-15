@@ -19,8 +19,8 @@ The scenario (Harbor & Vale's churn model read dollars as cents for five weeks) 
 | M4 | Crew-2 tools: features, training, evaluation, model card | done — gate 7/7, hist_gb served (roc_auc 0.9857) |
 | M5 | Crew 2 + the Flow end to end | done — gate 7/7, golden run through the Flow: 21 calls, $0.074, 506 s; a tampered handoff exits 2 with FAILED.md |
 | M6 | Flask app with the break-it panel, deployed | done — gate 7/7 live, all six faults refused |
-| M7 | Live run behind a password | built — gate 6/6 locally; live run on Railway after deploy |
-| M8 | Wrap-up, stranger test | |
+| M7 | Live run behind a password | done — gate 6/6 live: a real run on Railway, verified in 503 s, $0.073 |
+| M8 | Wrap-up, stranger test | next |
 
 ## Setup
 

@@ -107,14 +107,14 @@
         <tr><td>אין מפתח OpenAI באף revision ב-git</td><td class="ok">PASS</td></tr>
       </tbody>
     </table></div>
-    <p><code>GATE M7: PASS 6/6</code> מקומית. שתי הבדיקות החיות ירוצו שוב מול Railway אחרי המיזוג והפריסה — עם הצוותים האמיתיים, תשע דקות, כמה סנטים — והדוח יתעדכן במספרים.</p>
+    <p><code>GATE M7: PASS 6/6</code> מקומית, ואחרי המיזוג והפריסה גם <b>מול Railway, עם הצוותים האמיתיים</b>: הריצה <code>20260915-152854-live</code> הסתיימה <code>verified</code> אחרי <span dir="ltr">502.6</span> שניות, 21 קריאות, $0.073; התחלה שנייה נענתה ב-409; הזרם נגמר ב-<code>event: end</code>. <code>GATE M7: PASS 6/6</code> חי.</p>
   </div>
 
   <h2><span class="num">05</span>מה נשאר פתוח</h2>
   <div class="notice">
     <h3>לא הוכח עדיין</h3>
     <ul>
-      <li>זרם SSE של תשע דקות דרך ה-proxy של Railway (D-M7-3). נבדק רק על 16 שניות מקומית.</li>
+      <li>זרם SSE של תשע דקות דרך ה-proxy של Railway (D-M7-3) — <b>הוכח</b> בריצה החיה: 502 שניות בלי ניתוק, עם keepalive כל 15 שניות ו-<code>--timeout 120</code>.</li>
       <li>זיכרון בזמן אימון על Railway: <code>n_jobs=1</code> כבר מוגדר; אם יהיה OOM, PLAN מציע להוריד את <code>max_iter</code> של hist_gb על השרת בלבד, כהחלטה מתועדת.</li>
       <li>ריצות שרת נעלמות עם הפריסה הבאה — מכוון, אבל כדאי לדעת.</li>
     </ul>
@@ -123,9 +123,8 @@
   <h2><span class="num">06</span>מה אני צריך ממך</h2>
   <div class="info">
     <ol>
-      <li><b>שני משתנים ב-Railway</b> (PLAN §7): <code>APP_PASSWORD</code> ו-<code>OPENAI_API_KEY</code>. המפתח עולה לשרת רק עכשיו, כמו שתוכנן.</li>
-      <li><b>אותו <code>APP_PASSWORD</code> גם ב-<code>.env</code></b> המקומי, כדי שהשער יוכל להתחבר.</li>
-      <li><b>אישור מיזוג</b> ל-PR של <code>feat/m7-live-run</code> אחרי ש-CI ירוק. אחרי הפריסה: <code>python scripts/gate.py --m 7</code> מריץ ריצה אמיתית על השרת, ואני מעדכן את הדוח.</li>
+      <li><b>בוצע:</b> <code>APP_PASSWORD</code> ו-<code>OPENAI_API_KEY</code> ב-Railway, <code>APP_PASSWORD</code> ב-<code>.env</code>.</li>
+      <li><b>בוצע:</b> PR #27 מוזג, Railway נפרס, השער החי עבר 6/6. נשאר רק לאשר את ה-PR של הדוח הזה.</li>
     </ol>
   </div>
 
