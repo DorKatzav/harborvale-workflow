@@ -6,6 +6,16 @@ import os
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+
+# bottleneck / numexpr are not pinned; a machine that has them sums in a different order (last-ULP drift
+# in stats.json). Off, so every machine takes the same path through pandas (M8 audit)
+try:
+    import pandas as _pd
+
+    _pd.set_option("compute.use_bottleneck", False)
+    _pd.set_option("compute.use_numexpr", False)
+except ImportError:  # pragma: no cover - pandas is pinned
+    pass
 RAW_PATH = ROOT / "data" / "raw" / "ecommerce_churn.xlsx"
 RAW_SHEET = "E Comm"  # verified in M1 against the real file
 DICT_SHEET = "Data Dict"

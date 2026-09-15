@@ -460,16 +460,63 @@ def _run_crew2_into(tmp: str) -> None:
     assert res.returncode == 0, res.stdout.strip().splitlines()[-1] if res.stdout else "runner failed"
 
 
-def _numeric_deltas(a: dict, b: dict, path: str = "") -> list[tuple[str, float, float]]:
-    """Every leaf where two metrics documents disagree numerically, as (path, committed, fresh)."""
-    out: list[tuple[str, float, float]] = []
-    if isinstance(a, dict):
-        for key in sorted(set(a) | set(b or {})):
-            out += _numeric_deltas(a.get(key), (b or {}).get(key), f"{path}/{key}")
-    elif isinstance(a, int | float) and isinstance(b, int | float) and not isinstance(a, bool):
-        if a != b:
-            out.append((path, float(a), float(b)))
+class Delta:
+    """One leaf where two metrics documents disagree. Numbers get the tolerance; anything else is a change."""
+
+    def __init__(self, path: str, committed, fresh) -> None:
+        self.path, self.committed, self.fresh = path, committed, fresh
+
+    @staticmethod
+    def _number(x) -> bool:
+        return isinstance(x, int | float) and not isinstance(x, bool)
+
+    def beyond(self, tolerance: float) -> bool:
+        if self._number(self.committed) and self._number(self.fresh):
+            return abs(float(self.committed) - float(self.fresh)) > tolerance
+        return True  # a key that vanished or appeared, a string, a list, a null: never "within tolerance"
+
+    @property
+    def size(self) -> float:
+        if self._number(self.committed) and self._number(self.fresh):
+            return abs(float(self.committed) - float(self.fresh))
+        return float("inf")
+
+    def __str__(self) -> str:
+        return f"{self.path} {self.committed!r} vs {self.fresh!r}"
+
+
+_MISSING = object()
+
+
+def metrics_diff(committed, fresh, path: str = "") -> list[Delta]:
+    """Every leaf where the two documents differ - moved numbers, but also deleted keys, added keys,
+    nulls, strings and lists (the M8 audit showed the numeric-only version passed a flipped `served`,
+    a deleted variant and an emptied fairness block)."""
+    out: list[Delta] = []
+    if isinstance(committed, dict) and isinstance(fresh, dict):
+        for key in sorted(set(committed) | set(fresh)):
+            out += metrics_diff(committed.get(key, _MISSING), fresh.get(key, _MISSING), f"{path}/{key}")
+        return out
+    if committed is _MISSING or fresh is _MISSING or type(committed) is not type(fresh):
+        a = None if committed is _MISSING else committed
+        b = None if fresh is _MISSING else fresh
+        if a is not _MISSING and Delta._number(a) and Delta._number(b):
+            pass  # int vs float is still a number
+        else:
+            return [Delta(path, "<missing>" if committed is _MISSING else committed,
+                          "<missing>" if fresh is _MISSING else fresh)]  # fmt: skip
+    if committed != fresh:
+        out.append(Delta(path, committed, fresh))
     return out
+
+
+def _assert_within_tolerance(committed: dict, fresh: dict, label: str) -> None:
+    deltas = metrics_diff(committed, fresh)
+    over = [d for d in deltas if d.beyond(METRICS_TOLERANCE)]
+    assert not over, f"{label}: " + "; ".join(str(d) for d in over[:5])
+    if deltas:
+        worst = max(deltas, key=lambda d: d.size)
+        print(f"       metrics.json: {len(deltas)} field(s) differ, worst {worst} (tol {METRICS_TOLERANCE})")
 
 
 def check_crew2_two_runs_here_are_identical() -> None:
@@ -496,15 +543,7 @@ def check_crew2_matches_the_committed_artifacts() -> None:
         )
         committed = json.loads(METRICS_JSON.read_text())
         fresh = json.loads((Path(tmp) / "metrics.json").read_text())
-        deltas = _numeric_deltas(committed, fresh)
-        worst = max(deltas, key=lambda d: abs(d[1] - d[2]), default=None)
-        over = [d for d in deltas if abs(d[1] - d[2]) > METRICS_TOLERANCE]
-        assert not over, "beyond tolerance: " + "; ".join(f"{p} {a} vs {b}" for p, a, b in over[:5])
-        if worst:
-            print(
-                f"       metrics.json: {len(deltas)} field(s) differ from the committed artifact, "
-                f"worst {worst[0]} {worst[1]} vs {worst[2]} (tolerance {METRICS_TOLERANCE})"
-            )
+        _assert_within_tolerance(committed, fresh, "metrics.json differs from the committed artifact")
 
 
 M4: list[Check] = [
@@ -547,7 +586,7 @@ def check_manifest_hashes_match_the_files() -> None:
     wrong = []
     for name, entry in m["artifacts"].items():
         path = ROOT / "artifacts" / entry["path"]
-        if not path.exists() or file_sha256(path) != entry["sha256"]:
+        if not path.exists() or file_sha256(path) != entry["sha256"] or path.stat().st_size != entry["bytes"]:
             wrong.append(name)
     assert not wrong, f"sha256 in the manifest does not match the published file: {wrong}"
 
@@ -596,13 +635,7 @@ def check_committed_run_equals_a_fresh_stub_run() -> None:
             )
         committed = json.loads((ROOT / "artifacts" / "crew2" / "metrics.json").read_text())
         fresh = json.loads((run_dir / "crew2" / "metrics.json").read_text())
-        deltas = _numeric_deltas(committed, fresh)
-        over = [d for d in deltas if abs(d[1] - d[2]) > METRICS_TOLERANCE]
-        detail = "; ".join(f"{p} {a} vs {b}" for p, a, b in over[:5])
-        assert not over, f"metrics.json beyond tolerance: {detail}"
-        if deltas:
-            path, a, b = max(deltas, key=lambda d: abs(d[1] - d[2]))
-            print(f"       metrics.json: {len(deltas)} field(s) differ, worst {path} {a} vs {b}")
+        _assert_within_tolerance(committed, fresh, "metrics.json differs from the committed run")
 
 
 M5: list[Check] = [
