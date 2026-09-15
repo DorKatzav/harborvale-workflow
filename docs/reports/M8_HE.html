@@ -93,12 +93,12 @@
     <div class="tablewrap"><table>
       <thead><tr><th>בדיקה</th><th>תוצאה</th></tr></thead>
       <tbody>
-        <tr><td>כל שער M0–M7 ירוק בריצה טרייה (כולל ריצה חיה אמיתית ב-M7)</td><td class="wait">רץ בזמן כתיבת הדוח — התוצאה בעדכון למטה</td></tr>
+        <tr><td>כל שער M0–M7 ירוק בריצה טרייה (כולל ריצה חיה אמיתית ב-M7)</td><td class="ok">PASS — M0 5/5 · M1 7/7 · M2 5/5 · M3 8/8 · M4 7/7 · M5 7/7 · M6 7/7 · M7 6/6</td></tr>
         <tr><td>מבחן הזר בוצע משכפול טרי (תמליל עם קודי יציאה)</td><td class="ok">PASS</td></tr>
         <tr><td>קישורי README נפתרים (קבצים קיימים, URL-ים עונים)</td><td class="ok">PASS</td></tr>
       </tbody>
     </table></div>
-    <p>אחרי כל התיקונים, על המכונה הזאת: M1 7/7, M2 5/5, M3 8/8, M4 7/7, M5 7/7, M6 7/7. 305 בדיקות, ruff נקי. תוצאת <code>GATE M8</code> המלאה, עם ריצת M7 החיה, מתווספת לדוח ברגע שהיא מסתיימת.</p>
+    <p><code>GATE M8: PASS 3/3</code>. שמונת השערים רצו מחדש בזה אחר זה, כל אחד כתהליך משלו, כולל ריצה חיה אמיתית של ה-Flow על Railway ב-M7 — כולם ירוקים אחרי כל תיקוני הביקורת. 305 בדיקות, ruff נקי, CI ירוק.</p>
   </div>
 
   <h2><span class="num">06</span>מה נשאר פתוח — גבולות ידועים</h2>
@@ -116,7 +116,7 @@
   <div class="info">
     <ol>
       <li><b>לקרוא את שני הדוחות:</b> הזה, ו-<code>docs/reports/FINAL_HE.html</code> — הדוח המסכם של הפרויקט כולו.</li>
-      <li><b>אישור מיזוג</b> ל-PR של <code>feat/m8-wrapup</code> אחרי ש-CI ירוק ושער M8 הסתיים.</li>
+      <li><b>אישור מיזוג</b> ל-PR #29 של <code>feat/m8-wrapup</code> — CI ירוק, שער M8 עבר. זה המיזוג האחרון.</li>
       <li>אופציונלי: <code>FLASK_SECRET_KEY</code> (מחרוזת אקראית) כמשתנה ב-Railway.</li>
     </ol>
   </div>
