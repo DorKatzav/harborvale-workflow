@@ -14,6 +14,7 @@ from __future__ import annotations
 import hashlib
 import hmac
 import os
+import re
 import secrets
 import threading
 import time
@@ -34,11 +35,45 @@ from flask import (
     url_for,
 )
 
-from hv.config import RUNS_DIR, display_path
+from hv.config import ROOT, RUNS_DIR, display_path
 
 live_bp = Blueprint("live", __name__, url_prefix="/live")
 
 SESSION_KEY = "live_ok"
+SESSION_HOURS = 12
+RUN_ID_RE = re.compile(r"[A-Za-z0-9][A-Za-z0-9_-]{0,80}")
+# a wrong password costs half a second; five of them lock the address out for a minute (M8 audit, B1)
+LOGIN_SLEEP_S = 0.5
+LOGIN_MAX_FAILURES = 5
+LOGIN_LOCK_S = 60.0
+_failures: dict[str, list[float]] = {}
+_failures_lock = threading.Lock()
+
+
+def scrub(text: str) -> str:
+    """Error text for the page: this machine's checkout path is nobody's business (M8 audit, B4)."""
+    root = str(ROOT.resolve())
+    return text.replace(root + os.sep, "").replace(root, ".")
+
+
+def _locked_for(ip: str) -> float:
+    """Seconds left of a lockout for this address, 0 when it may try."""
+    with _failures_lock:
+        recent = [t for t in _failures.get(ip, []) if time.monotonic() - t < LOGIN_LOCK_S]
+        _failures[ip] = recent
+        if len(recent) >= LOGIN_MAX_FAILURES:
+            return LOGIN_LOCK_S - (time.monotonic() - recent[0])
+    return 0.0
+
+
+def _note_failure(ip: str) -> None:
+    with _failures_lock:
+        _failures.setdefault(ip, []).append(time.monotonic())
+
+
+def _clear_failures(ip: str) -> None:
+    with _failures_lock:
+        _failures.pop(ip, None)
 
 
 def _now() -> str:
@@ -118,7 +153,7 @@ class LiveRunner:
                 "cost_usd": getattr(state, "cost_usd", None),
             }
         except Exception as e:  # noqa: BLE001 - the page must be able to say what went wrong
-            update = {"status": "failed", "error": f"{type(e).__name__}: {e}"}
+            update = {"status": "failed", "error": scrub(f"{type(e).__name__}: {e}")}
         with self._lock:
             self._state.update(update, finished_at=_now(), duration_s=round(time.perf_counter() - t0, 1))
 
@@ -210,10 +245,17 @@ def live_page():
 def login():
     if not configured_password():
         return _page("disabled", 503)
+    ip = request.remote_addr or "?"
+    left = _locked_for(ip)
+    if left > 0:
+        return _page("locked", 429, error=f"Too many wrong passwords; try again in {int(left) + 1} seconds.")
     given = request.form.get("password", "")
     if not hmac.compare_digest(given.encode(), configured_password().encode()):
-        time.sleep(0.5)  # a small cost per wrong guess
+        _note_failure(ip)
+        time.sleep(LOGIN_SLEEP_S)
         return _page("locked", 401, error="That is not the password.")
+    _clear_failures(ip)
+    session.permanent = True  # bounded by PERMANENT_SESSION_LIFETIME (SESSION_HOURS)
     session[SESSION_KEY] = True
     return redirect(url_for("live.live_page"), code=303)
 
@@ -249,11 +291,12 @@ def events():
     if (denied := _gate()) is not None:
         return denied
     runner: LiveRunner = current_app.extensions["live"]
-    run_id = request.args.get("run_id") or runner.snapshot()["run_id"]
-    # the run in progress may not have created its directory yet (the browser subscribes the instant
-    # /live/start answers); tail_events waits for the file, so only a finished-and-absent run is a 404
-    exists = bool(run_id) and (runner.runs_root / run_id).is_dir()
-    if not run_id or ".." in run_id or not (exists or runner.is_running(run_id)):
+    run_id = request.args.get("run_id") or runner.snapshot()["run_id"] or ""
+    # a run id is a plain name (M8 audit, B3: an absolute path used to escape runs_root). The run in
+    # progress may not have created its directory yet (the browser subscribes the instant /live/start
+    # answers); tail_events waits for the file, so only a finished-and-absent run is a 404
+    exists = bool(RUN_ID_RE.fullmatch(run_id)) and (runner.runs_root / run_id).is_dir()
+    if not RUN_ID_RE.fullmatch(run_id) or not (exists or runner.is_running(run_id)):
         return jsonify({"error": "no such run"}), 404
     return Response(
         tail_events(runner, run_id),

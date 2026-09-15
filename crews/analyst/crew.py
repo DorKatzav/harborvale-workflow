@@ -22,6 +22,7 @@ from crews.analyst.tools import (
     clean_dataset,
     profile_raw_data,
     run_eda,
+    set_run_dir,
     write_contract_human_fields,
     write_insights,
 )
@@ -128,6 +129,7 @@ def run_analyst_crew(raw_path: Path = RAW_PATH, out_dir: Path | None = None) -> 
     """Kick off the crew and return the artifact paths plus usage. Raises if an expected file is missing."""
     out_dir = Path(out_dir or Path("runs") / time.strftime("%Y%m%d-%H%M%S") / "crew1")
     out_dir.mkdir(parents=True, exist_ok=True)
+    set_run_dir(out_dir)
     t0 = time.perf_counter()
     c = AnalystCrew().crew()
     c.kickoff(inputs={"raw_path": str(raw_path), "out_dir": str(out_dir)})

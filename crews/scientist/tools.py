@@ -17,24 +17,31 @@ from pathlib import Path
 
 from crewai.tools import tool
 
+from crews.sandbox import SandboxError, guard, guard_write
 from hv.config import PRIMARY_KEY, PROTECTED, READ_CSV_KW
 from hv.contract import load_contract, validate
 from hv.features import build_features, write_features
 from hv.model_card import render_evaluation_report, render_model_card
 from hv.train import METRICS_FILE, MODEL_FILE, train_all
 
+__all__ = ["SandboxError", "set_crew1_dir", "set_run_dir"]
+
 _CREW1_DIR: Path | None = None
-
-
-class SandboxError(Exception):
-    """A tool was asked for a path outside the Crew-1 directory it is allowed to read."""
+_RUN_DIR: Path | None = None
 
 
 def set_crew1_dir(path: Path | str) -> Path:
-    """Point the sandbox at this run's Crew-1 directory. The crew calls this before kickoff."""
+    """Point the sandbox at this run's Crew-1 directory (reads). The crew calls this before kickoff."""
     global _CREW1_DIR
     _CREW1_DIR = Path(path).resolve()
     return _CREW1_DIR
+
+
+def set_run_dir(path: Path | str) -> Path:
+    """Point the sandbox at the directory this crew may write into (M8 audit, A1)."""
+    global _RUN_DIR
+    _RUN_DIR = Path(path).resolve()
+    return _RUN_DIR
 
 
 def _crew1_dir() -> Path:
@@ -44,14 +51,14 @@ def _crew1_dir() -> Path:
 
 
 def _guard(path: str | Path, allowed_dir: Path | str) -> Path:
-    """Resolve `path` and refuse it unless it lands inside `allowed_dir`. Returns the resolved path."""
-    resolved = Path(path).resolve()
-    root = Path(allowed_dir).resolve()
-    if resolved != root and root not in resolved.parents:
-        raise SandboxError(
-            f"{resolved} is outside {root}; Crew 2 reads the contract and the clean file, nothing else"
-        )
-    return resolved
+    return guard(path, allowed_dir)
+
+
+def _out(out_dir: str) -> Path:
+    """The only place a tool may write: inside the run directory, never the Crew-1 handoff."""
+    out = guard_write(out_dir, _RUN_DIR, _CREW1_DIR)
+    out.mkdir(parents=True, exist_ok=True)
+    return out
 
 
 @tool("read_crew1_artifact")
@@ -81,8 +88,7 @@ def engineer_features(clean_csv: str, contract_json: str, out_dir: str) -> str:
     contract = load_contract(_guard(contract_json, crew1))
     df = pd.read_csv(_guard(clean_csv, crew1), **READ_CSV_KW)
     features = build_features(df, contract)
-    out = Path(out_dir)
-    out.mkdir(parents=True, exist_ok=True)
+    out = _out(out_dir)
     sha = write_features(features, out / "features.csv")
     return json.dumps(
         {
@@ -102,8 +108,7 @@ def train_and_evaluate(features_csv: str, contract_json: str, out_dir: str) -> s
     import pandas as pd
 
     crew1 = _crew1_dir()
-    out = Path(out_dir)
-    out.mkdir(parents=True, exist_ok=True)
+    out = _out(out_dir)
     contract = load_contract(_guard(contract_json, crew1))
     features = pd.read_csv(_guard(features_csv, out), **READ_CSV_KW)
     clean = pd.read_csv(_guard(crew1 / "clean_data.csv", crew1), **READ_CSV_KW)
@@ -117,7 +122,7 @@ def write_evaluation_report(out_dir: str, narrative_json: str) -> str:
     """Render <out_dir>/evaluation_report.md: the generated comparison tables, then your reading of
     them. narrative_json is {"<heading>": "<prose>"}. Every number in the tables comes from
     metrics.json, so prose cannot change them. Returns the path."""
-    out = Path(out_dir)
+    out = _out(out_dir)
     metrics = json.loads((_guard(out / METRICS_FILE, out)).read_text(encoding="utf-8"))
     path = out / "evaluation_report.md"
     path.write_text(
@@ -131,7 +136,7 @@ def write_model_card(out_dir: str, sections_json: str) -> str:
     """Render <out_dir>/model_card.md. sections_json must hold all five required sections - Purpose,
     Training data, Metrics, Limitations, Ethical considerations - or this returns an ERROR string and
     writes nothing. Returns the path."""
-    out = Path(out_dir)
+    out = _out(out_dir)
     crew1 = _crew1_dir()
     metrics = json.loads((_guard(out / METRICS_FILE, out)).read_text(encoding="utf-8"))
     contract = load_contract(_guard(crew1 / "dataset_contract.json", crew1))

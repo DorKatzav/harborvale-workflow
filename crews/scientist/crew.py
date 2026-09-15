@@ -25,6 +25,7 @@ from crews.scientist.tools import (
     engineer_features,
     read_crew1_artifact,
     set_crew1_dir,
+    set_run_dir,
     train_and_evaluate,
     validate_against_contract,
     write_evaluation_report,
@@ -144,6 +145,7 @@ def run_scientist_crew(
     out_dir = Path(out_dir or Path("runs") / time.strftime("%Y%m%d-%H%M%S") / "crew2")
     out_dir.mkdir(parents=True, exist_ok=True)
     set_crew1_dir(Path(contract_json).resolve().parent)
+    set_run_dir(out_dir)
     t0 = time.perf_counter()
     c = ScientistCrew().crew()
     c.kickoff(

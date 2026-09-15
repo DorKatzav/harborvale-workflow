@@ -7,10 +7,13 @@ tools have to refuse all of them by raising SandboxError before any file is open
 
 from __future__ import annotations
 
+import json
+
 import pytest
 
 from crews.scientist import tools
 from crews.scientist.tools import SandboxError
+from hv.config import ROOT
 from hv.contract import build_contract, save_contract
 from tests.synthetic import clean_frame, write_frame
 
@@ -26,6 +29,73 @@ def crew1(tmp_path):
     )
     tools.set_crew1_dir(crew1_dir)
     return crew1_dir
+
+
+# ---------------------------------------------------------------- writes (M8 audit, finding A1)
+@pytest.fixture
+def run_dir(crew1):
+    """The run directory the tools may write into (its crew2/), and the sandbox told about it."""
+    root = crew1.parent
+    tools.set_run_dir(root)
+    return root
+
+
+@pytest.mark.parametrize(
+    "out_dir",
+    [
+        pytest.param("/somewhere/else", id="absolute"),
+        pytest.param("crew2/../../outside", id="dotdot"),
+        pytest.param(str(ROOT / "artifacts" / "crew2"), id="the_published_artifacts"),
+    ],
+)
+def test_a_tool_refuses_to_write_outside_the_run_directory(crew1, run_dir, out_dir):
+    target = out_dir if out_dir.startswith("/") else str(run_dir / out_dir)
+    clean, contract = str(crew1 / "clean_data.csv"), str(crew1 / "dataset_contract.json")
+    with pytest.raises(SandboxError):
+        tools.engineer_features.func(clean, contract, target)
+    with pytest.raises(SandboxError):
+        tools.write_evaluation_report.func(target, "{}")
+    with pytest.raises(SandboxError):
+        tools.write_model_card.func(target, "{}")
+    with pytest.raises(SandboxError):
+        tools.train_and_evaluate.func(str(run_dir / "crew2" / "features.csv"), contract, target)
+
+
+def test_a_tool_refuses_to_write_into_the_crew1_handoff(crew1, run_dir):
+    clean, contract = str(crew1 / "clean_data.csv"), str(crew1 / "dataset_contract.json")
+    with pytest.raises(SandboxError):
+        tools.engineer_features.func(clean, contract, str(crew1))
+
+
+def test_a_tool_writes_inside_the_run_directory(crew1, run_dir):
+    out = json.loads(
+        tools.engineer_features.func(
+            str(crew1 / "clean_data.csv"), str(crew1 / "dataset_contract.json"), str(run_dir / "crew2")
+        )
+    )
+    assert (run_dir / "crew2" / "features.csv").exists() and out["rows"] == 20
+
+
+def test_writes_are_refused_before_the_run_directory_is_set(crew1, monkeypatch):
+    monkeypatch.setattr(tools, "_RUN_DIR", None)
+    with pytest.raises(SandboxError):
+        tools.engineer_features.func(
+            str(crew1 / "clean_data.csv"), str(crew1 / "dataset_contract.json"), str(crew1.parent / "crew2")
+        )
+
+
+def test_the_analyst_tools_refuse_to_write_outside_their_run_directory(tmp_path, raw_frame):
+    from crews.analyst import tools as analyst_tools
+
+    raw = tmp_path / "raw.xlsx"
+    raw_frame.to_excel(raw, sheet_name="E Comm", index=False)
+    analyst_tools.set_run_dir(tmp_path / "run")
+    with pytest.raises(SandboxError):
+        analyst_tools.clean_dataset.func(str(raw), str(tmp_path / "elsewhere"))
+    with pytest.raises(SandboxError):
+        analyst_tools.clean_dataset.func(str(raw), "artifacts/crew1")
+    out = json.loads(analyst_tools.clean_dataset.func(str(raw), str(tmp_path / "run" / "crew1")))
+    assert out["report"]["rows_out"] == 6
 
 
 def test_the_raw_workbook_is_out_of_reach(crew1):
